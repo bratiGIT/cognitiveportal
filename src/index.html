@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+
+<!-- ************************ IMPORTANT INFORMATION ************************************
+  This web navigation bar template is provided as an example of how to configure
+  a JET web application with a navigation bar as a single page application
+  using ojRouter and oj-module.  It contains the Oracle JET framework and a default
+  requireJS configuration file to show how JET can be setup in a common application.
+  This project template can be used in conjunction with demo code from the JET
+  website to test JET component behavior and interactions.
+
+  Any CSS styling with the prefix "demo-" is for demonstration only and is not
+  provided as part of the JET framework.
+
+  Please see the demos under Cookbook/Patterns/App Shell: Web and the CSS documentation
+  under Support/API Docs/Non-Component Styling on the JET website for more information on how to use 
+  the best practice patterns shown in this template.
+
+  Aria Landmark role attributes are added to the different sections of the application
+  for accessibility compliance. If you change the type of content for a specific
+  section from what is defined, you should also change the role value for that
+  section to represent the appropriate content type.
+  ***************************** IMPORTANT INFORMATION ************************************ -->
+<html lang="en-us">
+  <head>
+    <title>IBM Cognitive Enterprise Portal for Oracle</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
+
+    <!-- This is the main css file for the default Alta theme -->
+    <!-- injector:theme -->
+    <link rel="stylesheet" href="css/libs/oj/v7.2.0/alta/oj-alta-min.css" type="text/css"/>
+    <!-- endinjector -->
+    
+    <!-- This contains icon fonts used by the starter template -->
+    <link rel="stylesheet" href="css/demo-alta-site-min.css" type="text/css"/>
+
+    <!-- This is where you would add any app specific styling -->
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
+    <link rel="stylesheet" href="css/styles.css" type="text/css"/>
+    <link rel="stylesheet" href="css/btn.css" type="text/css"/>
+    <!--All general util js functions and variables goes here-->
+    <!--App Generic Utils-->
+    <script src="js/utils.js"></script>
+    <script src="js/libs/progress.js"></script>
+    <!--Org Chart Inclusion-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="css/jquery.orgchart.css" type="text/css"/>
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+
+  </head>
+  <body class="oj-web-applayout-body">
+    <!-- Template for rendering navigation items -->
+    <!-- <script type="text/html" id="navTemplate">
+      <li><a href="#">
+        <span :class="[[$data['iconClass']]]"></span>
+        <oj-bind-text value="[[$data['name']]]"></oj-bind-text>
+      </a></li>
+    </script> -->
+
+    <div id="globalBody" class="oj-web-applayout-page">
+      <!--
+         ** Oracle JET V7.2.0 web application navigation bar and header patterns.
+         ** Please see the demos under Cookbook/Patterns/App Shell: Web
+         ** and the CSS documentation under Support/API Docs/Non-Component Styling
+         ** on the JET website for more information on how to use this pattern.
+      -->
+      <header role="banner" :class="[[{'oj-sm-hide': showBars}]]" class="oj-web-applayout-header app-header-grad">
+        <div class="oj-web-applayout oj-flex-bar oj-sm-align-items-center">
+          <div class="oj-flex-bar-middle oj-sm-align-items-center" style="padding: 5px;">
+            <!--<span role="img" class="oj-icon demo-oracle-icon" title="Oracle Logo" alt="Oracle Logo"></span>-->
+            <span role="img" class="demo-ibm-logo-icon" :title="[[appName]]" alt="Cognitive Enterprise Logo"></span>
+            <!--<span role="img" class="demo-ibm-icon" title="IBM Logo" alt="IBM Logo"></span>-->
+            <h1 class="oj-sm-only-hide oj-web-applayout-header-title" :class="[[{'oj-md-hide': showTitle}]]" title="Cognitive Enterprise Portal for Oracle" style="padding: 0px; color:#ffffff;margin-left:10px;font-size:20px;"><oj-bind-text value="[[appName]]"></oj-bind-text><span class="subtitle"><oj-bind-text value="[[appNameSubtitle]]"></oj-bind-text></span></h1>
+          </div>
+          <div class="oj-flex-bar-start" :class="[[{'oj-md-hide': showTitle}]]">
+            <!-- Responsive Toolbar -->
+            <oj-toolbar>
+              <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="half" class="pref-btn-color">
+                <span class="pref-txt-color"><oj-bind-text value="[[userLogin]]" ></oj-bind-text></span>
+                <span slot="endIcon" :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
+                <oj-menu id="menu1" slot="menu" style="display:none">
+                  <oj-option id="pref" value="pref" on-oj-action="[[openPrefDialog]]">Preferences</oj-option>
+                  <oj-option id="help" value="help">Help</oj-option>
+                  <oj-option id="about" value="about">About</oj-option>
+                  <oj-option id="out" on-oj-action="[[logOut]]" value="out">Sign Out</oj-option>
+                </oj-menu>
+              </oj-menu-button>
+            </oj-toolbar>
+            <oj-dialog style="display:none; width:200px;" id="currencyDialog" dialog-title="Preferences" position.my.horizontal="right" position.my.vertical="top" position.at.horizontal="right"
+            position.at.vertical="top" position.of="window" position.offset.x="0" position.offset.y="95">
+              <div slot="body">
+                <div class="oj-flex oj-flex-item oj-sm-12">
+                  <div id="CurrencyContainer">
+                    <oj-label for="currencyList" class="oj-sm-padding-1x-top" style="font-size:13pt;">Select Currency
+                    </oj-label>
+                    <oj-combobox-one id="currencyList" value="{{selCurrencyVal}}" options="{{currencyOptionsDP}}" options-keys="[[currencyOptKeys]]" on-value-changed="[[currencyChangeHandler]]" class="combo-box-width">
+                    </oj-combobox-one>
+                  </div>
+                </div>
+              </div>
+              <div slot="footer" style="padding: 0;">
+                <div class="oj-flex oj-flex-item oj-sm-12 oj-md-12">
+                  <oj-button id="okButton" on-oj-action="[[close]]" :class="button-blue pref-btn-ok">Apply</oj-button>
+                </div>
+              </div>
+            </oj-dialog>
+          </div>
+        </div>
+        <!-- <div role="navigation" class="oj-web-applayout oj-web-applayout-navbar">
+          <oj-navigation-list id="navList" data="[[navDataProvider]]"
+                              :class="[[{'oj-md-condense oj-md-justify-content-flex-end': !smScreen()}]]"
+                              display="[[smScreen() ? 'icons' : 'all']]"
+                              edge="top"
+                              item.renderer="[[KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
+                              selection="{{router.stateId}}">
+          </oj-navigation-list>
+        </div> -->
+      </header>  
+      
+      <oj-progress id="globalProgressC" type="circle" value="{{globalProgress}}"
+      style="opacity:0.8;visibility:hidden;z-index:10000;position:absolute;left:45%;top:50%;"></oj-progress>     
+      <oj-messages messages="[[messagesDataprovider]]" position="{}" display="notification" id= "globalMessage"></oj-messages>
+      <oj-module role="main" class="oj-web-applayout oj-web-applayout-content" config="[[moduleConfig]]" :style.padding="0">
+      </oj-module>
+      
+      <footer :class="[[{'oj-md-hide': showBars}]]" class="oj-web-applayout-footer" role="contentinfo">
+        <div class="oj-web-applayout-footer-item oj-web-applayout">
+          <ul>
+            <oj-bind-for-each data="[[footerLinks]]">
+              <template>
+                <li><a :id="[[$current.data.linkId]]" :href="[[$current.data.linkTarget]]"><oj-bind-text value="[[$current.data.name]]"></oj-bind-text></a></li>
+              </template>
+            </oj-bind-for-each>
+          </ul>
+        </div>
+        <div class="oj-web-applayout-footer-item oj-web-applayout oj-text-secondary-color oj-text-sm">
+          Copyright © 2014, 2019 Oracle and/or its affiliates All rights reserved.
+        </div>
+      </footer>
+
+    </div>
+    <script type="text/javascript" src="js/libs/require/require.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+  </body>
+
+</html>

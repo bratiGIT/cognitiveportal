@@ -1,0 +1,99 @@
+<div id="controlsRegion">
+    <oj-list-view id="cntrlRgnListView" aria-label="list using collection" style="width:100%;overflow-x:hidden"
+        data="[[cntrlRgnDataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
+        scroll-policy-options.fetch-size="15">
+        <template slot="itemTemplate" data-oj-as="item">
+            <div class="oj-flex" style="flex-wrap: nowrap;">
+                <div class="oj-flex-item oj-sm-12">
+                    <div class="oj-sm-padding-1x-bottom">
+                        <strong>
+                            <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                        </strong>
+                    </div>
+                    <div class="oj-flex row oj-sm-12 smallFont list-view-cell-borderless oj-sm-padding-1x-bottom"><!-- list-view-cell-border-with-top"-->
+                        <div class="oj-flex oj-sm-12">
+                            <oj-label for="CntrlDesc" class="oj-sm-padding-1x-end mediumFontBold">Description</oj-label>
+                            <oj-bind-text value="[[item.data.dsc]]" id="CntrlDesc">
+                            </oj-bind-text>
+                        </div>
+                    </div>
+                    <div class="oj-flex row oj-sm-12 smallFont list-view-cell-borderless oj-sm-padding-1x-bottom"><!--list-view-cell-border-full"-->
+                        <div class="oj-flex oj-sm-12">
+                            <oj-label for="CntrlPrps" class="oj-sm-padding-1x-end mediumFontBold">Purpose</oj-label>
+                            <oj-bind-text value="[[item.data.prps]]" id="CntrlPrps">
+                            </oj-bind-text>
+                        </div>
+                    </div>
+
+                    <!-- 
+                    <div class="oj-flex row oj-sm-12 smallFont ">
+                        <div class="oj-flex oj-sm-4 list-view-cell-with-left-border">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="CntrlType" class="oj-sm-padding-1x-end mediumFontBold">Type</oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.type]]" id="CntrlType"></oj-bind-text>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-4 list-view-cell-with-left-border">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="CntrlFreq" class="oj-sm-padding-1x-end mediumFontBold">Frequency
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.freq]]" id="CntrlFreq"></oj-bind-text>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-4 list-view-cell-border-full">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="CntrlCtg" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Category
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.ctg]]" id="CntrlCtg"></oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+                     --><!---->
+                    <div class="oj-flex row oj-sm-12">
+                        <div class="oj-flex oj-sm-12 list-view-hdrcell-blue-border-full">
+                            <div class="oj-flex-item oj-sm-4">
+                                <oj-label for="CntrlType" class="oj-sm-padding-1x-end mediumFontBold">Type</oj-label>
+                            </div>
+                            <div class="oj-flex oj-sm-4 ">
+                                <oj-label for="CntrlFreq" class="oj-sm-padding-1x-end mediumFontBold">Frequency
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex oj-sm-4 ">
+                                <oj-label for="CntrlCtg" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Category
+                                </oj-label>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-12 list-view-cell-blue-border-full mediumFont">
+                            <div class="oj-flex-item oj-sm-4">
+                                <oj-bind-text value="[[item.data.type]]" id="CntrlType"></oj-bind-text>
+                            </div>
+                            <div class="oj-flex oj-sm-4 ">
+                                <oj-bind-text value="[[item.data.freq]]" id="CntrlFreq"></oj-bind-text>
+                            </div>
+                            <div class="oj-flex oj-sm-4 ">
+                                <oj-bind-text value="[[item.data.ctg]]" id="CntrlCtg"></oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+        </template>
+        <div class="srch-logo-container" style="height:75px; align-content: center;"
+            data-bind="visible: cntrlPrgrsVisible">
+            <div class="srch-ind-logo-align">
+                <oj-progress id="cntrlProgress" type="circle" value="{{waitProgress}}"
+                    style="opacity:0.8;position:relative;left:45%;top:50%;" data-bind="visible: cntrlPrgrsVisible">
+                </oj-progress>
+            </div>
+        </div>
+    </oj-list-view>
+</div>

@@ -1,0 +1,178 @@
+[
+    {
+        "ROWHEADER": "A. Strategy & Direct",
+        "L2PROCESS1": "Stakeholder Relationship Strategy",
+        "L2PROCESS2": "Cost Management Strategy",
+        "L2PROCESS3": "Sourcing Strategy",
+        "L2PROCESS4": "Procurement Planning",
+        "L2PROCESS5": "Contract & SLA Strategy",
+        "L2PROCESS6": "Invoice Policy",
+        "L2PROCESS7": "Payment Policy",
+        "L2PROCESS8": "Business Planning"
+    },
+    {
+        "ROWHEADER": "A. Strategy & Direct",
+        "L2PROCESS1": "Stakeholder Relationship Strategy",
+        "L2PROCESS2": "Cost Management Strategy",
+        "L2PROCESS3": "Supplier Selection Strategy",
+        "L2PROCESS4": "Supply Assurance",
+        "L2PROCESS5": "Contract & SLA Strategy",
+        "L2PROCESS6": "Purchase Order Policy",
+        "L2PROCESS7": "Tax Policies",
+        "L2PROCESS8": "Procedures"
+    },
+    {
+        "ROWHEADER": "A. Strategy & Direct",
+        "L2PROCESS1": "Procurement Integration Strategy",
+        "L2PROCESS2": "Data Governance Strategy",
+        "L2PROCESS3": "Category Strategy",
+        "L2PROCESS4": "Procurement Policy",
+        "L2PROCESS5": "Supplier Relationship Strategy",
+        "L2PROCESS6": "Purchase Order Policy",
+        "L2PROCESS7": "Corporate Credit-Card Policy",
+        "L2PROCESS8": "Procedures"
+    },
+    {
+        "ROWHEADER": "A. Strategy & Direct",
+        "L2PROCESS1": "Procurement Integration Strategy",
+        "L2PROCESS2": "Data Governance Strategy",
+        "L2PROCESS3": "Sourcing Schedule",
+        "L2PROCESS4": "Procurement Policy",
+        "L2PROCESS5": "Supplier Relationship Strategy",
+        "L2PROCESS6": "Advance Policy",
+        "L2PROCESS7": "Travel & Expense Approvals",
+        "L2PROCESS8": "Procurement IT Architecture"
+    },
+    {
+        "ROWHEADER": "B. Manage & Monitor",
+        "L2PROCESS1": "Stakeholder Relationship Management",
+        "L2PROCESS2": "Requirement Analysis",
+        "L2PROCESS3": "Supplier Validation",
+        "L2PROCESS4": "Purchase Order Management",
+        "L2PROCESS5": "Supplier Master Management",
+        "L2PROCESS6": "Invoice Approvals",
+        "L2PROCESS7": "Travel & Expense Approvals",
+        "L2PROCESS8": "Risk Management & Fraud Detection"
+    },
+    {
+        "ROWHEADER": "B. Manage & Monitor",
+        "L2PROCESS1": "Stakeholder Relationship Management",
+        "L2PROCESS2": "Spend Analysis",
+        "L2PROCESS3": "Supplier Validation",
+        "L2PROCESS4": "Purchase Order Management",
+        "L2PROCESS5": "Supplier Portfolio Management",
+        "L2PROCESS6": "Exception Approvals",
+        "L2PROCESS7": "Tax Management",
+        "L2PROCESS8": "Risk Management & Fraud Detection"
+    },
+    {
+        "ROWHEADER": "B. Manage & Monitor",
+        "L2PROCESS1": "Stakeholder Relationship Management",
+        "L2PROCESS2": "Spend Analysis",
+        "L2PROCESS3": "Supplier Validation",
+        "L2PROCESS4": "Purchase Order Management",
+        "L2PROCESS5": "Supplier Performance Management",
+        "L2PROCESS6": "Goods Receipt Notifications",
+        "L2PROCESS7": "Bank Clearing Reconciliations",
+        "L2PROCESS8": "Risk Management & Fraud Detection"
+    },
+    {
+        "ROWHEADER": "B. Manage & Monitor",
+        "L2PROCESS1": "Requirement & Specification Management",
+        "L2PROCESS2": "Market Analysis",
+        "L2PROCESS3": "Category Management",
+        "L2PROCESS4": "Purchase Order Management",
+        "L2PROCESS5": "Supplier Onboarding",
+        "L2PROCESS6": "Goods Receipt Notifications",
+        "L2PROCESS7": "Payment Authorization",
+        "L2PROCESS8": "Policy Monitoring"
+    },
+    {
+        "ROWHEADER": "B. Manage & Monitor",
+        "L2PROCESS1": "Requirement & Specification Management",
+        "L2PROCESS2": "Market Analysis",
+        "L2PROCESS3": "Category Management",
+        "L2PROCESS4": "Purchase Order Management",
+        "L2PROCESS5": "Category Management",
+        "L2PROCESS6": "Reconciliation",
+        "L2PROCESS7": "Advance Payments Approvals",
+        "L2PROCESS8": "Policy Monitoring"
+    },
+    {
+        "ROWHEADER": "B. Manage & Monitor",
+        "L2PROCESS1": "Requirement & Specification Management",
+        "L2PROCESS2": "Master Data Management",
+        "L2PROCESS3": "Category Management",
+        "L2PROCESS4": "Purchase Order Management",
+        "L2PROCESS5": "SLA (Service Level Agreement) Management",
+        "L2PROCESS6": "PO/Invoice/Receipt Matching",
+        "L2PROCESS7": "Duplicate Payment Detection & Prevention",
+        "L2PROCESS8": "Policy Monitoring"
+    },
+    {
+        "ROWHEADER": "C. Execute & Deliver",
+        "L2PROCESS1": "Stakeholder Needs Validation",
+        "L2PROCESS2": "TCO(Total Cost of Ownership) Analysis",
+        "L2PROCESS3": "Supplier Selection",
+        "L2PROCESS4": "Requisition Management",
+        "L2PROCESS5": "Supplier Master Setup & Management",
+        "L2PROCESS6": "Invoice Receipt & Scanning",
+        "L2PROCESS7": "Payment Processing Setup",
+        "L2PROCESS8": "Skills & Education"
+    },
+    {
+        "ROWHEADER": "C. Execute & Deliver",
+        "L2PROCESS1": "Stakeholder Needs Validation",
+        "L2PROCESS2": "Cost & Benefit Analysis",
+        "L2PROCESS3": "SLA(Service Level Agreement) Creation",
+        "L2PROCESS4": "Requisition Management",
+        "L2PROCESS5": "Supplier Relationship Management",
+        "L2PROCESS6": "Invoice Posting",
+        "L2PROCESS7": "Payment Processing Execution",
+        "L2PROCESS8": "IT Maintenance"
+    },
+    {
+        "ROWHEADER": "C. Execute & Deliver",
+        "L2PROCESS1": "Stakeholder Needs Validation",
+        "L2PROCESS2": "Cost & benefit Analysis",
+        "L2PROCESS3": "Price & Contract Negotiations",
+        "L2PROCESS4": "Order Expedition",
+        "L2PROCESS5": "Supplier Relationship Management",
+        "L2PROCESS6": "Invoice & Query Validation",
+        "L2PROCESS7": "Payment Exception Management",
+        "L2PROCESS8": "IT Maintenance"
+    },
+    {
+        "ROWHEADER": "C. Execute & Deliver",
+        "L2PROCESS1": "Stakeholder Relationship Operations",
+        "L2PROCESS2": "Cost Monitoring & Management",
+        "L2PROCESS3": "Price & Contract Negotiation",
+        "L2PROCESS4": "Order Expedition",
+        "L2PROCESS5": "Monitor Quality",
+        "L2PROCESS6": "Pre-Payment Processing",
+        "L2PROCESS7": "Payment Exception Management",
+        "L2PROCESS8": "Catalog Operations"
+    },
+    {
+        "ROWHEADER": "C. Execute & Deliver",
+        "L2PROCESS1": "Stakeholder Relationship Operations",
+        "L2PROCESS2": "Cost Monitoring & Management",
+        "L2PROCESS3": "Contract Management",
+        "L2PROCESS4": "Goods & Services Receipt",
+        "L2PROCESS5": "Monitor Quality",
+        "L2PROCESS6": "Exception Invoice Handling",
+        "L2PROCESS7": "Expense Reimbursements",
+        "L2PROCESS8": "Catalog Operations"
+    },
+    {
+        "ROWHEADER": "C. Execute & Deliver",
+        "L2PROCESS1": "Stakeholder Relationship Operations",
+        "L2PROCESS2": "Reporting",
+        "L2PROCESS3": "Savings Realization",
+        "L2PROCESS4": "Goods & Services Receipt",
+        "L2PROCESS5": "Help Desk Operations",
+        "L2PROCESS6": "Accrual Accounting",
+        "L2PROCESS7": "Discount Management",
+        "L2PROCESS8": "Supplier Data Maintenance"
+    }
+]

@@ -1,0 +1,71 @@
+<!--Legend-->
+<div class="oj-flex-bar">
+    <div class="oj-flex-bar-end">
+        <table class="rpdMvLegend">
+            <tr>
+                <td style="padding-right:10px;">Saving : </td>
+                <oj-bind-for-each data="[[rapdMvLegnd]]" as="lItem">
+                    <template>
+                        <td>
+                            <div :class="[[lItem.data.class]]"></div>
+                        </td>
+                        <td><span data-bind="text:lItem.data.text">Morning</span></td>
+                </oj-bind-for-each>
+                </template>
+            </tr>
+        </table>
+    </div>
+</div>
+<!--Rapid Move Grid-->
+<table class="rapidMvTable" cellspacing="4">
+    <tr>
+        <th style="visibility: hidden;">Task</th>
+        <th><a data-bind="attr:{href:rapidMoveHdr().STRTUPFLG}" target="_blank">Startup</a></th>
+        <th><a data-bind="attr:{href:rapidMoveHdr().DSCVRYFLG}" target="_blank">Validation</a></th>
+        <th><a data-bind="attr:{href:rapidMoveHdr().DLVRYFLG}" target="_blank">Delivery</a></th>
+        <th><a data-bind="attr:{href:rapidMoveHdr().TRNSTNFLG}" target="_blank">Transition</a></th>
+        <th><a data-bind="attr:{href:rapidMoveHdr().RLZTNFLG}" target="_blank">Realization</a></th>
+    </tr>
+    <oj-bind-for-each data="[[rapidMove]]" as="task">
+        <template>
+            <tr>
+                <td data-bind="text: task.data.taskname" class="taskTd"></td>
+                <!--Start Up-->
+                <oj-bind-for-each data="[[static_columns]]" as="column">
+                    <template>
+                        <oj-bind-if test="[[task.data.vals[column.data] === '']]">
+                            <td data-bind="text: task.data.vals[column.data]"></td>
+                        </oj-bind-if>
+                        <oj-bind-if test="[[task.data.vals[column.data]  && task.data.vals[column.data] !== '']]">
+                            <td
+                                data-bind="attr: {colspan: task.data.vals[column.data].colSpan, class:task.data.vals[column.data].savingClass()}">
+                                <oj-bind-if test="[[task.data.vals[column.data].activeLinks() > 2]]">
+                                <div class="oj-flex oj-sm-justify-content-center">
+                                <oj-bind-for-each data="[[task.data.vals[column.data].val]]" as="colVal">
+                                    <template>                                   
+                                    <oj-bind-if test="[[(colVal.data.lnk !== '#') || (colVal.data.value=='Oracle Cloud Reporting Strategy' || colVal.data.value=='Pre-Built Learning Paths')]]">
+                                    <div class="oj-flex-item oj-sm-6">
+                                    <a data-bind="text:colVal.data.value, attr:{href:colVal.data.lnk}" target="_blank"></a></br>
+                                    </div>
+                                    </oj-bind-if>                                    
+                                    </template>
+                                </oj-bind-for-each>
+                               </div>
+                               </oj-bind-if>
+                               <oj-bind-if test="[[task.data.vals[column.data].activeLinks() < 3]]">
+                                <oj-bind-for-each data="[[task.data.vals[column.data].val]]" as="colVal">
+                                    <template>                                   
+                                    <oj-bind-if test="[[(colVal.data.lnk !== '#') || (colVal.data.value=='Oracle Cloud Reporting Strategy' || colVal.data.value=='Pre-Built Learning Paths')]]">                                    
+                                    <a data-bind="text:colVal.data.value, attr:{href:colVal.data.lnk}" target="_blank"></a></br>                                    
+                                    </oj-bind-if>                                    
+                                    </template>
+                                </oj-bind-for-each>
+                            </oj-bind-if>
+                            </td>
+                        </oj-bind-if>
+                    </template>
+                </oj-bind-for-each>
+            </tr>
+        </template>
+    </oj-bind-for-each>
+</table>

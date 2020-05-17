@@ -1,0 +1,20 @@
+[
+    {
+        "cid": "1",
+        "name": "SoD - create supplier / payee and create invoice",
+        "prps": "Access to sensitive functions in Oracle are segregated and provided to authorised personnel only",
+        "desc": "Access to create supplier / payee and create invoices are segregated",
+        "type": "Detect",
+        "ctg": "Segregation of Duties",
+        "freq": "Transactional"
+    },
+    {
+        "cid": "2",
+        "name": "Purchase Category creation",
+        "prps": "Inappropriate changes to purchase category spend profile ",
+        "desc": "Access to Purchase Category spend profile and corporate purchase agreement is restricted/monitored",
+        "type": "Sensitive Access",
+        "ctg": "Segregation of Duties",
+        "freq": "Transactional"
+    }
+]

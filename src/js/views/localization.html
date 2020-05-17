@@ -1,0 +1,51 @@
+    
+    <div class="oj-flex-bar">
+        <div class="oj-flex-bar-start">
+            <oj-label id="cntry_fltr_lbl" class="oj-label-inline" for="filter">Country</oj-label>
+            <oj-input-text id="filter" placeholder="Type to filter" on-raw-value-changed="[[filterInChngd]]" value="{{filter}}"></oj-input-text>
+        </div>
+        <div class="oj-flex-bar-center-absolute">
+            <oj-progress id="lclznPrgrs" type="circle" value="-1" data-bind="visible: lclznPrgrsVisible"
+            style="opacity:0.8;z-index: 10000;"></oj-progress>    
+        </div>        
+    </div>          
+    <oj-table id='table' aria-label='Departments Table' data='[[localznDataProvider]]' scroll-policy='loadMoreOnScroll'
+        columns-default.sortable='disabled' columns='{{columnArray}}' style='width:100%; '
+        class="localization"
+        scroll-policy="loadAll"
+        scroll-policy-options='{"fetchSize": 100}'>
+    </oj-table>
+    <script type="text/html" id="cntry_flag">
+        <td>
+            <img style="border: 1px solid #d6d6d6;" data-bind="attr:{src: 'data:image/png;base64,'+$context.row.flag , width:'80', height:'53'}"/><p style="margin: 0 0 0 0" data-bind="text: $context.row.cntry"></p>
+        </td>
+    </script>
+    <script type="text/html" id="ftmnt_idx">
+        <td style="max-width:200px;">
+            <oj-status-meter-gauge 
+                    id="fitmnt_guage"
+                    min="0" 
+                    max="100" 
+                    value="{{$context.row.ftmtindx}}"                     
+                    orientation="circular"
+                    class="circular-status-meter-common localization circular-status-meter-small "
+                    color="#59A1EB"
+                    readonly
+                    metric-label = '{"rendered":"on","textType":"percent"}'
+                    style="max-width:100px;">
+                  </oj-status-meter-gauge>
+        </td>
+    </script>
+    <script type="text/html" id="chllnge">
+        <td>
+            <ul data-bind="foreach: $context.row.challenge">
+                <li style="word-wrap: break-word;white-space:normal" data-bind="text:$data.carray"></li>
+            </ul>
+            <a data-bind="attr: {href: $context.row.loclink,target:'_blank'},text:$context.row.cntry+' Catalogue'"></a>
+        </td>
+    </script>
+    <script type="text/html" id="rgn">
+        <td style="text-align:center;">
+            <span data-bind="text:$context.row.rgn"></span>
+        </td>
+    </script>

@@ -1,0 +1,29 @@
+[
+    {
+        "aid": "1",
+        "title": "Smart Accrual Load and Autocorrect",
+        "desc": "Automate the complete end to end cycle for loading accruals from external sources including touchless error handling",
+        "type": "RPA",
+        "vstmt": "Up to 20% Increased efficiency and accuracy in data entry and resolution of exceptions",
+        "link": "",
+        "pscore": "20"
+    },
+    {
+        "aid": "2",
+        "title": "Intelligent Contract Creation",
+        "desc": "Use sophisticated OCR tools to read electronic and hard copy contracts and create automatically create",
+        "type": "Cognitive and RPA",
+        "vstmt": "Significantly reduces the time needed for conversion data mapping and manual work. This reduces the overall conversion timeline by 70%",
+        "link": "",
+        "pscore": "70"
+    },
+    {
+        "aid": "3",
+        "title": "Oracle Supplier Discount Recommendations",
+        "desc": "Provide real-time visibility of supplier metrics to categorize candidate suppliers for a dynamic discounting program",
+        "type": "Oracle Adaptive Intelligence",
+        "vstmt": "Reduces efforts by 50% in analyzing suppliers of for a dynamic discounting program",
+        "link": "",
+        "pscore": "50"
+    }
+]

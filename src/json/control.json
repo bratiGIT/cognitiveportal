@@ -1,0 +1,20 @@
+[
+    {
+        "cid": "1",
+        "name": "Approval of suppliers / payees",
+        "prps": "All suppliers / payees are approved in Oracle",
+        "desc": "Only approved suppliers / payees are entered in Oracle",
+        "type": "Prevent",
+        "ctg": "Configuration",
+        "freq": "Transactional"
+    },
+    {
+        "cid": "2",
+        "name": "Supplier Portal valid access",
+        "prps": "Login details are provided to the incorrect supplier as part of the supplier user creation process",
+        "desc": "System checks are in place that prevent supplier login details being issued to the wrong supplier",
+        "type": "Prevent",
+        "ctg": "Manual",
+        "freq": "Transactional"
+    }
+]

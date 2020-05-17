@@ -1,0 +1,466 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding">
+    <h1><b>Business Process > Procurement</b></h1>
+    <p></p>
+    <br>
+    <!--dhrajago addition below:-->
+    <div id="sampleDemo" class="demo-padding demo-container">
+        <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+            <div id="parentDiv">
+
+                <!-- offcanvas outer most wrapper -->
+                <div class="oj-offcanvas-outer-wrapper" style="border: 1px solid grey; height:350px;">
+
+                    <!-- top offcanvas -->
+                    <div id="topDrawer" class="oj-offcanvas-top oj-panel oj-panel-alt1 oj-offcanvas-overlay-shadow"
+                        style="height: 150px">
+                        <h3>top content</h3>
+                        <a href="#">link</a>
+                    </div>
+
+                    <!-- main content -->
+                    <div id="mainContent" class="demo-main-content">
+                        <div class="demo-flex-display oj-flex-items-pad">
+                            <div class="oj-flex">
+                                <!--div for data grid-->
+                                <div class="oj-flex-item oj-sm-6 oj-md-9">
+                                    <oj-data-grid id="datagrid1" style="width:100%;height:572px;max-width:945px;"
+                                        aria-label="CBM Data Grid" data="[[dataSource]]" selection-mode.cell="single"
+                                        banding-interval.row="1"
+                                        header.column.renderer="[[KnockoutTemplateUtils.getRenderer('header_template')]]"
+                                        header.column.style="[[columnHeaderStyle]]"
+                                        header.column.resizable.width="enable"
+                                        header.row.renderer="[[rowHeaderRenderer]]"
+                                        header.row.style="[[rowHeaderStyle]]" header.row.resizable.height="enable"
+                                        cell.renderer="[[KnockoutTemplateUtils.getRenderer('cell_template')]]"
+                                        cell.class-name="oj-sm-justify-content-center oj-sm-align-items-center oj-helper-justify-content-center"
+                                        cell.style="[[cellColorHighlight]]">
+                                    </oj-data-grid>
+                                </div>
+                                <!--div for data grid ends-->
+                                <!-- div for tab content-->
+                                <div class="oj-flex-item oj-sm-6 oj-md-3">
+                                    <div class="demo-container oj-flex demo-edge-top">
+                                        <oj-tab-bar id="gridInfoTabBar" selection="{{selectedItem}}"
+                                            edge="[[currentEdge]]">
+                                            <ul>
+                                                <li id="info">
+                                                    <a href="#" aria-controls="info-tab-panel" id="info-tab">
+                                                        Details
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </oj-tab-bar>
+                                        <oj-switcher value="[[selectedItem]]">
+                                            <div slot="info" id="info-tab-panel" role="tabpanel"
+                                                aria-labelledby="info-tab">
+                                                <div class="demo-tab-content">
+                                                    <br>
+                                                    <p class="bold">Short Description</p>
+                                                    <p>Procurement process</p>
+                                                    <p class="bold">Industry</p>
+                                                    <p>Retail</p>
+                                                    <p class="bold">Process Flows</p>
+                                                    <p><a href="https://ibm.blueworkslive.com/scr/processes/3cec8bedbe#bpmn"
+                                                            target="_blank">BWL Link</a></p>
+                                                    <p class="bold">Organization Chart</p>
+                                                    <p><a href="https://en.wikipedia.org/wiki/Organizational_chart"
+                                                            target="_blank">Org Chart</a></p>
+                                                    <p class="bold">Currency</p>
+                                                    <p>USD</p>
+                                                </div>
+                                            </div>
+                                        </oj-switcher>
+                                    </div>
+                                </div>
+                                <!-- div for tab content ends-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--mainContent ends-->
+                    <!-- end offcanvas -->
+                    <div id="endDrawer" class="oj-offcanvas-end oj-panel oj-panel-alt4 oj-offcanvas-overlay-shadow"
+                        style="width: 200px">
+                        <h3>end content</h3>
+                        <a href="#">link</a>
+                    </div>
+                </div>
+
+
+
+
+
+                <script type="text/html" id="header_template">
+                    <!-- ko if: $context.key=='L2PROCESS1' -->
+                    <span data-bind="text: 'Policy & Strategy',style: {color: 'white'}"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.key=='L2PROCESS2' -->
+                    <span data-bind="text: 'Sourcing',style: {color: 'white'}"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.key=='L2PROCESS3' -->
+                    <span data-bind="text: 'Procurement Operations',style: {color: 'white'}"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.key=='L2PROCESS4' -->
+                    <span data-bind="text: 'Supplier Management',style: {color: 'white'}"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.key=='L2PROCESS5' -->
+                    <span data-bind="text: 'Invoice Processing',style: {color: 'white'}"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.key=='L2PROCESS6' -->
+                    <span data-bind="text: 'Employee Expense & Payment Processing',style: {color: 'white'}"></span>
+                    <!-- /ko -->
+                </script>
+
+                <!-- <script type="text/html" id="header_row_template"> -->
+                <!-- ko if: $context.key=='L2PROCESS1' -->
+                <!-- <span data-bind="text: 'A. Strategy & Direct',style: {color: 'black'}"></span> -->
+                <!-- /ko -->
+                <!-- ko if: $context.key=='L2PROCESS2' -->
+                <!-- <span data-bind="text: 'B. Manage & Monitor',style: {color: 'black'}"></span> -->
+                <!-- /ko -->
+                <!-- ko if: $context.key=='L2PROCESS3' -->
+                <!-- <span data-bind="text: 'C. Execute & Deliver',style: {color: 'black'}"></span> -->
+                <!-- /ko -->
+                <!-- </script> -->
+
+                <script type="text/html" id="cell_template">
+                    <!-- ko if: $context.keys.column=='L2PROCESS1' -->
+                    <span data-bind="text: $context.data, click: $parent.openDialog"></span>    
+                    <!--<span data-bind="html: 
+                        '<a href=\'http://quotes.morningstar.com/fund/vgsix/f?t=' + 
+                            $context.data + '\' target=\'_blank\'>' + $context.data + '</a>'">
+                    </span>-->
+                    <!-- /ko -->
+                    <!-- ko if: $context.keys.column=='L2PROCESS2' -->
+                    <!--<span data-bind="text: $parent.currencyConverter.format($context.data)"></span>-->
+                    <span data-bind="text: $context.data, click: $parent.openDialog"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.keys.column=='L2PROCESS3' -->
+                    <span data-bind="text: $context.data, click: $parent.openDialog"></span>
+                    <!-- /ko -->
+                    <!-- ko if: ($context.keys.column=='L2PROCESS4' || $context.keys.column=='YTD') -->
+                    <!--<span data-bind="text: $parent.percentConverter.format($context.data), 
+                        style: {color: $context.data > 0 ? 'green' : 'red'}"></span>-->
+                    <span data-bind="text: $context.data, click: $parent.openDialog"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.keys.column=='L2PROCESS5' -->
+                    <span data-bind="text: $context.data, click: $parent.openDialog"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $context.keys.column=='L2PROCESS6' -->
+                    <span data-bind="text: $context.data, click: $parent.openDialog"></span>
+                    <!-- /ko -->
+                </script>
+
+                <oj-dialog style="display:none; width:25.5em; height:43.35em;" id="modalDialog2"
+                    position.my.horizontal="right" position.my.vertical="top" position.at.horizontal="right"
+                    position.at.vertical="top" position.of="window" position.offset.x="0" position.offset.y="0"
+                    modality="modeless">
+                    <div slot="header">
+                        <div class="oj-flex oj-sm-flex-items-1">
+                            <div id="backNavContainer" class="oj-sm-padding-2x-end demo-region-hide">
+                                <!--<oj-button id="BackButtonIcon" display="icons">
+                                <span slot="startIcon" class="oj-clickable-icon-nocontext oj-fwk-icon oj-fwk-icon-back"></span>
+                                Back
+                            </oj-button>-->
+                                <a href="#" title="back"
+                                    class="oj-clickable-icon-nocontext oj-fwk-icon oj-fwk-icon-back"
+                                    on-click="[[gotoList]]"></a>
+                            </div>
+                            <div id="dialogHeaderContainer">
+                                <h2 id="dialogTitleId" class="oj-dialog-title">
+                                    <oj-bind-text value="[[setDialogTitle]]"></oj-bind-text>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<span slot="startIcon" class="oj-fwk-icon oj-fwk-icon-back"></span>-->
+                    <div slot="body">
+
+                        <div id="compHdrRegion">
+                            <p>
+                                <h3>Payment Policy</h3>
+                            </p>
+                            <p>Payment Policy sets the governing rules for identifying and
+                                calculating the funds owed to stakeholder groups, the process
+                                by which the funds will be disbursed, and the organization that
+                                will undertake payments.
+                            </p>
+                        </div>
+
+
+
+                        <!--This region has been hidden for now begins-->
+                        <!-- List View with Drilldown-->
+                        <div id="listviewContainer" class="demo-container oj-sm-padding-2x-top" hidden>
+                            <!--Master Drilldown Region-->
+                            <div id="masterRegion" class="demo-page">
+                                <oj-list-view id="listview" aria-label="drill down list" data="[[dataProvider]]"
+                                    on-selection-changed="[[gotoContent]]" selection-mode="single">
+                                    <template slot="itemTemplate" data-oj-as="item">
+                                        <div class="oj-flex-bar">
+                                            <div class="oj-flex-bar-middle oj-flex-bar">
+                                                <div class="oj-flex-bar-middle">
+                                                    <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                                                </div>
+                                            </div>
+                                            <div class="oj-flex-bar-end oj-sm-align-items-center">
+                                                <div role="presentation"
+                                                    class="oj-flex-item oj-fwk-icon oj-listview-drill-icon"></div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </oj-list-view>
+                            </div>
+
+                            <!--Drilldown Region-->
+                            <div id="drilldownRegion" class="demo-region-hide">
+                                <!--Common Region-->
+                                <div class="oj-panel demo-panel" id="commonRegion"
+                                    data-bind="visible: showCommonRegion">
+                                    <span data-bind="text: content"></span>
+                                </div>
+                                <!--Benchmark Region List View placeholder-->
+                                <!--Controls & Risks region placeholder-->
+                                <!--Cognitive RPA Asset region placeholder-->
+                            </div>
+                        </div>
+                        <!--This region has been hidden for now ends-->
+
+
+                        <!--Tab Insertion-->
+                        <div id="subTabViewContainer"
+                            class="demo-container oj-flex demo-edge-top  oj-sm-padding-2x-top">
+                            <oj-tab-bar id="compInfoList" selection="{{selectedCompItem}}" edge="[[compTabEdge]]">
+                                <ul>
+                                    <li id="benchmark">
+                                        <a href="#" aria-controls="benchmark-tab-panel" id="benchmark-tab">
+                                            KPIs
+                                        </a>
+                                    </li>
+                                    <li id="control">
+                                        <a href="#" aria-controls="control-tab-panel" id="control-tab">
+                                            Controls
+                                        </a>
+                                    </li>
+                                    <li id="cog">
+                                        <a href="#" aria-controls="cog-tab-panel" id="cog-tab">
+                                            Cognitive Assets
+                                        </a>
+                                    </li>
+                                </ul>
+                            </oj-tab-bar>
+
+                            <oj-switcher value="[[selectedCompItem]]">
+                                <div slot="benchmark" id="benchmark-tab-panel" role="tabpanel"
+                                    aria-labelledby="benchmark-tab">
+                                    <div class="demo-tab-content">
+                                        <br>
+                                        <!--Benchmark Region-->
+                                <!--<div id="benchmarkRegion" data-bind="visible: showBenchmarkRegion"> :: replaced by below line-->
+                                <div id="benchmarkRegion">    
+                                        <oj-list-view id="kpiListView" aria-label="list using collection"
+                                            style="width:100%;overflow-x:hidden" data="[[kpiAjaxDataProvider]]"
+                                            selection-mode="single" scroll-policy="loadMoreOnScroll"
+                                            scroll-policy-options.fetch-size="15">
+                                            <template slot="itemTemplate" data-oj-as="item">
+                                                <div class="oj-flex" style="flex-wrap: nowrap;">
+                                                    <div class="oj-flex-item oj-sm-12">
+                                                        <div class="oj-sm-padding-2x-bottom">
+                                                            <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 smallFont"
+                                                            style="padding-left:5px;padding-right:5px;">
+                                                            <div class="oj-flex oj-sm-6">
+                                                                <span class="oj-sm-padding-1x-end ">Class :</span>
+                                                                <strong>
+                                                                    <oj-bind-text value="[[item.data.class]]"
+                                                                        class="smallFont">
+                                                                    </oj-bind-text>
+                                                                </strong>
+                                                            </div>
+                                                            <div class="oj-flex oj-sm-6">
+                                                                <span class="oj-sm-padding-1x-end">Industry :</span>
+                                                                <strong>
+                                                                    <oj-bind-text value="[[item.data.ind]]"
+                                                                        class="smallFont"></oj-bind-text>
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 smallFont"
+                                                            style="padding-left:5px;padding-right:5px;">
+                                                            <div class="oj-flex oj-sm-6">
+                                                                <span class="oj-sm-padding-1x-end">Median :</span>
+                                                                <strong>
+                                                                    <oj-bind-text value="[[item.data.mdn]]"
+                                                                        class="smallFont"></oj-bind-text>
+                                                                </strong>
+                                                            </div>
+                                                            <div class="oj-flex oj-sm-6">
+                                                                <span class="oj-sm-padding-1x-end">Benchmark :</span>
+                                                                <strong>
+                                                                    <oj-bind-text value="[[item.data.bmark]]"
+                                                                        class="smallFont"></oj-bind-text>
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </oj-list-view>
+                                    </div>
+                                    <!--Benchmark ends-->
+                                    </div>
+                                </div>
+                                <div slot="control" id="control-tab-panel" role="tabpanel"
+                                    aria-labelledby="control-tab">
+                                    <div class="demo-tab-content">
+                                        
+                                <!--Controls & Risks Region Begins-->
+                                <!--<div id="controlsRegion" data-bind="visible: showControlRegion"> replaced by below line-->
+                                     <div id="controlsRegion">
+                                        <oj-list-view id="cntrlRgnListView" aria-label="list using collection"
+                                            style="width:100%;overflow-x:hidden" data="[[cntrlRgnDataProvider]]"
+                                            selection-mode="single" scroll-policy="loadMoreOnScroll"
+                                            scroll-policy-options.fetch-size="15">
+                                            <template slot="itemTemplate" data-oj-as="item">
+                                                <div class="oj-flex" style="flex-wrap: nowrap;">
+                                                    <div class="oj-flex-item oj-sm-12">
+                                                        <div class="oj-sm-padding-1x-bottom">
+                                                            <strong>
+                                                                <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 tinyFont">
+                                                            <div class="oj-flex oj-sm-12">
+                                                                <!--<span class="oj-sm-padding-1x-end ">Description :</span>-->
+                                                                <oj-bind-text value="[[item.data.desc]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 tinyFont">
+                                                            <div class="oj-flex oj-sm-12">
+                                                                <span class="oj-sm-padding-1x-end"
+                                                                    style="color: blue;">Purpose :</span>
+                                                                <oj-bind-text value="[[item.data.prps]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="oj-flex row oj-sm-12 tinyFont"
+                                                            style="padding-left:1px;padding-right:1px;">
+                                                            <div class="oj-flex oj-sm-6">
+                                                                <span class="oj-sm-padding-1x-end" style="color: blue;">Type
+                                                                    :</span>
+                                                                <oj-bind-text value="[[item.data.type]]" class="tinyFont">
+                                                                </oj-bind-text>
+    
+                                                            </div>
+                                                            <div class="oj-flex oj-sm-6">
+                                                                <span class="oj-sm-padding-1x-end"
+                                                                    style="color: blue;">Frequency :</span>
+                                                                <oj-bind-text value="[[item.data.freq]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 tinyFont">
+                                                            <div class="oj-flex oj-sm-12">
+                                                                <span class="oj-sm-padding-1x-end"
+                                                                    style="color: blue;">Category :</span>
+                                                                <oj-bind-text value="[[item.data.ctg]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </oj-list-view>
+                                    </div>
+                                    <!--Controls & Risks ends-->
+                                    </div>
+                                </div>
+                                <div slot="cog" id="cog-tab-panel" role="tabpanel" aria-labelledby="cog-tab">
+                                    <div class="demo-tab-content">
+                                        <!--Cognitive RPA Assets Region Begins-->
+                                <!--<div id="cogRpaAssetRegion" data-bind="visible: showCogRpaAssetRegion"> replace by below line-->
+                                     <div id="cogRpaAssetRegion">
+                                        <oj-list-view id="cogRpaAssetListView" aria-label="list using collection"
+                                            style="width:100%;overflow-x:hidden" data="[[cogRpaAssetDataProvider]]"
+                                            selection-mode="single" scroll-policy="loadMoreOnScroll"
+                                            scroll-policy-options.fetch-size="15">
+                                            <template slot="itemTemplate" data-oj-as="item">
+                                                <div class="oj-flex" style="flex-wrap: nowrap;">
+                                                    <div class="oj-flex-item oj-sm-12">
+                                                        <div class="oj-sm-padding-1x-bottom">
+                                                            <strong>
+                                                                <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 tinyFont">
+                                                            <div class="oj-flex oj-sm-12">
+                                                                <!--<span class="oj-sm-padding-1x-end ">Description :</span>-->
+                                                                <oj-bind-text value="[[item.data.desc]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 tinyFont">
+                                                            <div class="oj-flex oj-sm-12">
+                                                                <span class="oj-sm-padding-1x-end"
+                                                                    style="color: blue;">Value :</span>
+                                                                <oj-bind-text value="[[item.data.vstmt]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="oj-flex row oj-sm-12 tinyFont"
+                                                            style="padding-left:1px;padding-right:1px;">
+                                                            <div class="oj-flex oj-sm-7">
+                                                                <span class="oj-sm-padding-1x-end" style="color: blue;">Type
+                                                                    :</span>
+                                                                <oj-bind-text value="[[item.data.type]]" class="tinyFont">
+                                                                </oj-bind-text>
+    
+                                                            </div>
+                                                            <div class="oj-flex oj-sm-3">
+                                                                <span class="oj-sm-padding-1x-end"
+                                                                    style="color: blue;">Score :</span>
+                                                                <oj-bind-text value="[[item.data.pscore + '%']]"
+                                                                    class="tinyFont"></oj-bind-text>
+                                                            </div>
+                                                            <div class="oj-flex oj-sm-2">
+                                                                <span class="oj-sm-padding-1x-end" style="color: blue;">Link
+                                                                    :</span>
+                                                                <oj-bind-text value="[[item.data.link]]" class="tinyFont">
+                                                                </oj-bind-text>
+                                                            </div>
+                                                        </div>
+                                                        <div class="oj-flex row oj-sm-12 tinyFont">
+    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </oj-list-view>
+                                    </div>
+                                    <!--Cognitive RPA Assets region ends-->
+    
+                                    </div>
+                                </div>
+                            </oj-switcher>
+                        </div>
+                        <!--Tab Insertion ends-->
+
+                    </div>
+                    <!--<div slot="footer">
+                </div>-->
+                </oj-dialog>
+
+            </div>
+            <!--end of parenDiv-->
+        </div>
+
+    </div>
+
+</div>

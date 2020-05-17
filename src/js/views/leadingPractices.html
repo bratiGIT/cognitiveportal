@@ -1,0 +1,109 @@
+<div id="ldPrctcContainerRegion">
+    <div class="oj-flex-bar demo-header-bar">
+        <div class="oj-flex-bar-middle">
+            <oj-form-layout max-columns="4" style="min-width:80%">
+                <oj-select-one id="comptDrp" style="max-width:25em" options="[[competList]]" value="{{selCompetency}}"
+                    label-hint="Competency:" options-keys="[[comptencyKeys]]" on-value-changed="[[cmptncyChanged]]">
+                </oj-select-one>
+            </oj-form-layout>
+        </div>
+    </div>
+    <oj-progress id="dataGridProgress" type="circle" value="-1"
+                                            style="opacity:0.8;position:absolute;left:45%;top:50%;z-index: 10000;" data-bind="visible: ldngPrctcPrgrsVisible"></oj-progress>
+    <table class="ldngPrctcTable">
+        <tr>
+            <!--Without colors-->
+
+            <!-- <th>Competency</th>
+            <th>Function</th>
+            <th>Aware</th>
+            <th>Developing</th>
+            <th>Practicing</th>
+            <th>Optimizing</th>
+            <th>Leading</th> -->
+
+            <!--With Colors-->
+            <th style="background-color: #697178;color:white;">Competency</th>
+            <th style="background-color: #697178;color:white;">Function</th>
+            <th style="background-color: #78a9ff;">Aware</th>
+            <th style="background-color: #4589ff;">Developing</th>
+            <th style="background-color: #0f62fe;color:white;">Practicing</th>
+            <th style="background-color: #0043ce;color:white;">Optimizing</th>
+            <th style="background-color: #002d9c;color:white">Leading</th>
+        </tr>
+        <oj-bind-if test="[[ldngPrctcsData().length === 0]]">
+            <tr style="text-align: center;border:1px solid #4d4d4d">
+                <td colspan="7" style="padding:20px;">No Leading Practices data available for the selected Competency
+                </td>
+            </tr>
+        </oj-bind-if>
+        <oj-bind-for-each data="[[ldngPrctcsData]]" as="cmptncy">
+            <template>
+                <oj-bind-for-each data="[[cmptncy.data.process]]" as="process">
+                    <template>
+                        <oj-bind-for-each data="[[process.data.values]]" as="processVal">
+                            <template>
+                                <tr>
+                                    <oj-bind-if test="[[process.index === 0 && processVal.index === 0 ]]">
+                                        <td data-bind="text: cmptncy.data.cmptname, attr: { rowspan: cmptncy.data.cmptSpan }"
+                                            style="width:10%" class="cmptncyTd"></td>
+                                    </oj-bind-if>
+                                    <oj-bind-if test="[[processVal.index == 0 ]]">
+                                        <td data-bind="text: process.data.name, attr: { rowspan: process.data.processSpan }"
+                                            style="width:7%" class="cmptncyTd"></td>
+                                    </oj-bind-if>
+                                    <!--AWARE COLUMN-->
+                                    <oj-bind-if test="[[processVal.data.awareIsLast]]">
+                                        <td
+                                            data-bind="text: processVal.data.aware, attr: { rowspan: processVal.data.awareSpan, class: 'valExisitsTd lastProcessValTd lastProcessValTd' }">
+                                        </td>
+                                    </oj-bind-if>
+                                    <oj-bind-if test="[[processVal.data.aware != '' && !processVal.data.awareIsLast]]">
+                                        <td data-bind="text: processVal.data.aware" class="valExisitsTd">
+                                        </td>
+                                    </oj-bind-if>
+                                    <!--DEVELOPING COLUMN-->
+                                    <oj-bind-if test="[[processVal.data.dvlpIsLast]]">
+                                        <td data-bind="text: processVal.data.dvlp, attr: { rowspan: processVal.data.dvlpSpan, class: 'valExisitsTd lastProcessValTd'}">
+                                        </td>
+                                    </oj-bind-if>
+                                    <oj-bind-if test="[[processVal.data.dvlp != '' && !processVal.data.dvlpIsLast]]">
+                                        <td data-bind="text: processVal.data.dvlp" class="valExisitsTd">
+                                        </td>
+                                    </oj-bind-if>
+                                    <!--PRACTICING COLUMN-->
+                                    <oj-bind-if test="[[processVal.data.prctcIsLast]]">
+                                        <td data-bind="text: processVal.data.prctc, attr: { rowspan: processVal.data.prctcSpan, class: 'valExisitsTd lastProcessValTd'}">
+                                        </td>
+                                    </oj-bind-if>
+                                    <oj-bind-if test="[[processVal.data.prctc != '' && !processVal.data.prctcIsLast]]">
+                                        <td data-bind="text: processVal.data.prctc" class="valExisitsTd">
+                                        </td>
+                                    </oj-bind-if>
+                                    <!--OPTIMIZING COLUMN-->
+                                    <oj-bind-if test="[[processVal.data.optmzIsLast]]">
+                                        <td data-bind="text: processVal.data.optmz, attr: { rowspan: processVal.data.optmzSpan, class: 'valExisitsTd lastProcessValTd'}">
+                                        </td>
+                                    </oj-bind-if>
+                                    <oj-bind-if test="[[processVal.data.optmz != '' && !processVal.data.optmzIsLast]]">
+                                        <td data-bind="text: processVal.data.optmz" class="valExisitsTd">
+                                        </td>
+                                    </oj-bind-if>
+                                    <!--LEADING COLUMN-->
+                                    <oj-bind-if test="[[processVal.data.leadIsLast]]">
+                                        <td data-bind="text: processVal.data.lead, , attr: { rowspan: processVal.data.leadSpan, class: 'valExisitsTd lastProcessValTd'}">
+                                        </td>
+                                    </oj-bind-if>
+                                    <oj-bind-if test="[[processVal.data.lead != '' && !processVal.data.leadIsLast]]">
+                                        <td data-bind="text: processVal.data.lead" class="valExisitsTd">
+                                        </td>
+                                    </oj-bind-if>
+                                </tr>
+                            </template>
+                        </oj-bind-for-each>
+                    </template>
+                </oj-bind-for-each>
+            </template>
+        </oj-bind-for-each>
+    </table>
+</div>

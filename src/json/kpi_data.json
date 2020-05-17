@@ -1,0 +1,131 @@
+{
+"Sourcing": [
+    {
+        "kp_id" : "59691",
+        "name" : "Average time in days for sourcing events.  (Starting when the need is identified through a request from an internal stakeholder, ending when contract is signed.)"
+    },
+	{
+        "kp_id" : "59699",
+        "name" : "Typical savings goal (percentage) that the procurement organization sets to deliver on sourcing events/projects."
+    },
+    {
+        "kp_id" : "59689",
+        "name" : "Average payment days, considering typical negotiated payment terms."
+    },
+    {
+        "kp_id" : "59698",
+        "name" : "Typical achieved savings (percentage) that the procurement organization actually delivers on sourcing events/projects."
+    },
+    {
+        "kp_id" : "52446",
+        "name" : "Average payment period (days payable outstanding)."
+    },
+    {
+        "kp_id" : "59692",
+        "name" : "Average time in days to establish a contract. (Starting when the negotiation is opened, ending when the contract is signed.)"
+    },
+    {
+        "kp_id" : "54741",
+        "name" : "Total cost of procurement as a percentage of purchase value (includes providing sourcing governance and performing category management, selecting suppliers and developing/maintaining contracts, ordering materials/services, and managing suppliers.)"
+    },
+    {
+        "kp_id" : "59685",
+        "name" : "Total procurement FTEs per one billion USD spend.  Procurement processes include sourcing governance and category management, selecting suppliers and developing/maintaining contracts, ordering materials and services, and managing suppliers."
+    },
+    {
+        "kp_id" : "59700",
+        "name" : "Total annual cost takeout savings obtained from procurement department on goods and services purchased, as a percentage of total annual spend.  Cost takeout is defined as paying less for what was already being purchased, calculated as as the difference between current and prior year spend for the same or similar recurring purchases."
+    }],
+"Procurement Operations": [
+    {
+        "kp_id" : "59703",
+        "name" : "Of the total annual volume of purchase orders for direct materials and services, percentage transmitted to suppliers manually (as opposed to being automated or EDI)."
+    },
+	{
+        "kp_id" : "59704",
+        "name" : "Of the total annual volume of purchase orders for indirect materials and services, percentage transmitted to suppliers manually (as opposed to being automated or EDI)."
+    },
+	{
+        "kp_id" : "783",
+        "name" : "Percentage of total purchase value procured via maverick buying (where an existing purchasing contract is ignored by employees.)"
+    },
+	{
+        "kp_id" : "389",
+        "name" : "Percentage of total annual purchase value from certified vendors (suppliers with whom the organization has prearranged purchasing agreements that include the supplier being responsible for quality of incoming goods or services.)"
+    },
+	{
+        "kp_id" : "388",
+        "name" : "Percentage of purchase orders approved electronically."
+    }],
+"EmployeeExpense" : [
+    {
+        "kpi_id": "59701",
+        "name": "Total annual cost avoidance savings obtained from procurement department on goods and services purchased, as a percentage of total annual spend.  Cost avoidance is reducing future costs (intangible savings) typically achieved through actions such as negotiating lower rates for new goods and services to be purchased."
+    }, {
+        "kpi_id": "56284",
+        "name": "Total cost of the process \"process accounts payable\" as a percentage of revenue."
+    }, {
+        "kpi_id": "56285",
+        "name": "Total cost of the process \"process accounts payable\" as a percentage of cost of continuing operations."
+    }, {
+        "kpi_id": "56286",
+        "name": "Total cost of the process \"process accounts payable\" as a percentage of purchases."
+    }, {
+        "kpi_id": "58794",
+        "name": "Internal personnel cost (including benefits) of the process \"process accounts payable\" as a percentage of revenue."
+    }, {
+        "kpi_id": "58795",
+        "name": "Internal personnel cost (including benefits) of the process \"process accounts payable\" as a percentage of cost of continuing operations."
+    }, {
+        "kpi_id": "58796",
+        "name": "Internal personnel cost (including benefits) of the process \"process accounts payable\" as a percentage of purchases."
+    }, {
+        "kpi_id": "58797",
+        "name": "Internal systems cost of the process \"process accounts payable\" as a percentage of revenue."
+    }, {
+        "kpi_id": "58798",
+        "name": "Internal systems cost of the process \"process accounts payable\" as a percentage of cost of continuing operations."
+    }, {
+        "kpi_id": "58799",
+        "name": "Internal systems cost of the process \"process accounts payable\" as a percentage of purchases."
+    }, {
+        "kpi_id": "159",
+        "name": "Cycle time in hours to enter invoice data into the system."
+    }, {
+        "kpi_id": "160",
+        "name": "Cycle time in days (including weekends) to resolve an invoice error."
+    }, {
+        "kpi_id": "290",
+        "name": "Cycle time in days (including weekends) from receipt of invoice until approved and scheduled for payment."
+    }, {
+        "kpi_id": "54598",
+        "name": "Percentage of invoice line items received using electronic or automated methods."
+    }, {
+        "kpi_id": "54602",
+        "name": "Total annual number of vendor inquiries received per \"respond to inquiries\" FTE."
+    }, {
+        "kpi_id": "56293",
+        "name": "Percentage of invoice line items that are matched the first time."
+    }, {
+        "kpi_id": "56295",
+        "name": "Percentage of invoice line items matched with a purchase order."
+    }, {
+        "kpi_id": "56296",
+        "name": "Percentage of invoice line items received through EDI."
+    }, {
+        "kpi_id": "286",
+        "name": "Number of FTEs for the process \"process accounts payable\" per one billion USD revenue."
+    }, {
+        "kpi_id": "285",
+        "name": "Number of FTEs for the process \"process accounts payable\" per one billion USD purchases."
+    }, {
+        "kpi_id": "287",
+        "name": "Number of FTEs for the process \"process accounts payable\" per one billion USD cost of continuing operations."
+    }, {
+        "kpi_id": "163",
+        "name": "Number of invoices processed per \"process accounts payable\" FTE."
+    }, {
+        "kpi_id": "165",
+        "name": "Value of purchases per \"process accounts payable\" FTE."
+    }]
+}

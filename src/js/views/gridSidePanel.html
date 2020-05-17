@@ -1,0 +1,36 @@
+<div class="demo-container oj-flex demo-edge-top">    
+    <div class="demo-tab-content gridPanelcntnt">        
+        <!--<p><strong><a href="#" on-click="[[openRapidMoveDialog]]">Rapid Move</a></strong></p>-->
+        <!-- onmouseover="oldColor=this.style.backgroundColor;this.style.backgroundColor='#82CFFF';" onMouseOut="this.style.backgroundColor=oldColor;" -->
+
+        <!-- <p class="bold">Short Description</p> 
+        <p data-bind="text:shortDescription"></p> -->
+        <div data-bind="hidden:showIndpainPnts">
+        <p class="bold oj-flex-item oj-sm-padding-2x-top" style="margin-top:8px;margin-bottom:15px">Details:</p>
+        <p><a data-bind="attr:{href:bwl}" target="_blank">Business Processes (Blueworks Live)</a></p>
+        <p data-bind="visible: showLocalzn"><a data-bind="attr:{href:localizationUrl}" target="_blank">Localization</a></p>
+        <p><a href="#" on-click="[[openLeadPractDialog]]">Leading Practices</a></p>
+        <p><a href="#"  on-click="[[openOrgChartDialog]]">Organization Chart</a></p>
+        <p id="cbmCurrency">Currency - <oj-bind-text value="[[setSelectedCurrency]]"></oj-bind-text></p> 
+        </div>       
+        <br/>        
+        <div data-bind="visible:showIndpainPnts">
+        <h4 class="indPnPtsTitle">Industry Pain Points</h4>
+        <oj-list-view id="listview" aria-label="simple list" data="[[indPainPntsDataProvider]]" class="indPainPnts" selection-mode="single">
+        <template slot="itemTemplate" data-oj-as="item">            
+            <div class="container" on-click="[[selectPainPoint]]">
+                <div>
+                    <span class="name"><oj-bind-text value="[[item.data.title]]"></oj-bind-text></span>
+                </div>
+                <div id="painPtData" class="oj-sm-padding-1x-top desc" data-bind="visible: item.data.showDetl">
+                    <div><span class="name"><oj-bind-text value="[[item.data.desc]]"></oj-bind-text></span></div>
+                    <div style="margin-top:5px;"><a href="#" target="_blank">Solution</a></div>
+                </div>                                
+            </div>
+        </template>
+    </oj-list-view>
+        </div>
+    </div>
+
+    
+</div>

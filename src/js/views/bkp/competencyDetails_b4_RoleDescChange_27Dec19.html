@@ -1,0 +1,76 @@
+<div id="competencyContainerRegion" class="compContainerMain">
+
+    <oj-tab-bar id="hnavlist" selection="{{selectedCmptncyTab}}" edge="[[currentCmptncyTabEdge]]"  class="compContainerTab">
+        <ul>
+            <!-- <li id="kpi">
+                <a href="#" aria-controls="kpi-tab-panel" id="kpi-tab">
+                    <span>Benchmarks</span>
+                </a>
+            </li> -->
+            <li id="roles">
+                <a href="#" aria-controls="roles-tab-panel" id="roles-tab">
+                    <span>Roles</span>
+                </a>
+            </li>
+            <li id="modules">
+                <a href="#" aria-controls="modules-tab-panel" id="maturity-tab">
+                    <span>Modules</span>
+                </a>
+            </li>
+        </ul>
+    </oj-tab-bar>
+
+    <oj-switcher value="[[selectedCmptncyTab]]">
+        <!-- <div slot="kpi" id="kpi-tab-panel" role="tabpanel" aria-labelledby="kpi-tab">
+            <div class="demo-tab-content compTabContent">
+                <oj-list-view id="competencyKpiListView" aria-label="list using collection" style="width:100%;overflow-x:hidden" 
+                data="[[competencyKpiDataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
+                scroll-policy-options.fetch-size="15">
+                    <template slot="itemTemplate" data-oj-as="item">
+                        <div class="container listItem ">
+                            <span class="name">
+                                <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                            </span>
+                        </div>
+                    </template>
+                </oj-list-view>
+            </div>
+        </div> -->
+        
+        <div slot="roles" id="roles-tab-panel" role="tabpanel" aria-labelledby="roles-tab">
+            <div class="demo-tab-content compTabContent">
+                <oj-list-view id="competencyRoleListView" class="roles_listview" aria-label="list using collection" style="width:100%;overflow-x:hidden" 
+                data="[[competencyRoleDataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
+                scroll-policy-options.fetch-size="15">
+                <!-- <oj-list-view class="roles_listview" data="[[dataProviderRoles]]"> -->
+                    <template slot="itemTemplate" data-oj-as="item">
+                        <li class="comp-listview ">
+                            <a href="#" target="">
+                                <oj-bind-text value="[[item.data.rnm]]"></oj-bind-text>
+                            </a>
+                        </li>
+                    </template>
+                </oj-list-view>                                        
+            </div>
+        </div>
+        
+        <div slot="modules" id="modules-tab-panel" role="tabpanel"
+            aria-labelledby="modules-tab">
+            <div class="demo-tab-content compTabContent">
+                <oj-list-view id="competencyModuleListView" aria-label="list using collection" style="width:100%;overflow-x:hidden" 
+                data="[[competencyModuleDataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
+                scroll-policy-options.fetch-size="15">
+                <!-- <oj-list-view data="[[dataProviderModules]]"> -->
+                    <template slot="itemTemplate" data-oj-as="item">
+                        <div class="container listItem">
+                            <span class="name">
+                                <oj-bind-text value="[[item.data.module]]"></oj-bind-text>
+                            </span>
+                        </div>
+                    </template>
+                </oj-list-view>
+            </div>
+        </div>
+    </oj-switcher>
+
+</div>

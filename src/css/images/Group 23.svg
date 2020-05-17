@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="368" height="386" viewBox="0 0 368 386">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: #fff;
+        font-family: IBMPlexSans, IBM Plex Sans;
+      }
+
+      .cls-1 {
+        font-size: 76px;
+      }
+
+      .cls-2 {
+        font-family: IBMPlexSans-SemiBold, IBM Plex Sans;
+        font-weight: 600;
+      }
+
+      .cls-3 {
+        font-size: 28px;
+      }
+
+      .cls-4 {
+        font-family: IBMPlexSans-Medium, IBM Plex Sans;
+        font-weight: 500;
+      }
+    </style>
+  </defs>
+  <g id="Group_23" data-name="Group 23" transform="translate(-122 -168)">
+    <text id="IBM_Cognitive_Enterprise" data-name="IBM
+Cognitive
+Enterprise" class="cls-1" transform="translate(122 283)"><tspan x="0" y="0">IBM</tspan><tspan class="cls-2"><tspan x="0" y="68">Cognitive</tspan><tspan x="0" y="136">Enterprise</tspan></tspan></text>
+    <text id="Welcome_to" data-name="Welcome to" class="cls-3" transform="translate(122 197)"><tspan x="0" y="0">Welcome to</tspan></text>
+    <text id="Powered_By_IBM_RapidMove_for_Oracle_Cloud" data-name="Powered By IBM RapidMove
+for Oracle Cloud" class="cls-3" transform="translate(122 509)"><tspan x="0" y="0">Powered By </tspan><tspan class="cls-4" y="0">IBM RapidMove</tspan><tspan x="0" y="37">for </tspan><tspan class="cls-4" y="37">Oracle Cloud</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,130 @@
+<div id="cogRpaAssetRegion">
+    <oj-list-view id="cogRpaAssetListView" aria-label="list using collection" style="width:100%;overflow-x:hidden"
+        data="[[cogRpaAssetDataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
+        scroll-policy-options.fetch-size="15">
+        <template slot="itemTemplate" data-oj-as="item">
+            <div class="oj-flex" style="flex-wrap: nowrap;">
+                <div class="oj-flex-item oj-sm-12">
+                    <div class="oj-sm-padding-1x-bottom">
+                        <strong>
+                            <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                        </strong>
+                    </div>
+                    <div class="oj-flex row oj-sm-12 smallFont list-view-cell-borderless oj-sm-padding-1x-bottom"><!-- list-view-cell-border-with-top"-->
+                        <div class="oj-flex oj-sm-12">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="AssetDesc" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Description
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.dsc]]" id="AssetDesc">
+                                </oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oj-flex row oj-sm-12 smallFont list-view-cell-borderless oj-sm-padding-1x-bottom"><!-- list-view-cell-border-full"-->
+                        <div class="oj-flex oj-sm-12">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="AssetValStmt" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Value
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.vstmt]]" id="AssetValStmt">
+                                </oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="oj-flex row oj-sm-12 smallFont">
+                        <div class="oj-flex oj-sm-6 list-view-cell-with-left-border">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="AssetType" class="oj-sm-padding-1x-end mediumFontBlue">
+                                    Type
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.type]]" id="AssetType">
+                                </oj-bind-text>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-3 list-view-cell-with-left-border">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="AssetScore" class="oj-sm-padding-1x-end mediumFontBlue">
+                                    Score
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-status-meter-gauge id="AssetScore" min="0" max="100"
+                                    value="[[Number(item.data.pscore)]]" metric-label.rendered="off"
+                                    plot-area.rendered="on" readonly svg-style="[[customSvgStyle]]"
+                                    class="horizontal-status-meter-sample">
+                                </oj-status-meter-gauge>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-3 list-view-cell-border-full ">
+                            <div class="oj-flex-item oj-sm-12 oj-sm-align-self-center">
+                                <a :href="[[item.data.link]]" class="mediumFontBlue" target="_blank">
+                                    <span>Asset Link</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div> 
+                    -->
+                    <!-- -->
+                    <div class="oj-flex row oj-sm-12">
+                        <div class="oj-flex oj-sm-12 list-view-hdrcell-blue-border-full">
+                            <div class="oj-flex-item oj-sm-6">
+                                <oj-label for="AssetType" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Type
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                <oj-label for="AssetScore" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Score
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                <oj-label for="AssetLink" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Repository
+                                </oj-label>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-12 list-view-cell-blue-border-full mediumFont">
+                            <div class="oj-flex-item oj-sm-6">
+                                <oj-bind-text value="[[item.data.type]]" id="AssetType" class="mediumFont">
+                                </oj-bind-text>    
+                            </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                <oj-status-meter-gauge id="AssetScore" min="0" max="100"
+                                    value="[[Number(item.data.pscore)]]" metric-label.rendered="off"
+                                    plot-area.rendered="on" readonly svg-style="[[customSvgStyle]]"
+                                    class="horizontal-status-meter-sample">
+                                </oj-status-meter-gauge>
+                            </div>
+                            <div class="oj-flex-item oj-sm-3 ">
+                                <div class="oj-flex-item oj-sm-12 oj-helper-justify-content-center">
+                                    <oj-bind-if test="[[item.data.link]]">
+                                        <a id="AssetLink" :href="[[item.data.link]]" class="mediumFontBlue" target="_blank">
+                                            <span>Download</span>
+                                        </a>
+                                    </oj-bind-if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -->
+                </div>
+            </div>
+        </template>
+        <div class="srch-logo-container" style="height:75px; align-content: center;"
+            data-bind="visible: assetPrgrsVisible">
+            <div class="srch-ind-logo-align">
+                <oj-progress id="assetProgress" type="circle" value="{{waitProgress}}"
+                    style="opacity:0.8;position:relative;left:45%;top:50%;" data-bind="visible: assetPrgrsVisible">
+                </oj-progress>
+            </div>
+        </div>
+    </oj-list-view>
+</div>

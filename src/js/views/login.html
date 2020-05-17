@@ -1,0 +1,71 @@
+<div class="oj-flex">
+  <div class="oj-flex">
+      <div class="oj-flex-item oj-sm-6 oj-md-7" style="width: 50vw; max-width: 50vw;">
+          <div class="bgImg">
+              <div class="img-top-left">
+                  <span role="img" class="logoImg0" ></span>
+              </div>
+              <div id="titleContainer" style="top: 20%; left: 30%;position: relative;">
+                  <p style="font-size:15pt;color: white;">Welcome to</p>  
+                  <div style="font-size:35pt;color: white;font-weight:400;line-height:1;">IBM</div>
+                  <div style="font-size:35pt;font-weight: bold;color: white;line-height:1;">Cognitive <br>Enterprise</div>  
+                  <p style="font-size:13pt;color: white;margin-top:25px;">Powered By IBM RapidMove <br>for Oracle Cloud</p>
+              </div>
+              <div class="bglogo">
+                <span role="img" class="logoImg" ></span>
+              </div>
+            </div>
+      </div>
+      <div class="oj-flex-item oj-sm-6 oj-md-1"></div>
+      <div class="oj-flex-item oj-sm-6 oj-md-4">
+        <div class="logo-container">
+            <div class="img-top-right">
+                <!-- <span role="img" class="logoImg1" ></span> -->
+            </div>
+        </div>
+        <h2>Login to <span style="font-weight: bold;">Cognitive Enterprise</span></h2>
+        <br>
+        <div id="sampleDemo" class="demo-container">
+          <oj-messages messages="[[loginMessages]]" display="notification" id="message" class="loginErrorMessage"></oj-messages>
+          <oj-validation-group id="tracker" valid="{{groupValid}}">
+          <oj-form-layout id="validator-login">
+          <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+            <div id="form-container" class="oj-form-layout">
+              <div class="oj-form">
+                <div class="oj-flex">  
+                  <div class="oj-flex-item">
+                    <oj-label for="username" style="color: rgba(0, 0, 0, 0.85);">Username</oj-label>
+                    <!-- <oj-input-text id="username" class="txt_input" required="true" validators="[[emailPatternValidator]]"></oj-input-text> -->
+                    <oj-input-text id="username" class="txt_input" required="true" value="{{username}}"></oj-input-text>
+                  </div>
+                </div>
+                <div class="oj-flex">  
+                  <div class="oj-flex-item">
+                    <oj-label for="password" style="color: rgba(0, 0, 0, 0.85);">Password</oj-label>
+                    <oj-input-password id="password" class="txt_input" required="true" value="{{password}}" ></oj-input-password>
+                  </div>
+                </div>
+                <div class="oj-flex  oj-sm-align-items-baseline">
+                  <div class="oj-flex-item">
+                      <oj-button id='submit' :class="button-blue" on-click='[[doLogin]]'>Login</oj-button>
+                    <!-- <oj-checkboxset id="checkboxSetAgreeId" labelled-by="agreeId" value="{{rememberMe}}" >
+                      <oj-option id="agree" value="agree">
+                        <oj-label for="rememberMe">Remember Me</oj-label>
+                      </oj-option>
+                    </oj-checkboxset> -->                    
+                  </div>
+                  <div class="oj-flex-item" style="margin: 15px 0 0 40px;">
+                    <oj-label class="oj-label oj-label-inline" style="vertical-align: inherit;"><a href="#">Forgot Password</a></oj-label>
+                  </div>
+                </div>
+              </div>
+              <!-- <oj-button id='submit' on-click='[[doLogin]]'>Login</oj-button> -->
+            </div>              
+          </div>
+          </oj-form-layout>
+        </oj-validation-group>
+        </div>
+      </div>
+      
+  </div>
+</div>

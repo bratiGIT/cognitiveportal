@@ -1,0 +1,48 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding">
+  <h1>List View Demo</h1>
+
+<div id="sampleDemo" class="demo-padding demo-container">
+    <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+      
+      <div id="listviewContainer" class="demo-container">
+      
+          <div id="region1" class="demo-page">
+              <oj-list-view id="listview" aria-label="drill down list" 
+                  data="[[dataProvider]]" on-selection-changed="[[gotoContent]]" selection-mode="single">
+                  <template slot="itemTemplate" data-oj-as="item">
+                      <div class="oj-flex-bar">
+                          <div class="oj-flex-bar-middle oj-flex-bar">
+                              <div class="oj-flex-bar-middle" style="font-weight: bold">
+                                  <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                              </div>
+                              <!--div class="oj-flex-bar-end">
+                                  <span class="oj-flex-item"><oj-bind-text value="[[item.data.date]]"></oj-bind-text></span>
+                              </div-->
+                          </div>
+                          <div class="oj-flex-bar-end oj-sm-align-items-center">
+                            <div role="presentation" class="oj-flex-item oj-fwk-icon oj-listview-drill-icon"></div>
+                          </div>         
+                      </div>
+                  </template>
+              </oj-list-view>
+          </div>
+      
+          <div id="region2" class="demo-page demo-region-hide">
+              <oj-button id="buttonIcon2" on-oj-action="[[gotoList]]">
+                <span slot="startIcon" class="oj-fwk-icon-caret-start oj-fwk-icon"></span>
+              Back
+              </oj-button>
+              <div class="oj-panel demo-panel">
+                  <span data-bind="text: content"></span>
+              </div>
+          </div>
+      </div>
+
+      
+    </div>
+  </div>
+</div>

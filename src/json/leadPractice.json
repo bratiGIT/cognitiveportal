@@ -1,0 +1,18 @@
+[
+    {
+        "cmptId": "B",
+        "cmptName": "Sourcing",
+        "process": "Procurement Strategy and Sourcing",
+        "aware": [{"val":"Decentralized procurement strategy"},
+                  {"val":"Decentralized sourcing strategy"}],
+        "dvlp": [{"val":"Centralized procurement and sourcing strategy"},
+                 {"val":"Pre-identified purchasing arrangements with key vendors"}],
+        "prctc": [{"val":"Formal procurement plan documented and communicated"},
+                  {"val":"Procurement and sourcing procedures leverage quantity discounts"},
+                  {"val":"Centrally maintained supplier catalogs"}],
+        "optmz": [{"val":"Sourcing via predefined web portals and micro sites utilizing electronic auctions and request for quotes"},
+                  {"val":"Sourcing strategy well documented and adhered to"}],
+        "lead": [{"val":"Procurement strategy integrated with corporate strategy"},
+                 {"val":"Automated distribution of sourcing strategies, policies, and procedures"}]
+    }   
+]

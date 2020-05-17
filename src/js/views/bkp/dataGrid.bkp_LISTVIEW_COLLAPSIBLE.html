@@ -1,0 +1,342 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding">
+    <h1><b>Business Process: Procurement</b></h1>
+    <p></p>
+    <br>
+    <!--dhrajago addition below:-->
+    <div id="sampleDemo" class="demo-padding demo-container">
+        <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+            <div class="demo-flex-display oj-flex-items-pad">
+                <div class="oj-flex">
+                    <!--div for data grid-->
+                    <div class="oj-flex-item oj-sm-6 oj-md-9">
+                        <oj-data-grid id="datagrid1" style="width:100%;height:650px;max-width:945px;"
+                            aria-label="CBM Data Grid" on-click="[[openDialog]]" data="[[dataSource]]"
+                            selection-mode.cell="single" banding-interval.row="1"
+                            header.column.renderer="[[KnockoutTemplateUtils.getRenderer('header_template')]]"
+                            header.column.style="[[columnHeaderStyle]]" header.column.resizable.width="enable"
+                            header.row.style="width:120px;height:90px;background-color:#b3b3b3;font-size:12px;font-weight:bold;"
+                            header.row.resizable.height="enable"
+                            cell.renderer="[[KnockoutTemplateUtils.getRenderer('cell_template')]]"
+                            cell.class-name="oj-sm-justify-content-center oj-sm-align-items-center oj-helper-justify-content-left oj-datagrid-cell-padding"
+                            cell.style="[[cellColorHighlight]]">
+                        </oj-data-grid>
+                    </div>
+                    <!--div for data grid ends-->
+                    <!-- div for tab content-->
+                    <div class="oj-flex-item oj-sm-6 oj-md-3">
+                        <div class="demo-container oj-flex demo-edge-top">
+                            <oj-tab-bar id="hnavlist" selection="{{selectedItem}}" edge="[[currentEdge]]">
+                                <ul>
+                                    <li id="info">
+                                        <a href="#" aria-controls="info-tab-panel" id="info-tab">
+                                            Details
+                                        </a>
+                                    </li>
+                                    <li id="bwl">
+                                        <a href="#" aria-controls="bwl-tab-panel" id="bwl-tab">
+                                            Process Flows
+                                        </a>
+                                    </li>
+                                    <li id="maturity">
+                                        <a href="#" aria-controls="maturity-tab-panel" id="maturity-tab">
+                                            References
+                                        </a>
+                                    </li>
+                                </ul>
+                            </oj-tab-bar>
+
+                            <oj-switcher value="[[selectedItem]]">
+                                <div slot="info" id="info-tab-panel" role="tabpanel" aria-labelledby="info-tab">
+                                    <div class="demo-tab-content">
+                                        <br>
+                                        <p class="bold">Description</p>
+                                        <p style="font-weight: lighter;">No description available.</p>
+
+                                        <p class="bold">Sector</p>
+                                        <p>Distribution</p>
+
+                                        <p class="bold">Industry</p>
+                                        <p>Retail</p>
+
+                                        <p class="bold">Industry CoC Status</p>
+                                        <p>Completed</p>
+                                        <p class="bold">Automation Evaluation</p>
+                                        <p>Available</p>
+                                        <p>Contact: John Murray</p>
+                                        <p style="font-weight: lighter;">(john.murray@ie.ibm.com)</p>
+
+                                        <p class="bold">Mapped to Processes</p>
+                                        <p>No</p>
+                                        <p class="bold">Template Owner</p>
+                                        <p>Derek Bush</p>
+                                    </div>
+                                </div>
+                                <div slot="bwl" id="bwl-tab-panel" role="tabpanel" aria-labelledby="bwl-tab">
+                                    <div class="demo-tab-content">
+                                        <br>
+                                        <p class="bold">Blueworks Live</p>
+                                        <p class="oj-tabbar-item-title">Navigate to Blueworks Live for process level
+                                            documentation. Follow the link below to know more.
+                                        </p>
+                                        <ul>
+                                            <li><a href="https://ibm.blueworkslive.com/scr/processes/3cec8bedbe#bpmn"
+                                                    target="_blank">BWL Link</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div slot="maturity" id="maturity-tab-panel" role="tabpanel"
+                                    aria-labelledby="maturity-tab">
+                                    <div class="demo-tab-content">
+                                        <br>
+                                        <p class="oj-tabbar-item-title">References to the maturity model, leading
+                                            practices and intelligent workflows available as follows:</p>
+                                        <ul>
+                                            <li><a href="https://ibm.ent.box.com/file/548324760441"
+                                                    target="_blank">Leading Practices & Maturity Model</a></li>
+                                            <br>
+                                            <li><a href="https://ibm.ent.box.com/file/548312201130"
+                                                    target="_blank">Intelligent Workflows</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </oj-switcher>
+
+                        </div>
+                    </div>
+
+                    <!-- div for tab content ends-->
+                </div>
+            </div>
+
+
+
+
+            <script type="text/html" id="header_template">
+        <!-- ko if: $context.key=='L2PROCESS1' -->
+            <span data-bind="text: 'Client Collaboration',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS2' -->
+            <span data-bind="text: 'Analytics',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS3' -->
+            <span data-bind="text: 'Sourcing',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS4' -->
+            <span data-bind="text: 'Procurement Operations',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS5' -->
+            <span data-bind="text: 'Supplier Management',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS6' -->
+            <span data-bind="text: 'Invoice Processing',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS7' -->
+            <span data-bind="text: 'Payment Processing',style: {color: 'white'}"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.key=='L2PROCESS8' -->
+            <span data-bind="text: 'Administration',style: {color: 'white'}"></span>
+            <!-- /ko -->
+
+            </script>
+
+            <script type="text/html" id="cell_template">
+        <!-- ko if: $context.keys.column=='L2PROCESS1' -->
+            <span data-bind="text: $context.data"></span>
+            <!--<span data-bind="html: 
+                '<a href=\'http://quotes.morningstar.com/fund/vgsix/f?t=' + 
+                    $context.data + '\' target=\'_blank\'>' + $context.data + '</a>'">
+            </span>-->
+            <!-- /ko -->
+            <!-- ko if: $context.keys.column=='L2PROCESS2' -->
+            <!--<span data-bind="text: $parent.currencyConverter.format($context.data)"></span>-->
+            <span data-bind="text: $context.data"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.keys.column=='L2PROCESS3' -->
+            <span data-bind="text: $context.data"></span>
+            <!-- /ko -->
+            <!-- ko if: ($context.keys.column=='L2PROCESS4' || $context.keys.column=='YTD') -->
+            <!--<span data-bind="text: $parent.percentConverter.format($context.data), 
+                style: {color: $context.data > 0 ? 'green' : 'red'}"></span>-->
+            <span data-bind="text: $context.data"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.keys.column=='L2PROCESS5' -->
+            <span data-bind="text: $context.data"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.keys.column=='L2PROCESS6' -->
+            <span data-bind="text: $context.data"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.keys.column=='L2PROCESS7' -->
+            <span data-bind="text: $context.data"></span>
+            <!-- /ko -->
+            <!-- ko if: $context.keys.column=='L2PROCESS8' -->
+            <span data-bind="text: $context.data"></span>
+            <!--<span data-bind="text: $context.data,style: {color:'blue'}"></span>-->
+            <!-- /ko -->
+            </script>
+
+            <oj-dialog style="display:none; width:25.5em; height:43.35em;" id="modalDialog2" position.my.horizontal="right"
+                position.my.vertical="top" position.at.horizontal="right" position.at.vertical="top"
+                position.of="window" position.offset.x="0" position.offset.y="0" modality="modeless">
+                <div slot="header">
+                    <div class="oj-flex oj-sm-flex-items-1">
+                        <div id="backNavContainer" class="oj-sm-padding-2x-end demo-region-hide">
+                            <!--<oj-button id="BackButtonIcon" display="icons">
+                                <span slot="startIcon" class="oj-clickable-icon-nocontext oj-fwk-icon oj-fwk-icon-back"></span>
+                                Back
+                            </oj-button>-->
+                            <a href="#" title="back" 
+                            class="oj-clickable-icon-nocontext oj-fwk-icon oj-fwk-icon-back" on-click="[[gotoList]]"></a>
+                        </div>
+                        <div id="dialogHeaderContainer">
+                            <h2 id="dialogTitleId" class="oj-dialog-title"><oj-bind-text value="[[setDialogTitle]]"></oj-bind-text></h2>
+                        </div>
+                    </div>
+                </div>
+                <!--<span slot="startIcon" class="oj-fwk-icon oj-fwk-icon-back"></span>-->
+                <div slot="body">
+
+                    <div id="compHdrRegion">
+                        <p>
+                            <h3>Payment Policy</h3>
+                        </p>
+                        <p>Payment Policy sets the governing rules for identifying and
+                            calculating the funds owed to stakeholder groups, the process
+                            by which the funds will be disbursed, and the organization that
+                            will undertake payments.
+                        </p>
+                    </div>
+
+                    <!-- List View with Drilldown-->
+                    <div id="listviewContainer" class="demo-container oj-sm-padding-2x-top">
+
+                        <div id="masterRegion" class="demo-page">
+                            <oj-list-view id="listview" aria-label="drill down list" data="[[dataProvider]]"
+                                on-selection-changed="[[gotoContent]]" selection-mode="single">
+                                <template slot="itemTemplate" data-oj-as="item">
+                                    <div class="oj-flex-bar">
+                                        <div class="oj-flex-bar-middle oj-flex-bar">
+                                            <div class="oj-flex-bar-middle">
+                                                <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                                            </div>
+                                            <!--div class="oj-flex-bar-end">
+                                                    <span class="oj-flex-item"><oj-bind-text value="[[item.data.date]]"></oj-bind-text></span>
+                                            </div-->
+                                        </div>
+                                        <div class="oj-flex-bar-end oj-sm-align-items-center">
+                                            <div role="presentation"
+                                                class="oj-flex-item oj-fwk-icon oj-listview-drill-icon"></div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </oj-list-view>
+                        </div>
+
+                        <div id="drilldownRegion" class="demo-page demo-region-hide">
+                            <!--<oj-button id="buttonIcon2" display="icons" on-oj-action="[[gotoList]]">
+                                <span slot="startIcon" class="oj-fwk-icon oj-fwk-icon-back"></span>
+                                Back
+                            </oj-button>-->
+                            
+                            <!--Common Region-->
+                            <div class="oj-panel demo-panel" id="commonRegion" data-bind="visible: showCommonRegion">
+                                <span data-bind="text: content"></span>
+                            </div>
+
+                            <!--Benchmark Region-->
+                            <div id="benchmarkRegion" data-bind="visible: showBenchmarkRegion">
+                                <div style="padding:5px;">
+                                    <oj-bind-for-each data="[[kpiListItems]]" id="kpiItms">
+                                        <template>
+                                            <oj-collapsible id="kpiClsbl" style="border-top:1px solid #E5E6E6;">
+                                                <!--collapsible header-->
+                                                <div class="oj-flex" slot="header">
+                                                    <div class="oj-flex-item oj-lg-10 oj-md-11 oj-sm-11">
+                                                        <oj-bind-text value="[[$current.data.name]]"></oj-bind-text>
+                                                    </div>
+                                                </div>
+                                                <!-- on open -->
+                                                
+                                                <div class="oj-flex row oj-sm-12" style="padding-left:5px;padding-right:5px;">
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-3x-start oj-sm-padding-1x-end">Class :</span>
+                                                        <strong><oj-bind-text value="[[$current.data.class]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-1x-end">Industry :</span>
+                                                        <strong><oj-bind-text value="[[$current.data.metrics[0].ind]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                </div>
+                                                <div class="oj-flex row oj-sm-12" style="padding-left:5px;padding-right:5px;">
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-3x-start oj-sm-padding-1x-end">Median :</span>
+                                                        <strong><oj-bind-text value="[[$current.data.metrics[0].mdn]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-1x-end">Benchmark :</span>
+                                                        <strong><oj-bind-text value="[[$current.data.metrics[0].bmark]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                </div>
+                                            </oj-collapsible>
+                                        </template>
+                                     </oj-bind-for-each>       
+                                </div>
+                                
+                                <span>List VIEW</span>
+                                <oj-list-view id="kpiListView" aria-label="list using collection" style="width:100%;overflow-x:hidden"
+                                    data="[[kpiDataProvider]]"
+                                    selection-mode="single"
+                                    scroll-policy="loadMoreOnScroll" 
+                                    scroll-policy-options.fetch-size="15">
+                                    <template slot="itemTemplate" data-oj-as="item">
+                                        <div class="oj-flex oj-sm-12" style="flex-wrap: nowrap">
+                                            <div class="oj-flex-item oj-sm-12">
+                                                <div class="oj-sm-padding-1x-bottom">
+                                                    <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                                                </div>
+                                                <div class="oj-flex row oj-sm-12" style="padding-left:5px;padding-right:5px;">
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-1x-end">Class :</span>
+                                                        <strong><oj-bind-text value="[[item.data.class]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-1x-end">Industry :</span>
+                                                        <strong><oj-bind-text value="[[item.data.metrics[0].ind]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                </div>
+                                                <div class="oj-flex row oj-sm-12" style="padding-left:5px;padding-right:5px;">
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-1x-end">Median :</span>
+                                                        <strong><oj-bind-text value="[[item.data.metrics[0].mdn]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                    <div class="oj-flex oj-sm-6"> 
+                                                        <span class="oj-sm-padding-1x-end">Benchmark :</span>
+                                                        <strong><oj-bind-text value="[[item.data.metrics[0].bmark]]" class="smallFont"></oj-bind-text></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </oj-list-view>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--<div slot="footer">
+                    <oj-button id="okButton" on-oj-action="[[closeDialog]]">OK
+                    </oj-button>
+                </div>-->
+            </oj-dialog>
+
+
+        </div>
+
+    </div>
+
+</div>

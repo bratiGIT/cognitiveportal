@@ -1,0 +1,102 @@
+<div id="benchmarkRegion">
+    <oj-list-view id="kpiListView" aria-label="list using collection" style="width:100%;overflow-x:hidden"
+        data="[[cmpntkpiDataProvider]]" selection-mode="single" scroll-policy="loadMoreOnScroll"
+        scroll-policy-options.fetch-size="15" drill-mode="collapsible">
+        <template slot="itemTemplate" data-oj-as="item">
+            <div class="oj-flex" style="flex-wrap: nowrap;">
+                <div class="oj-flex-item oj-sm-12 mediumFont">
+                    <div class="oj-sm-padding-1x-bottom">
+                        <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                    </div>
+
+                    <!-- Commented out --><!-- 
+                    <div class="oj-flex row oj-sm-12">
+                        <div class="oj-flex oj-sm-12 list-view-cell-border-with-top">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="KpiClass" class="oj-sm-padding-1x-end mediumFontBlue">
+                                    Class
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.class]]" id="KpiClass">
+                                </oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="oj-flex row oj-sm-12 ">
+                        <div class="oj-flex oj-sm-12 list-view-cell-border-with-top">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="KpiIndMedian" class="oj-sm-padding-1x-end mediumFontBlue">
+                                    Median
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.mdn]]" id="KpiIndMedian">
+                                </oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="oj-flex row oj-sm-12">
+                        <div class="oj-flex oj-sm-12 list-view-cell-border-full">
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-label for="KpiIndBenchmark" class="oj-sm-padding-1x-end mediumFontBlue">
+                                    Benchmark
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-12">
+                                <oj-bind-text value="[[item.data.bmark]]" id="KpiIndBenchmark"></oj-bind-text>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    <div class="oj-flex row oj-sm-12">
+                        <div class="oj-flex oj-sm-12 list-view-hdrcell-blue-border-full">
+                            <div class="oj-flex-item oj-sm-6">
+                                <oj-label for="KpiClass" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Class
+                                </oj-label>
+                            </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                    <oj-label for="KpiIndMedian" class="oj-sm-padding-1x-end mediumFontBold">
+                                        Median
+                                    </oj-label>
+                                </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                <oj-label for="KpiIndBenchmark" class="oj-sm-padding-1x-end mediumFontBold">
+                                    Benchmark
+                                </oj-label>
+                            </div>
+                        </div>
+                        <div class="oj-flex oj-sm-12 list-view-cell-blue-border-full mediumFont">
+                            <div class="oj-flex-item oj-sm-6">
+                                <oj-bind-text value="[[item.data.class]]" id="KpiClass">
+                                </oj-bind-text>
+                            </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                <oj-bind-text value="[[item.data.mdn]]" id="KpiIndMedian">
+                                </oj-bind-text>
+                            </div>
+                            <div class="oj-flex-item oj-sm-3">
+                                <oj-bind-text value="[[item.data.bmark]]" id="KpiIndBenchmark">
+                                </oj-bind-text>
+                            </div>                            
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </template>
+        <div class="srch-logo-container" style="height:75px; align-content: center;"
+            data-bind="visible: kpiPrgrsVisible">
+            <div class="srch-ind-logo-align">
+                <oj-progress id="kpiProgress" type="circle" value="{{waitProgress}}"
+                    style="opacity:0.8;position:relative;left:45%;top:50%;" data-bind="visible: kpiPrgrsVisible">
+                </oj-progress>
+            </div>
+        </div>
+    </oj-list-view>
+</div>

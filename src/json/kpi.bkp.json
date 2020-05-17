@@ -1,0 +1,51 @@
+[
+    {
+        "name": "Total cost of the process \"process accounts payable\" per disbursement/payment.",
+        "class": "Cost",
+        "kpi_id": "KPI 1",
+        "metrics": [{"ind": "Retail", "mdn": "$4.63", "bmark": "$2.76" }],
+        "imgUri": "http://www.google.com"
+    },
+    {
+        "name": "Cycle time in days (including weekends) from receipt of invoice until approved and scheduled for payment.",
+        "class": "Cycle Time",
+        "kpi_id": "KPI 2",
+        "metrics": [{"ind": "Retail", "mdn": "5", "bmark": "4.6" }],
+        "imgUri": "http://www.google.com"
+    },
+    {
+        "name": "Percentage of invoice line items received using electronic or automated methods.",
+        "class": "Efficiency",
+        "kpi_id": "KPI 3",
+        "metrics": [{"ind": "Retail", "mdn": "4.63", "bmark": "2.76" }],
+        "imgUri": "http://www.google.com"
+    },
+    {
+        "name": "Number of FTEs for the process \"process accounts payable\" per one billion USD revenue.",
+        "class": "Efficiency",
+        "kpi_id": "KPI 4",
+        "metrics": [{"ind": "Retail", "mdn": "4.63", "bmark": "2.76" }],
+        "imgUri": "http://www.google.com"
+    },
+    {
+        "name": "Number of invoices processed per \"process accounts payable\" FTE.",
+        "class": "Efficiency",
+        "kpi_id": "KPI 5",
+        "metrics": [{"ind": "Retail", "mdn": "4.63", "bmark": "2.76" }],
+        "imgUri": "http://www.google.com"
+    },
+    {
+        "name": "Number of disbursements per \"process accounts payable\" FTE.",
+        "class": "Efficiency",
+        "kpi_id": "KPI 6",
+        "metrics": [{"ind": "Retail", "mdn": "4.63", "bmark": "2.76" }],
+        "imgUri": "http://www.google.com"
+    },
+    {
+        "name": "Total cost of the process \"process expense reimbursements\" per T&E disbursement processed.", 
+        "class": "Cost",
+        "text": "KPI 7",
+        "metrics": [{"ind": "Retail", "mdn": "4.63", "bmark": "2.76" }],
+        "imgUri": "http://www.google.com"
+    }
+]

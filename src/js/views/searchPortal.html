@@ -1,0 +1,89 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding" style="text-align: -webkit-center;">
+  <!--h1>Enterprise Portal Search</h1-->
+
+    <div class="oj-panel search-portal-outer-panel-bg oj-sm-margin-2x">
+      <h2 style="font-weight: bold;">Search Portal</h2>
+
+      <div id="sampleDemo" class="demo-container">
+        <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+          <div id="panelPage">
+            <div class="oj-flex oj-sm-flex-items-1 oj-sm-padding-4x-bottom">
+              <div class="oj-flex oj-flex-item oj-sm-justify-content-flex-start">
+                <p>Select your Industry and Business Process</p>
+              </div>
+              <div class="oj-flex oj-flex-item oj-sm-justify-content-flex-end">
+                <!-- button addition-->
+
+                <oj-button id='ApplyButton' :class="button-blue" on-oj-action='[[applyButtonClick]]'>
+                  <span>
+                    <oj-bind-text value="[[applyButton]]"></oj-bind-text>
+                  </span>
+                </oj-button>
+
+                <oj-buttonset-many id='ApplyButton1' value='["myValue"]' chroming="full" disabled='[[disableControls]]'
+                  on-oj-action='[[applyButtonClick]]' hidden>
+                  <oj-option value="myValue">
+                    <span slot="startIcon" class="demo-icon-font demo-bookmark-icon-16"></span>
+                    <oj-bind-text value="[[applyButton]]"></oj-bind-text>
+                  </oj-option>
+                </oj-buttonset-many>
+              </div>
+            </div>
+            <oj-validation-group id="tracker" valid="{{groupValid}}">
+            <div class="oj-flex demo-panel-wrapper" data-bind="css: classes">
+              <div class="oj-panel demo-mypanel oj-panel-shadow-sm oj-flex-item oj-sm-6 oj-md-6" style="margin-left:0;">
+                <div class="oj-flex-items-pad">
+                  <div class="srch-logo-container">
+                    <!-- <div class="srch-ind-logo-align"> -->
+                      <span role="img" class="industry-img"></span>
+                    <!-- </div> -->
+                  </div>
+                  <div id="IndustryContainer">
+                    <oj-label for="industry" class="srch-prtl-label">Industry</oj-label>
+                    <oj-combobox-one id="industry" required="true" placeholder="Please Search/Select" validators="[[[industryCheck]]]" 
+                      value="{{industryVal}}" options="{{industryOptionsDP}}" options-keys="[[industryOptKeys]]" 
+                      on-value-changed="[[industryChangeHandler]]"
+                      style="max-width:20em"
+                      raw-value="{{selectedIndustryTxt}}"
+                      maximum-result-count="25">
+                    </oj-combobox-one>
+                  </div>   
+                </div>                 
+              </div>
+              <div class="oj-panel demo-mypanel oj-panel-shadow-sm oj-flex-item oj-sm-6 oj-md-6" style="margin-right:0;">
+                <div class="oj-flex-items-pad">
+                    <div class="srch-logo-container">
+                      <!-- <div class="srch-ind-logo-align"> -->
+                        <span role="img" class="business-img"></span>
+                      <!-- </div> -->
+                    </div>
+                    <div id="ProcessContainer">
+                      <div class="oj-flex-item oj-sm-12">
+                        <oj-label for="process" class="srch-prtl-label">Business Process
+                        </oj-label>
+                      </div>
+                      <div class="oj-flex-item oj-sm-12">
+                        <oj-combobox-one id="process" required="true" placeholder="Please Search/Select" validators="[[[processCheck]]]"
+                          value="{{processVal}}" options="{{processOptionsDP}}" options-keys="[[processOptKeys]]"
+                          on-value-changed="[[processChangeHandler]]" style="max-width:20em" raw-value="{{selectedDomainTxt}}"
+                          maximum-result-count="25" disabled="[[processLstDisable]]">
+                        </oj-combobox-one>
+                        <oj-progress id="bpPrgrs" type="circle" value="{{bpPrgrs}}" style="width:18px;height:18px;" data-bind="visible: bpPrgrsVisible"></oj-progress>     
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            </oj-validation-group>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>

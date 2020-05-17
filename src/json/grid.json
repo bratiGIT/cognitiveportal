@@ -1,0 +1,82 @@
+[
+    {
+        "L2PROCESS1": "Sourcing Strategy",
+        "L2PROCESS2": "Supplier Selection & Validation",
+        "L2PROCESS3": "Requisition Management",
+        "L2PROCESS4": "Supplier Onboarding",
+        "L2PROCESS5": "Invoice Receipt & Scanning",
+        "L2PROCESS6": "Expense Reimbursements"
+    },
+    {
+        "L2PROCESS1": "Category Strategy",
+        "L2PROCESS2": "Category Management",
+        "L2PROCESS3": "",
+        "L2PROCESS4": "",
+        "L2PROCESS5": "Goods Receipt Notifications",
+        "L2PROCESS6": "Travel & Expense Approvals"
+    },
+    {
+        "L2PROCESS1": "Procurement Planning",
+        "L2PROCESS2": "",
+        "L2PROCESS3": "Purchase Order Management",
+        "L2PROCESS4": "Supplier Master Management",
+        "L2PROCESS5": "PO/Invoice/Receipt Scanning",
+        "L2PROCESS6": "Payment Processing Execution"
+    },
+    {
+        "L2PROCESS1": "Contract and SLA Strategy",
+        "L2PROCESS2": "Service Level Agreement (SLA) Creation",
+        "L2PROCESS3": "",
+        "L2PROCESS4": "",
+        "L2PROCESS5": "Invoice Approvals",
+        "L2PROCESS6": "Payment Approvals"
+    },
+    {
+        "L2PROCESS1": "Invoice Policy",
+        "L2PROCESS2": "",
+        "L2PROCESS3": "",
+        "L2PROCESS4": "Supplier Relationship Management",
+        "L2PROCESS5": "Invoice Query & Validations",
+        "L2PROCESS6": "Payment Exception Management"
+    },
+    {
+        "L2PROCESS1": "Purchase Order Policy",
+        "L2PROCESS2": "Price and Contract Negotiation",
+        "L2PROCESS3": "Order Expedition",
+        "L2PROCESS4": "",
+        "L2PROCESS5": "Exception Invoice Handling",
+        "L2PROCESS6": "Payment Authorization"
+    },
+    {
+        "L2PROCESS1": "Payment Policy",
+        "L2PROCESS2": "",
+        "L2PROCESS3": "",
+        "L2PROCESS4": "Supplier Performance Management",
+        "L2PROCESS5": "Invoice Posting",
+        "L2PROCESS6": "Tax Management"
+    },
+    {
+        "L2PROCESS1": "Travel & Expense Policy",
+        "L2PROCESS2": "Contract Management",
+        "L2PROCESS3": "",
+        "L2PROCESS4": "",
+        "L2PROCESS5": "Accrual Accounting",
+        "L2PROCESS6": "Discount Management"
+    },
+    {
+        "L2PROCESS1": "Corporate Credit Card Policy",
+        "L2PROCESS2": "",
+        "L2PROCESS3": "Goods and Services Receipt",
+        "L2PROCESS4": "Help Desk Operations",
+        "L2PROCESS5": "Reconciliation",
+        "L2PROCESS6": "Duplicate Payment Detection & Prevention"
+    },
+    {
+        "L2PROCESS1": "Tax Policies",
+        "L2PROCESS2": "Savings Realization",
+        "L2PROCESS3": "",
+        "L2PROCESS4": "",
+        "L2PROCESS5": "Cost & Benefit Analysis",
+        "L2PROCESS6": "Bank Clearing Reconciliations"
+    }
+]
