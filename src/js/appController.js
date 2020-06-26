@@ -14,6 +14,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
        self.KnockoutTemplateUtils = KnockoutTemplateUtils;
 
        //--------dhrajago addition for global variables begins--------
+       self.loggedInClient = ko.observable();
        self.selectedDomainCode = ko.observable("DOM002");
        self.selectedIndustryCode = ko.observable("IND002");
        self.selectedBWL = ko.observable("#");
@@ -27,6 +28,9 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
 
       self.selectedIndustryTxt = ko.observable();
       self.selectedDomainTxt = ko.observable();
+      self.slctdPolarItm = ko.observable({cmptncy:""});
+      self.frmScreen = ko.observable("searchPortal");
+
        //--------dhrajago addition for global variables ends--------
 
       // Media queries for repsonsive layouts
@@ -40,6 +44,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
          ,'searchPortal': {label: 'SearchPortal'}
          ,'dataGrid': {label: 'DataGrid'}
          ,'panelCompList': {label: 'PanelCompList'}
+         ,'survey': {label:'Survey'}
        });
       Router.defaults['urlAdapter'] = new Router.urlParamAdapter();
 
@@ -110,6 +115,8 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         setInSession('selectedIndustryCode',self.selectedIndustryCode());
         setInSession('selectedBWL',self.selectedBWL());
         setInSession('localizationLnk',self.localizationLnk());
+        setInSession('loggedInClient',self.loggedInClient());
+        setInSession('userLogin',self.userLogin());
       }
 
       self.updateCntrlrObjsFrmSession = function(){
@@ -120,6 +127,8 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         self.selectedIndustryCode(getFromSession('selectedIndustryCode'));
         self.selectedBWL(getFromSession('selectedBWL'));
         self.localizationLnk(getFromSession('localizationLnk'));
+        self.loggedInClient(getFromSession('loggedInClient'));
+        self.userLogin(getFromSession('userLogin'));
       }
       // Navigation setup
       /* var navData = [
@@ -139,7 +148,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.appName = ko.observable("Cognitive Enterprise");
       self.appNameSubtitle = ko.observable(" | Powered By IBM RapidMove for Oracle Cloud");
       // User Info used in Global Navigation area
-      self.userLogin = ko.observable("cognitive.user@ibm.com");
+      self.userLogin = ko.observable("client.com");
       
       //---- dhrajago addition for Global Messages & Global Progress Indicator begins----
       /*Global progress indicator*/
@@ -273,7 +282,16 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
             });
         };
       //----------Fetch Currency Conversion Rate ends-------------
-
+      
+      self.setLoggedInClient = (username) => {
+        let _client_name = "";
+        if(username && username != null){
+          console.log(username.length);console.log(username.length-4);console.log(username.indexOf("@")+1);
+          _client_name = username.substr(11,(username.lastIndexOf('.com')-(username.indexOf("@")+1))); 
+        }        
+        console.log(_client_name);
+        self.loggedInClient(_client_name.toUpperCase());
+      }
 
       self.logOut = function(event) {
         self.setPadding = ko.observable(0);

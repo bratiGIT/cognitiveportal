@@ -6,10 +6,10 @@
 /*
  * Your customer ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs/ojmodule-element-utils', 'ojs/ojvalidation-base', 'ojs/ojknockouttemplateutils', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojarraydataprovider', 'ojs/ojarraytreedataprovider', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydatagriddatasource', 'restModule','ojs/ojresponsiveknockoututils', 'ojs/ojresponsiveutils','ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojvalidation-number', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojpopup', 'ojs/ojlistview', 'ojs/ojnavigationlist', 'ojs/ojswitcher',
-        'ojs/ojcollapsible', 'ojs/ojoffcanvas', 'ojs/ojtable', 'ojs/ojlabel', 'ojs/ojgauge', 'ojs/ojradioset', 'ojs/ojlegend','ojs/ojpopup'
+define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs/ojmodule-element-utils', 'signals','ojs/ojvalidation-base', 'ojs/ojknockouttemplateutils', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojarraydataprovider', 'ojs/ojarraytreedataprovider', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydatagriddatasource', 'restModule','ojs/ojresponsiveknockoututils', 'ojs/ojresponsiveutils','ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojvalidation-number', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojpopup', 'ojs/ojlistview', 'ojs/ojnavigationlist', 'ojs/ojswitcher',
+        'ojs/ojcollapsible', 'ojs/ojoffcanvas', 'ojs/ojtable', 'ojs/ojlabel', 'ojs/ojgauge', 'ojs/ojradioset', 'ojs/ojlegend','ojs/ojpopup','ojs/ojchart'
     ],
-    function(oj, ko, $, app, Model, moduleUtils, ValidationBase, KnockoutTemplateUtils, collectionModule, ArrayDataProvider, ArrayTreeDataProvider, CollectionDataProvider, arrayModule, restModule,responsiveKnockoutUtils,responsiveUtils) {
+    function(oj, ko, $, app, Model, moduleUtils,signals, ValidationBase, KnockoutTemplateUtils, collectionModule, ArrayDataProvider, ArrayTreeDataProvider, CollectionDataProvider, arrayModule, restModule,responsiveKnockoutUtils,responsiveUtils) {
 
         function DataGridViewModel() {
             var self = this;
@@ -17,6 +17,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             // Please reference the oj-module jsDoc for additional information.
 
             //Instantiate Variables
+            var chartLoadSignal = new signals.Signal(); 
             var smQuery = responsiveUtils.getFrameworkQuery(
                 responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
             self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(smQuery);
@@ -60,7 +61,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             self.gridHeight = ko.observable("1000px");
             self.noOfCols = 0;
 
-            //Variables for prepare grid datasource
+            /*Variables for prepare grid datasource*/
             self.colsArr = [];
             self.descArr = [];
             self.scoreavgArr = [];
@@ -506,7 +507,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
             self.loadDataGrid = function() {
                 console.log("[dataGrid]::loadDataGrid begins");
-
+                console.log(app.selectedDomainCode());
                 //console.log(restModule.API_URL.viewDataGrid);
                 self.dataGridPrgrsVisible(true);
                 var cbmGridService = { url: restModule.API_URL.viewDataGrid, method: "GET", data: {} };
@@ -1027,8 +1028,37 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     }
                 );
             };
+            
             /**Business Component Assets Module - End*/
-
+            /**Chart View Model - START */
+            self.dummyPolrChrtTrgrer = ko.observable(false);
+            self.chartViewModule = ko.computed(function () {
+                self.dummyPolrChrtTrgrer();
+                return moduleUtils.createConfig({
+                    viewPath: "views/survyChart.html", viewModelPath: "viewModels/survyChart", initialize: 'always',params: {smallChart:true,legendHorzntl:true }
+                });
+            });
+            self.polarChartBigViewModule = ko.computed(function () {
+                self.dummyPolrChrtTrgrer();
+                return moduleUtils.createConfig({
+                    viewPath: "views/survyChart.html", viewModelPath: "viewModels/survyChart", initialize: 'always',params: {smallChart:false,legendHorzntl:true }
+                });
+            });
+            self.openChartInAPopup = (evt) => {
+                console.log("Open Polar Chart Popup");
+                var popup = document.getElementById('survyChartPopup');
+                popup.open('#smallPolarChrt', {
+                    my: {
+                        horizontal: "right",
+                        vertical: "bottom"
+                    },
+                    at: {
+                        horizontal: "start",
+                        vertical: "center"
+                    },
+                    collision: 'flipfit'
+                });
+            };
             self.backToSearch = function() {
                 //app.loadSearchPortalModule();
                 oj.Router.rootInstance.go('searchPortal');
@@ -1051,6 +1081,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 console.log("[dataGrid]: connected begins");
 
                 /**Initialize page parameters */
+                if(app.frmScreen() == "survy"){
+                    console.log("Core View");
+                    self.currentBtn("core");
+                }                
                 self.currentModuleParams();
 
                 /**Set Data Grid Header based on Context */
@@ -1078,10 +1112,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 if(screenWidth < 1024) {
                     self.gridScale("oj-flex-item oj-sm-8 oj-md-8 oj-lg-8");
                     self.gridSidePanelScale("oj-flex-item oj-sm-4 oj-md-4");
-                }              
+                }                 
+                console.log("Chart Load dispatch");
+                self.dummyPolrChrtTrgrer.notifySubscribers();
+                // self.dummyPolrChrtTrgrer(false);
+                // self.dummyPolrChrtTrgrer(true);
+                console.log("Selected Polar Competency:"+app.slctdPolarItm().cmptncy);             
                 console.log("[dataGrid]: connected ends");
             };
-
+            
             /**
              * Optional ViewModel method invoked after the View is disconnected from the DOM.
              */

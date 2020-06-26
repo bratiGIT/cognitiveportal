@@ -1,0 +1,24 @@
+
+<div class="oj-flex oj-sm-align-items-center">
+<oj-chart id="polarChart" coordinate-system="polar" type="line" stack="off" polar-grid-shape="polygon"
+    data="[[chrtDataProvider]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim"
+    selection-mode="[[selectionMode]]" selection="{{slctdPolarItm}}"
+    :class="[[chartStyle]]"
+    legend.rendered="off">
+    <template slot='seriesTemplate' data-oj-as='series'>
+        <oj-chart-series
+            color='[[ series.id == "IBM" ? "#00539A" : ( series.id == "Standard SaaS" ? "#C20104" : "#00801B") ]]'>
+        </oj-chart-series>
+    </template>
+</oj-chart>
+<div id="survyLgndDiv" class="oj-flex-item">
+<oj-legend id="survyLgnd" orientation='[[lgndOrientn]]' data="[[legendDataPrvdr]]" valign="middle" halign="center">
+    <template slot="itemTemplate">
+        <oj-legend-item text="[[$current.data.label]]" color="[[$current.data.color]]">
+        </oj-legend-item>
+    </template>
+</oj-legend>
+</div>
+</div>
+<!--amber-rgb(232, 185, 45), green - rgb(109, 162, 60) , red - rgb(218, 57, 49)-->
+<!--First set of colors color='[[ series.id == "IBM" ? "#488214" : ( series.id == "Oracle" ? "#FFBF00" : "#DA251C") ]]'-->

@@ -68,19 +68,32 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
           return true;
         }
       };
-
+      self.goToSurvey = () =>{
+        if(proceed()){          
+          oj.Router.rootInstance.go('survey');
+          return true;
+        }           
+      };
       //-----------button handler code begins------
       this.applyButton = "Proceed";
       this.applyButtonClick = function (event) {
 
         //validation...
+          if(proceed()){
+            app.frmScreen("searchPortal");
+            oj.Router.rootInstance.go('dataGrid');
+            return true;
+          }     
+            
+      }.bind(this);
+      var proceed = () =>{
         document.getElementById("industry").validate();
         document.getElementById("process").validate();
         
         var tracker = document.getElementById("tracker");
         if (tracker.valid === "valid")
         {
-          app.selectedDomainCode(self.processVal());
+        app.selectedDomainCode(self.processVal());
           app.selectedIndustryCode(self.industryVal());
 
           app.selectedDomain(document.getElementById('process').value);
@@ -105,12 +118,11 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
           console.log("[searchPortal]: selectedDomainCode="+app.selectedDomainCode());
           console.log("[searchPortal]: selectedIndustryCode="+app.selectedIndustryCode());
           console.log(self.selectedIndustryTxt());
-          oj.Router.rootInstance.go('dataGrid');
           return true;
+        }else{
+          return false;
         }
-            
-      }.bind(this);
-
+      };
       //Disabling button
       this.disabledValue = ko.observableArray();
       this.disableControls = ko.computed(function () {

@@ -129,6 +129,9 @@
                                     <p><a href="#" on-click="[[openLeadPractDialog]]">Leading Practices</a></p>
                                     <p><a href="#"  on-click="[[openOrgChartDialog]]">Organization Chart</a></p>
                                     <p id="cbmCurrency">Currency - <oj-bind-text value="[[setSelectedCurrency]]"></oj-bind-text></p> 
+                                    <div class="oj-flex" data-bind="click: openChartInAPopup" id="smallPolarChrt">                                        
+                                            <oj-module config="[[chartViewModule]]" id="asmntChart"></oj-module>
+                                    </div>
                                     </div>       
                                     <br/>        
                                     <div data-bind="visible:showIndpainPnts">
@@ -242,6 +245,15 @@
             <!--<div slot="footer">
                 </div>-->
         </oj-dialog>
+        <!--Survey Polar Chart-->
+        <oj-popup id="survyChartPopup" class="" style="display:none;min-width:65vw;background-color:rgb(255, 255, 255);" tail="simple" modality="modeless">
+            <div class="">
+                <h3 class="solpopup-header">Leading Practices Maturity Level</h3> 
+                <p style="margin-left: 3px; font-size:18px;"><span><oj-bind-text value="[[gridPageHeader]]"></oj-bind-text></span></p>               
+                <oj-module config="[[polarChartBigViewModule]]" id="asmntPolarChart"></oj-module>              
+            </div>
+        
+        </oj-popup>
         <!--Solution Dialog of Industry Pain Point -->
         <oj-popup id="SolutionPopup" class="" style="display:none;min-width:700px;background-color:rgb(255, 255, 255);" tail="simple" modality="modeless">
             <div class="">

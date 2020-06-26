@@ -56,10 +56,10 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
                     }
                 }     
             }
-            $.ajax({
+            let ajaxReq = {
                 url: service.url + urlParameters,
                 type: service.method,
-                // contentType: 'application/json',
+                //contentType: 'application/json',
                 data: service.data,
                 beforeSend: function (xhr) {
                     if (service.headers) {
@@ -68,7 +68,11 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
                         });
                     }
                 }
-            }).done(function (result) {
+            }
+            if(ajaxReq.type == "POST"){
+                ajaxReq.contentType = "application/json";
+            }
+            $.ajax(ajaxReq).done(function (result) {
                 sucessCallBack(result);
             }).fail(function (response) {
                 failureCallBack(response);
@@ -86,27 +90,29 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
             //"login": "",
 
             /*query services*/
-             "viewDataGrid": self.ORDS_REST_BASE_URI+"/xxibm_portal_grid/fetchGridDataByDomain/"
-            ,"viewComponentKpis": self.ORDS_REST_BASE_URI+"/xxibm_portal_mstr_data_view/xxibm_portal_mstr_ibv_kpi_view_get/"
+             "viewDataGrid"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_grid/fetchGridDataByDomain/"
+            ,"viewComponentKpis"    : self.ORDS_REST_BASE_URI+"/xxibm_portal_mstr_data_view/xxibm_portal_mstr_ibv_kpi_view_get/"
 			,"viewComponentControls": self.ORDS_REST_BASE_URI+"/xxibm_portal_controls_risks/xxibm_portal_controls_risks_get/"
-            ,"viewComponentAssets": self.ORDS_REST_BASE_URI+"/xxibm_portal_rpa_assets/xxibm_portal_rpa_assets_get/"
-            ,"viewLeadingPractices": self.ORDS_REST_BASE_URI+"/xxibm_portal_leading_practices/xxibm_portal_leading_practices_get/"
-            ,"viewCompetencyKpis": self.ORDS_REST_BASE_URI+"/xxibm_portal_comptncy_kpi/xxibm_portal_comptncy_kpi_get/"
-            ,"viewCompetencyRoles": self.ORDS_REST_BASE_URI+"/xxibm_portal_comp_to_role_map/xxibm_portal_comp_to_role_map_get/"
+            ,"viewComponentAssets"  : self.ORDS_REST_BASE_URI+"/xxibm_portal_rpa_assets/xxibm_portal_rpa_assets_get/"
+            ,"viewLeadingPractices" : self.ORDS_REST_BASE_URI+"/xxibm_portal_leading_practices/xxibm_portal_leading_practices_get/"
+            ,"viewCompetencyKpis"   : self.ORDS_REST_BASE_URI+"/xxibm_portal_comptncy_kpi/xxibm_portal_comptncy_kpi_get/"
+            ,"viewCompetencyRoles"  : self.ORDS_REST_BASE_URI+"/xxibm_portal_comp_to_role_map/xxibm_portal_comp_to_role_map_get/"
             ,"viewCompetencyModules": self.ORDS_REST_BASE_URI+"/xxibm_portal_competency_module/xxibm_portal_competency_module_get/"
-            ,"viewOrgChart": self.ORDS_REST_BASE_URI+"/xxibm_portal_org_chart/xxibm_portal_org_chart_get/"
-            ,"getCompetencies":self.ORDS_REST_BASE_URI+"/xxibm_portal_competency/xxibm_portal_competency_get/"
-            ,"getDomains": self.ORDS_REST_BASE_URI+"/xxibm_portal_domain_map/xxibm_portal_domain_map_get/"
-            ,"getIndustries": self.ORDS_REST_BASE_URI+"/xxibm_portal_industry_map/xxibm_portal_industry_map_get/"
-            ,"getCurrencies": self.ORDS_REST_BASE_URI+"/xxibm_portal_currency_master/xxibm_portal_currency_master_get/"
-            ,"getCurrencyRate": "https://free.currconv.com/api/v7/convert"
-            ,"getRapidMove":self.ORDS_REST_BASE_URI+"/xxibm_portal_rapid_move/xxibm_portal_rapid_move_get/"
+            ,"viewOrgChart"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_org_chart/xxibm_portal_org_chart_get/"
+            ,"getCompetencies"      : self.ORDS_REST_BASE_URI+"/xxibm_portal_competency/xxibm_portal_competency_get/"
+            ,"getDomains"           : self.ORDS_REST_BASE_URI+"/xxibm_portal_domain_map/xxibm_portal_domain_map_get/"
+            ,"getIndustries"        : self.ORDS_REST_BASE_URI+"/xxibm_portal_industry_map/xxibm_portal_industry_map_get/"
+            ,"getCurrencies"        : self.ORDS_REST_BASE_URI+"/xxibm_portal_currency_master/xxibm_portal_currency_master_get/"
+            ,"getCurrencyRate"      : "https://free.currconv.com/api/v7/convert"
+            ,"getRapidMove"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_rapid_move/xxibm_portal_rapid_move_get/"
             /*validate services*/
-            ,"validateUserLogin": self.ORDS_REST_BASE_URI+"/xxibm_portal_auth/xxibm_portal_auth_get/"
-            ,"getRapidMoveHdrs": self.ORDS_REST_BASE_URI+"/xxibm_portal_rapid_move_flg/xxibm_portal_rapid_move_flg_get/"
-            , "indPainPnts":self.ORDS_REST_BASE_URI+"/xxibm_portal_pain_points/get_pain_points_data/"
-            , "localization":self.ORDS_REST_BASE_URI+"/xxibm_portal_localization_map/xxibm_portal_localization_map_get/"
-
+            ,"validateUserLogin"    : self.ORDS_REST_BASE_URI+"/xxibm_portal_auth/xxibm_portal_auth_get/"
+            ,"getRapidMoveHdrs"     : self.ORDS_REST_BASE_URI+"/xxibm_portal_rapid_move_flg/xxibm_portal_rapid_move_flg_get/"
+            , "indPainPnts"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_pain_points/get_pain_points_data/"
+            , "localization"        : self.ORDS_REST_BASE_URI+"/xxibm_portal_localization_map/xxibm_portal_localization_map_get/"
+            ,"selfAssesmnt"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_questions_get/"
+            ,"storeQuestns"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_post"            
+            ,"getAssmntAvgData"     : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_get"
 
         };
 		

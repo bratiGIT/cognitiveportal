@@ -14,22 +14,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
         self.rememberMe = ko.observable(false);
 
         self.connected = function(){
-            /* if(backend.isAuthorized()){
-                app.router.go('home');
-            }
-            else{
-                if(localStorage.getItem("cogentRememberMe") == "true"){
-                    self.username(localStorage.getItem("cogentUsername"));
-                    self.rememberMe(true);
-                }else{
-                    self.username("");
-                    self.rememberMe(false);
-                }
-                self.password("");
-                self.loginMessages([]);
-            } */
             loadPrompts();
-
             var serviceUserAccount = "portalusersvc";
             var serviceUserPassword = "Welcome1";//
             var serviceAccountCredentialToken = "Basic "+btoa(serviceUserAccount+":"+serviceUserPassword);
@@ -41,15 +26,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
 
         //---------validation handler
         self.groupValid = ko.observable();
-
-        /* self.userNameCheck = {
-            validate: function (value) {
-                if (!value) {
-                    return false;
-                }
-                return true;
-            }
-        }; */
 
         self.emailPatternValidator = ko.pureComputed(function () {
             return [{
@@ -72,44 +48,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
             var tracker = document.getElementById("tracker");
             if (tracker.valid === "valid")
             {
-
-                //Write validation code
-                /* var serviceUserAccount = "portalusersvc";
-                var serviceUserPassword = "Welcome1";
-                var serviceAccountCredentialToken = "Basic "+btoa(serviceUserAccount+":"+serviceUserPassword);
-                console.log("[Login]: credentialToken = "+serviceAccountCredentialToken);
-                setLoggedInBtoa(serviceAccountCredentialToken); */
                 self.validateUserLogin();
-                
-                //$("body").css("cursor", "wait");
-                //do server login here
-                /* var string = self.username() + ':' + self.password();
-                var encodedString = 'Basic ' + btoa(string);
-                    
-                var promise = $.ajax({
-                    type: "POST",
-                    url: app.serviceInitialURL + '/v1/auth/login',
-                    contentType: "application/json; charset=utf-8",
-                    headers: {
-                        "Content-Type": "text/plain",
-                            "Authorization": encodedString
-                    },
-                    crossDomain: true,
-                    dataType: "json"});
-                
-                promise.then(function(response){
-                    var origurl = param('origurl');
-                    if(origurl){
-                        window.location.href = origurl;
-                    }
-                    else{
-                        oj.Router.rootInstance.go('dataGrid');
-                    }
-
-                    $("body").css("cursor", "default");
-                }, function(response){
-                    //write logic here to show error message to end user.
-                }) ;  */  
             }
         }
 
@@ -132,6 +71,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
                 console.log(response.items[0].auth_status);
                 if (response.items[0].auth_status === "Authentication Success")
                 {
+                    app.setLoggedInClient(self.username());
                     console.log("[Login]:: Login Successful. Redirecting to Search screen");
                     oj.Router.rootInstance.go('searchPortal');
                 }else{

@@ -1386,3 +1386,125 @@ border:1px solid white;
   min-width:150px !important;
   text-align:center !important;
 }
+/*Survey - START*/
+.survyQuesCntnr{
+  /* border-left:2px solid #477ead; */
+  border-top:2px solid #477ead;
+  padding-top:20px;
+  padding-left:20px;  
+}
+.survyQuesCntnr .demo-tab-content{
+  max-height: 50vh !important;
+  min-height: 40vh !important;
+  height: 50vh;
+}
+.survyTab {
+  /* background-color:rgb(247, 247, 247) ; */
+}
+.survyTab .oj-tabbar-listview-container .oj-tabbar-listview .oj-tabbar-element .oj-tabbar-item.oj-selected{
+  background-color:#477ead;
+  border-top:2px solid  #477ead;  
+  border-left:2px solid  #477ead; 
+  border-right:2px solid  #477ead;   
+  border-bottom:none;
+  color:white!important;       
+}
+.survyTab .oj-tabbar-listview-container .oj-tabbar-listview .oj-tabbar-element .oj-tabbar-item.oj-selected a.oj-tabbar-item-content .oj-tabbar-item-label{
+  color:white!important;       
+}
+
+.chart > svg > g > g > g > g > text{
+  font-weight: bold;
+}
+/*panel swipe*/
+/* This padding is needed to bring the text field below the label, so that the label and the text inside the text field don't overlap. */
+.demo-page {
+  position: absolute;
+  width: 100%;
+  /* height: 100%; */
+  /* top: 0;
+  left: 0; */
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: auto;
+  transition: transform 0.50s; }
+
+.demo-page1-hide {
+  transform: translate3d(-130%, 0, 0); }
+
+.demo-page2-hide {
+  transform: translate3d(100%, 0, 0); }
+
+.survyCntnr .demo-edge-start oj-switcher {
+  width: 80%;
+}
+html:not([dir="rtl"]) .demo-content {
+  margin-left: 10px; }
+
+html[dir="rtl"] .demo-content {
+  margin-right: 10px; }
+/*Panel Swipe action - END*/
+
+.survyTable th{
+  border-top : 3px solid #c0c2c4; 
+  border-left : 3px solid #838588; 
+  border-right : 3px solid #838588; 
+  border-bottom : 3px solid #838588; 
+  outline: 1.5px solid #5c5c5e;
+  background-color: #818486;  
+  color:white;
+  padding: 2px 0 3px 0;  
+}
+.survyTable tr{
+
+}
+.survyTable td {  
+  width:16%; 
+  height:5.5vh;
+  min-height: 6vh;  
+  font-size:smaller;
+  padding: 3px 3px 3px 3px;
+  font-weight:700;
+  font-size: 0.82rem;
+  border-bottom: 1px solid rgb(201, 201, 201);
+  /* border-right: 1px solid rgb(201, 201, 201); */
+}
+.survyTable .ratngTd {  
+  background-color:rgb(238, 247, 255);
+  padding-left : 5px;
+  box-shadow: 3px 1px rgb(201, 211, 255);
+  border:1px solid rgb(215, 222, 255);
+  font-size:12px;
+}
+.selectedAns{
+  background-color: rgb(189, 225, 255);
+}
+.ibmstmnt{
+  color:rgb(76, 74, 209);
+}
+.oraclestmnt{
+  color:rgb(224, 54, 54);
+}
+.mainChrt{
+ min-width:75%;height:70vh;clear:both;margin:auto!important;
+}
+.smallSurvyChrt{
+  width:90%;height:310px;clear:both;margin:auto!important;
+}
+.sbmtSurvyPrgrs .oj-progress-circle-overlay{
+ height:32px !important;
+ width:32px !important;
+}
+.bigSurvyChartLegndDiv{
+  max-width: 150px;;
+}
+.smallSurvyChartLegndDiv{
+  max-width: 100%;
+}
+.smallSurvyChartLegnd{ 
+  max-height : 40px;
+}
+.bigSurvyChartLegnd{ 
+  max-width : 100px;
+}
+/*Survey - END*/

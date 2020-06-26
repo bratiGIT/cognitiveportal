@@ -6,18 +6,22 @@
   <!--h1>Enterprise Portal Search</h1-->
 
     <div class="oj-panel search-portal-outer-panel-bg oj-sm-margin-2x">
-      <h2 style="font-weight: bold;">Searching Portal</h2>
+      <h2 style="font-weight: bold;">Search Portal</h2>
 
       <div id="sampleDemo" class="demo-container">
         <div id="componentDemoContent" style="width: 1px; min-width: 100%;">
           <div id="panelPage">
             <div class="oj-flex oj-sm-flex-items-1 oj-sm-padding-4x-bottom">
               <div class="oj-flex oj-flex-item oj-sm-justify-content-flex-start">
-                <p>Select your Industry and Business Processes</p>
+                <p>Select your Industry and Business Process</p>
               </div>
               <div class="oj-flex oj-flex-item oj-sm-justify-content-flex-end">
                 <!-- button addition-->
-
+                <oj-button id='AssesmntBtn' :class="button-blue" on-oj-action='[[goToSurvey]]' style="margin-right:10px;">
+                  <span>
+                    <oj-bind-text value="Self Assessment"></oj-bind-text>
+                  </span>
+                </oj-button>
                 <oj-button id='ApplyButton' :class="button-blue" on-oj-action='[[applyButtonClick]]'>
                   <span>
                     <oj-bind-text value="[[applyButton]]"></oj-bind-text>
