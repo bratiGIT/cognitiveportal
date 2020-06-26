@@ -83,7 +83,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
         console.log(window.location.href);
         let host = window.location.href;        
         //self.ORDS_REST_BASE_URI = "http://129.150.172.40:8080/ords";
-        self.ORDS_REST_BASE_URI = "http://129.213.116.85:8080/ords/"+ ( (host.includes("Dev") || host.includes("localhost")) ? "portal_workspace_dev" : "portal_workspace") ;
+        self.ORDS_REST_BASE_URI = "http://129.213.116.85:8080/ords/"+ ( (host.includes("Dev") || host.includes("localhost") || (host.includes("FD")) ? "portal_workspace_dev" : "portal_workspace") ;
         
         self.API_URL = {
 
