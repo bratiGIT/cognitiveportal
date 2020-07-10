@@ -16,7 +16,9 @@ function setInSession(variable,value){
 };
 /*get from session*/
 function getFromSession(variable){
-    if(sessionStorage.getItem(variable)){
+    console.log(variable);
+    console.log(sessionStorage.getItem(variable));
+    if(sessionStorage.getItem(variable) && sessionStorage.getItem(variable) != "undefined"){
         return JSON.parse(sessionStorage.getItem(variable));
     }
     else{

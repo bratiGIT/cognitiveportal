@@ -34,7 +34,7 @@
                                             </tr>
                                             <oj-bind-for-each data="[[selectedQuestions(cmptncy.data)]]" as="questn">
                                                 <template>
-                                                    <tr>
+                                                    <tr :class="[[questn.data.hglghtPnPnt ? 'highlightPnPnts' : '']]">
                                                         <td style="background-color: #d2d2d2;">
                                                             <oj-bind-text value="[[questn.data.quest_txt]]"></oj-bind-text>
                                                         </td>
@@ -77,14 +77,29 @@
         </div>
     </div>
 </div>
-<div id="polarChrt" class="demo-page demo-page2-hide">        
-    <h4 style="font-weight:bold;">Leading Practices Maturity Level</h4>
-    <div class="oj-flex-bar" style="margin-right:10px;">
-        <div class="oj-flex-bar-start">
-            <oj-button on-oj-action="[[backToSurvy]]" chroming="callToAction">Back</oj-button>
-            <p style="margin-left: 22px; font-size:18px;"><span><oj-bind-text value="[[indDomainCrumb]]"></oj-bind-text></span></p>
+<div id="polarChrt" class="demo-page demo-page2-hide"> 
+    <div class="oj-flex-bar">
+        <div class="oj-flex-bar-start"><oj-button on-oj-action="[[backToSurvy]]" chroming="callToAction">Back</oj-button></div>
+        <div class="oj-flex-bar-middle oj-sm-justify-content-center"><h4 style="font-weight:bold;">Leading Practices: </h4>
+            <p style="margin-top: auto;margin-bottom: auto;padding-left: 5px;font-size: 18px;font-weight: bold;color: #29549a;"><span><oj-bind-text value="[[indDomainCrumb]]"></oj-bind-text></span></p>
         </div>
-    </div>        
+        <div class="oj-flex-bar-end"><div></div></div>
+      </div>
+       
+    <!-- <div class="oj-flex-bar" style="margin-right:10px;">
+       
+        <div class="oj-flex-bar-start">            
+            <span style="min-width:20%;visibility: hidden;">Dummy text</span>
+        </div>
+        <div class="oj-flex-bar-middle oj-sm-justify-content-center" style="font-weight:bold">            
+            <h4 style="font-weight:bold;">Leading Practices: </h4>
+            <p style="margin:auto;padding-left:5px;font-size:18px;font-weight: bold;color: #29549a;"><span><oj-bind-text value="[[indDomainCrumb]]"></oj-bind-text></span></p>
+        </div>
+        <div class="oj-flex-bar-end">
+            <span style="min-width:20%;visibility: hidden;">Dummy text</span>
+        </div>
+    </div>         -->
+
     <div class="oj-flex oj-sm-align-items-center oj-sm-flex-direction-column">        
         <div class="oj-flex-item oj-sm-12">
             <oj-module config="[[chartViewModule]]"></oj-module>

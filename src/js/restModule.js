@@ -113,6 +113,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
             ,"selfAssesmnt"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_questions_get/"
             ,"storeQuestns"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_post"            
             ,"getAssmntAvgData"     : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_get"
+            ,"getAssmntAvgOfDomains": self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_multidomain_maturity_score_get"
 
         };
 		

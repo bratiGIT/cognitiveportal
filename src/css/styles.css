@@ -323,32 +323,44 @@ html[dir="rtl"] .demo-ibm-logo-icon {
 
 .search-portal-outer-panel-bg {
   background-color: #fafafa;
-  width: 70%;
+  width: 90%;
   text-align: left;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 /* search portal additions*/
 .industry-img {
-  background-image: url('images/Industry.png');
-  width: 150px;
-  height: 150px;
+  background-image: url('images/IndustryNew.png');
+  width: 100px;
+  height: 100px;
   background-repeat: no-repeat;
   position: absolute;
 }
 
 .business-img {
-  background-image: url('images/BusinessProcess.png');
-  width: 150px;
-  height: 150px;
+  background-image: url('images/BusinessProcessNew.png');
+  width: 100px;
+  height: 100px;
   background-repeat: no-repeat;
   position: absolute;
 }
 
+.painpoints-img {
+  background-image: url('images/PainPointsNew.png');
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+.industry-pain-points {
+  height: 395px;
+}
+
 .srch-logo-container {
   position: relative;
-  height: 150px;
-  padding: 20px 0;
+  height: 100px;
+  padding: 5px 0;
   justify-content: center;
   display: flex;
 }
@@ -703,11 +715,30 @@ Low : #a6c8ff */
   /*linear-gradient(#FFFFFF, #F4F4F4);*/
 }
 
+.core-datagrid-high1.oj-datagrid-cell {
+  /*border: 1px solid #29549a !important;  /*#71a6fd 29549a */
+  outline: 2px ridge #29549a; 
+  outline-offset: -3px;
+}  
+.core-datagrid-med1.oj-datagrid-cell {
+  /* border: 1px solid #29549a !important;     */
+  outline: 2px ridge #29549a; 
+  outline-offset: -3px;
+}  
+.core-datagrid-low1.oj-datagrid-cell {
+  /*border: 1px solid #29549a !important;  */
+  outline: 2px ridge #29549a; 
+  outline-offset: -3px;
+}
+
 .ind-pnpt-hglgt.oj-datagrid-cell {     
-  border: 2px ridge #2d67cc !important;
+  /* border: 2px ridge #2d67cc !important;
   outline: 3px ridge rgb(100, 149, 255); 
-  outline-offset: -5px; 
-  
+  outline-offset: -5px; */ 
+  border:1px solid rgb(115, 115, 116); 
+  /* border: 1px solid #dd3333 !important; */
+  color: rgba(0, 0, 0, 0.6);
+  background: #99b3df;
   /* border-top: 3px solid #5197ff !important;
   border-left: 3px solid #5197ff !important;
   border-right: 3px solid #5197ff !important;
@@ -727,6 +758,14 @@ Low : #a6c8ff */
   width: 50px;
   height: 20px;
   padding: 6px;
+  text-align: center;
+}
+
+.legend-box1 {
+  border: 1px;
+  width: 30px;
+  height: 15px;
+  padding: 5px;
   text-align: center;
 }
 
@@ -1333,7 +1372,7 @@ left: 5 px;*/
   font-weight: bold;
 }
 .indPainPnts .oj-listview-item {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .indPainPnts .oj-listview-item .desc {
@@ -1479,6 +1518,12 @@ html[dir="rtl"] .demo-content {
 .selectedAns{
   background-color: rgb(189, 225, 255);
 }
+.highlightPnPnts{
+  /* color: #29549a; */
+  /* border:2px dashed #29549a !important; */
+  outline: 2px solid #4590ef;
+  outline-offset: -2px;
+}
 .ibmstmnt{
   color:rgb(76, 74, 209);
 }
@@ -1489,22 +1534,58 @@ html[dir="rtl"] .demo-content {
  min-width:75%;height:70vh;clear:both;margin:auto!important;
 }
 .smallSurvyChrt{
-  width:90%;height:310px;clear:both;margin:auto!important;
+  width:90%;height:260px;clear:both;margin:auto!important;
 }
 .sbmtSurvyPrgrs .oj-progress-circle-overlay{
  height:32px !important;
  width:32px !important;
 }
-.bigSurvyChartLegndDiv{
-  max-width: 150px;;
+
+.verticalLegndPolar{
+  height:68px;
 }
-.smallSurvyChartLegndDiv{
-  max-width: 100%;
+.horizontalLegndPolar{ 
+  height:30px;
 }
-.smallSurvyChartLegnd{ 
-  max-height : 40px;
+.multiGridIcon:before{
+ content:url("images/grid-45.png");
 }
-.bigSurvyChartLegnd{ 
-  max-width : 100px;
-}
+.singleGridIcon:before{
+  content:url("images/ic_check_box_outline_blank_24px-1.png");
+ }
 /*Survey - END*/
+
+.indPainPnts .oj-listview-item {
+  padding: 5px 10px;
+}
+.oj-listview-item.oj-selected,
+.oj-listview.oj-focus-ancestor .oj-listview-item.oj-selected {
+  color: #00539A;
+}
+.oj-listview.oj-focus-ancestor ul.oj-listview-element:not(.oj-listview-card-layout) .oj-listview-item.oj-selected + li.oj-listview-item {
+  border-top: 1px solid #e0e1e1;
+  background-size: 0; 
+}
+.oj-choice-direction-row .oj-choice-item {
+  width: 50%;
+}
+html:not([dir="rtl"]) .oj-choice-direction-row .oj-choice-item:not(:last-child) > .oj-radio-label, html:not([dir="rtl"]) .oj-choice-direction-row .oj-choice-item:not(:last-child) > .oj-checkbox-label, html:not([dir="rtl"]) .oj-choice-direction-row .oj-choice-item:not(:last-child) > .oj-checkbox-label-nocomp {
+  margin-right: 0.5rem;
+}
+.business-process .oj-text-field-container {
+  border-width: 0;
+}
+.business-process .oj-select-choice {
+  background-color: #ffffff;
+}
+.business-process .oj-select-arrow {
+  display: none;
+}
+.business-process .oj-select-chosen {
+  font-size: 20px;
+  color: #00539A;
+  cursor: pointer;
+}
+.business-process .oj-select {
+  font-size: 1.1rem;
+}

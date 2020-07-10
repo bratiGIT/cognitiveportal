@@ -18,6 +18,7 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
       self._ans_DP = new ArrayDataProvider(ansData, { keyAttributes: 'value' });
       self.selectedCmptncy = ko.observable();
       self.indDomainCrumb = ko.observable("Retails > Finance");
+      self.selectedPnPnts = ko.observable();
       self.selectedQuestions = function (context) {
         return context.questions;
       };
@@ -29,10 +30,6 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
         RestModule.callRestAPI(postScoreSrvc, function (response) {          
             /**Post suceeded */
             let survyDataOfClnt = {};
-            // let idfrmsessn = app.userLogin() + "_" + app.selectedDomainCode();
-            // survyDataOfClnt[idfrmsessn] = self.survydata();
-            // console.log(survyDataOfClnt);
-            // sessionStorage.setItem("survy_data", ko.toJSON(survyDataOfClnt));
             chartLoadSignal.dispatch(self.survydata());
             hideSbmtPrgrs();             
             document.getElementById('survyQues').classList.toggle('demo-page1-hide');
@@ -98,11 +95,24 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
       };
       /**Construct the questions data with answer obervables */
       var constructSurvyData = (survy_data) => {
+        let pnpnts = self.selectedPnPnts() ? (self.selectedPnPnts()[app.selectedIndustryCode()][app.selectedDomainCode()] != undefined ? self.selectedPnPnts()[app.selectedIndustryCode()][app.selectedDomainCode()] : []) : [];
+        pnpnts = pnpnts ? pnpnts.selected_pp : [];
+        console.log(pnpnts);
         $.each(survy_data, function (idx, cmptncy) {
           $.each(cmptncy.questions, function (qsIdx, questn) {
             questn.flag = (questn.scr == undefined) ? "CREATE" : "UPDATE";
             questn.score_id = (questn.scr == undefined) ? "" : questn.score_id;
-            questn.scr = (questn.scr == undefined) ? ko.observable(0) : ko.observable(questn.scr);            
+            questn.scr = (questn.scr == undefined || questn.scr == 0) ? ko.observable(2) : ko.observable(questn.scr);
+            questn.hglghtPnPnt = false;
+            if(questn.pp_rcrd_id != undefined) {
+              let _pp = questn.pp_rcrd_id.split(',');
+              if(_pp.length > 0){
+                $.each(pnpnts,function(idx,val){
+                  if(_pp.includes(val))
+                    questn.hglghtPnPnt = true;
+                });
+              }
+            }
           });
           cmptncy.avg = ko.computed(function () {
             let _ttl = 0;
@@ -118,6 +128,7 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
           });
         });
         self.survydata(survy_data);
+        console.log(survy_data);
         if (survy_data.length > 0)
           self.selectedCmptncy(survy_data[0].comp_name);
       }
@@ -132,7 +143,7 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
       /**Chart View Model - START */
       self.chartViewModule = ko.computed(function () {
         return moduleUtils.createConfig({
-          viewPath: "views/survyChart.html", viewModelPath: "viewModels/survyChart", params: { 'chartLoadSignal': chartLoadSignal }
+          viewPath: "views/survyChart.html", viewModelPath: "viewModels/survyChart", params: { 'chartLoadSignal': chartLoadSignal ,legendHorzntl:true}
         });
       });      
       /**Chart View model - END */
@@ -164,7 +175,8 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
         accUtils.announce('Execution page loaded.', 'assertive');
         // let survy_data = sessionStorage.getItem("survy_data");
         app.updateCntrlrObjsFrmSession();/*to update the common parameters from session*/
-        console.log(app.selectedDomainCode());
+        console.log(app.selectedPainPoints());
+        self.selectedPnPnts(app.selectedPainPoints());
         self.indDomainCrumb(app.selectedIndustryTxt() + ' > ' + app.selectedDomainTxt());
         // let idfrmsessn = app.userLogin() + "_" + app.selectedDomainCode();
         // /**Load question/answers from session if it is available */

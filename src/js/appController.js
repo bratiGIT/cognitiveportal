@@ -31,6 +31,9 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.slctdPolarItm = ko.observable({cmptncy:""});
       self.frmScreen = ko.observable("searchPortal");
 
+      //dakshayani: changes
+      self.selectedPainPoints = ko.observable();
+
        //--------dhrajago addition for global variables ends--------
 
       // Media queries for repsonsive layouts
@@ -108,6 +111,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       }
       
       self.setCntrlrObjsInSession = function(){
+        console.log("selected domain - "+self.selectedDomainTxt());
         setInSession('selectedDomain',self.selectedDomain());
         setInSession('selectedIndustryTxt',self.selectedIndustryTxt());
         setInSession('selectedDomainTxt',self.selectedDomainTxt());
@@ -117,6 +121,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         setInSession('localizationLnk',self.localizationLnk());
         setInSession('loggedInClient',self.loggedInClient());
         setInSession('userLogin',self.userLogin());
+        setInSession('selectedPainPoints',self.selectedPainPoints());//dakshayani: changes
       }
 
       self.updateCntrlrObjsFrmSession = function(){
@@ -129,6 +134,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         self.localizationLnk(getFromSession('localizationLnk'));
         self.loggedInClient(getFromSession('loggedInClient'));
         self.userLogin(getFromSession('userLogin'));
+        self.selectedPainPoints(getFromSession('selectedPainPoints'));//dakshayani: changes
       }
       // Navigation setup
       /* var navData = [
@@ -283,11 +289,10 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         };
       //----------Fetch Currency Conversion Rate ends-------------
       
-      self.setLoggedInClient = (username) => {
+      self.setLoggedInClient = (username) => {     
         let _client_name = "";
         if(username && username != null){
-          console.log(username.length);console.log(username.length-4);console.log(username.indexOf("@")+1);
-          _client_name = username.substr(11,(username.lastIndexOf('.com')-(username.indexOf("@")+1))); 
+          _client_name = username.substr(username.indexOf("@")+1,(username.lastIndexOf('.com')-(username.indexOf("@")+1))); 
         }        
         console.log(_client_name);
         self.loggedInClient(_client_name.toUpperCase());

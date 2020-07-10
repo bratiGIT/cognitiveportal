@@ -1,24 +1,78 @@
+<oj-bind-if test="[[multiChartCntrlEnable]]">
+    <div class="oj-flex-bar">
+        <div class="oj-flex-bar-start">
+            <oj-buttonset-one id="drinkset" value="{{multiChart}}" aria-label="Choose only one beverage." display="icons">
+                <oj-option value="single">
+                    <span slot="startIcon" :class="demo-icon-font singleGridIcon"></span>
+                    <span>Current</span>
+                </oj-option>
+                <oj-option value="multi">
+                    <span slot="startIcon" :class="demo-icon-font demo-grid-icon-16"></span>
+                    <span>All</span>
+                </oj-option>
+            </oj-buttonset-one>
+        </div>
+        <div class="oj-flex-bar-middle oj-sm-justify-content-center" style="font-weight:bold;font-size: 1.4rem;">
+            <oj-bind-text
+                value="[[multiChart() == 'single' ? (inddomain().ind + ' > '+ inddomain().domain) : '']]">
+            </oj-bind-text>
 
-<div class="oj-flex oj-sm-align-items-center">
-<oj-chart id="polarChart" coordinate-system="polar" type="line" stack="off" polar-grid-shape="polygon"
-    data="[[chrtDataProvider]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim"
-    selection-mode="[[selectionMode]]" selection="{{slctdPolarItm}}"
-    :class="[[chartStyle]]"
-    legend.rendered="off">
-    <template slot='seriesTemplate' data-oj-as='series'>
-        <oj-chart-series
-            color='[[ series.id == "IBM" ? "#00539A" : ( series.id == "Standard SaaS" ? "#C20104" : "#00801B") ]]'>
-        </oj-chart-series>
-    </template>
-</oj-chart>
-<div id="survyLgndDiv" class="oj-flex-item">
-<oj-legend id="survyLgnd" orientation='[[lgndOrientn]]' data="[[legendDataPrvdr]]" valign="middle" halign="center">
+        </div>
+        <div class="oj-flex-bar-end">
+            <span style="min-width:20%;visibility: hidden;">Dummy text</span>
+        </div>
+    </div>
+</oj-bind-if>
+<oj-switcher value="[[multiChart]]">
+    <div slot="multi" id="home-tab-panel" role="togglepanel" class="oj-flex" >
+        <oj-bind-for-each data="[[_multi_polar_data]]" as="chart">
+            <template>
+                <div class="oj-flex-item oj-sm-12 oj-md-6 oj-lg-4">
+                    <div class="oj-flex oj-sm-justify-content-center">
+                    <div style="font-weight: bold;text-align: center;" class="oj-sm-12">
+                        <oj-bind-text value="[[chart.data.domName]]"></oj-bind-text>
+                    </div>
+                    <oj-chart id="polarChart" coordinate-system="polar" type="line" stack="off"
+                        polar-grid-shape="polygon" data="[[chart.data.chartData]]" animation-on-display="auto"
+                        animation-on-data-change="auto" hover-behavior="dim" legend.rendered="off" style="width:90%"
+                        y-axis.step = "1"
+                        y-axis.min = "0"
+                        y-axis.max = "5"                      
+                        x-axis.tick-label.style="[[chrtGroupTitle]]"
+                        style-defaults.three-d-effect="on">
+                        <template slot='seriesTemplate' data-oj-as='series'>
+                            <oj-chart-series
+                                color='[[ series.id == "COGNITIVE ENTERPRISE" ? "#00539A" : ( series.id == "Standard SaaS" ? "#C20104" : "#00801B") ]]'>
+                            </oj-chart-series>                            
+                        </template>
+                    </oj-chart>
+                    </div>
+                </div>
+            </template>
+        </oj-bind-for-each>
+    </div>
+    <div slot="single" id="home-tab-panel" role="togglepanel" class="oj-flex oj-sm-align-items-center">
+        <oj-chart id="polarChart" coordinate-system="polar" type="line" stack="off" polar-grid-shape="polygon"
+            data="[[chrtDataProvider]]" animation-on-display="auto" animation-on-data-change="auto" hover-behavior="dim"
+            selection-mode="[[selectionMode]]" selection="{{slctdPolarItm}}" :class="[[chartStyle]]"
+            legend.rendered="off"
+            y-axis.step = "1"
+            y-axis.min = "0"
+            y-axis.max = "5">
+            <template slot='seriesTemplate' data-oj-as='series'>
+                <oj-chart-series
+                    color='[[ series.id == "COGNITIVE ENTERPRISE" ? "#00539A" : ( series.id == "Standard SaaS" ? "#C20104" : "#00801B") ]]'>
+                </oj-chart-series>
+            </template>
+        </oj-chart>
+    </div>
+</oj-switcher>
+<oj-legend id="survyLgnd" orientation='[[lgndOrientn]]' data="[[legendDataPrvdr]]" valign="middle" halign="center" :class="[[lgndOrientn() == 'horizontal' ? 'horizontalLegndPolar' : 'verticalLegndPolar']]">
     <template slot="itemTemplate">
         <oj-legend-item text="[[$current.data.label]]" color="[[$current.data.color]]">
         </oj-legend-item>
     </template>
 </oj-legend>
-</div>
-</div>
+
 <!--amber-rgb(232, 185, 45), green - rgb(109, 162, 60) , red - rgb(218, 57, 49)-->
 <!--First set of colors color='[[ series.id == "IBM" ? "#488214" : ( series.id == "Oracle" ? "#FFBF00" : "#DA251C") ]]'-->
