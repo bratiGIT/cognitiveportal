@@ -5,7 +5,6 @@
   "dependencies": {
     "@oracle/grunt-oraclejet": "^6.2.0",
     "@oracle/oraclejet": "~8.1.0",
-    "d3plus": "^1.9.8",
     "orgchart": "^2.1.9"
   },
   "devDependencies": {
