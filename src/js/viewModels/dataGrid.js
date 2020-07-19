@@ -6,10 +6,10 @@
 /*
  * Your customer ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs/ojmodule-element-utils', 'ojs/ojvalidation-base', 'ojs/ojknockouttemplateutils', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojarraydataprovider', 'ojs/ojarraytreedataprovider', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydatagriddatasource', 'restModule','ojs/ojresponsiveknockoututils', 'ojs/ojresponsiveutils','ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojvalidation-number', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojpopup', 'ojs/ojlistview', 'ojs/ojnavigationlist', 'ojs/ojswitcher',
-        'ojs/ojcollapsible', 'ojs/ojoffcanvas', 'ojs/ojtable', 'ojs/ojlabel', 'ojs/ojgauge', 'ojs/ojradioset', 'ojs/ojlegend','ojs/ojpopup'
+define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs/ojmodule-element-utils', 'signals','ojs/ojvalidation-base', 'ojs/ojknockouttemplateutils', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojarraydataprovider', 'ojs/ojarraytreedataprovider', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydatagriddatasource', 'restModule','ojs/ojresponsiveknockoututils', 'ojs/ojresponsiveutils','ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojvalidation-number', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojpopup', 'ojs/ojlistview', 'ojs/ojnavigationlist', 'ojs/ojswitcher',
+        'ojs/ojcollapsible', 'ojs/ojoffcanvas', 'ojs/ojtable', 'ojs/ojlabel', 'ojs/ojgauge', 'ojs/ojradioset', 'ojs/ojlegend','ojs/ojpopup','ojs/ojchart'
     ],
-    function(oj, ko, $, app, Model, moduleUtils, ValidationBase, KnockoutTemplateUtils, collectionModule, ArrayDataProvider, ArrayTreeDataProvider, CollectionDataProvider, arrayModule, restModule,responsiveKnockoutUtils,responsiveUtils) {
+    function(oj, ko, $, app, Model, moduleUtils,signals, ValidationBase, KnockoutTemplateUtils, collectionModule, ArrayDataProvider, ArrayTreeDataProvider, CollectionDataProvider, arrayModule, restModule,responsiveKnockoutUtils,responsiveUtils) {
 
         function DataGridViewModel() {
             var self = this;
@@ -17,6 +17,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             // Please reference the oj-module jsDoc for additional information.
 
             //Instantiate Variables
+            var chartLoadSignal = new signals.Signal(); 
             var smQuery = responsiveUtils.getFrameworkQuery(
                 responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
             self.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(smQuery);
@@ -60,7 +61,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             self.gridHeight = ko.observable("1000px");
             self.noOfCols = 0;
 
-            //Variables for prepare grid datasource
+            /*Variables for prepare grid datasource*/
             self.colsArr = [];
             self.descArr = [];
             self.scoreavgArr = [];
@@ -75,6 +76,64 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             self.gridSidePanelScale = ko.observable("oj-flex-item oj-sm-2 oj-md-2 oj-lg-2");
             self.selPainPointCompId = ko.observable([]);
             self.selPainPointSoltns = ko.observable([]);
+            //dakshayani: changes - begins
+            self.selPainPointCompIdMultiple = ko.observableArray([]);  
+            self.selectedItems = ko.observableArray([]);
+            self.selectedIds = ko.observableArray([]);
+
+            //-----------Process Dropdown code begins---------
+            self.processVal = ko.observable("");           
+            self.processOptionsDP = ko.observableArray([]);
+            self.processOptKeys = { value: "dom_code", label: "dom_value" };
+            var processOptionsADP =  new ArrayDataProvider(self.processOptionsDP,{ keyAttributes: "dom_code" });
+            //-----------Process Dropdown code ends-----------
+            var refreshPolarChrt = ko.observable(false);
+
+            self.processChangeHandler = function (event)
+            {
+                console.log(self.processVal());
+                app.selectedDomainCode(self.processVal());                
+                processOptionsADP.fetchByKeys({keys:[self.processVal()]}).then(function(fetchResult){
+                    let domain = fetchResult.results.get(self.processVal()).data;
+                    console.log(domain.dom_value);
+                    app.selectedDomainTxt(domain.dom_value); 
+                    refreshPolarChrt(!refreshPolarChrt());
+                    app.setCntrlrObjsInSession();                
+                });
+                self.loadDataGrid();
+                setGridSidePanel();
+                self.showPPCompSelected(true);
+                self.leadingPracticesModuleCreate();
+                self.orgHeirarchyModuleCreate();
+                self.rapidMoveModuleCreate();                     
+            }.bind(this);
+
+            self.loadProcessListData = function (ind_code) {     
+                console.log("[dataGrid]::loadProcessListData begins");
+            
+                var processService = { url: restModule.API_URL.getDomains, method: "GET", data: {}, parameters: {}, headers: {} };
+                if (ind_code != null && ind_code != undefined)
+                    processService.headers = { INDUSTRY_VAR: ind_code };
+                console.log(processService);
+                restModule.callRestAPI(processService, function (response) {
+                    if (response.items && response.items != null) {
+                        console.log(response.items);
+                        self.processOptionsDP([]);
+                        //self.processOptionsDP(new ArrayDataProvider(response.items, { keyAttributes: 'dom_code' }));
+                        self.processOptionsDP(response.items);
+                        console.log(self.processOptionsDP())
+                    }
+                }, function (failResponse) {
+                    var processServiceFailPrompt = "Get Process List Service failure";
+                    console.log(processServiceFailPrompt);
+                    console.log(failResponse);
+                    app.showMessages(null, 'error', processServiceFailPrompt);
+                });
+            };            
+            self.launch = function( model, event ) {
+                document.getElementById("myMenu").open(event);
+            };
+            //dakshayani: changes - ends
 
             /**Legend Data */
             self.rapdMvLegnd = ko.observable([{ text: "60%+", class: "_60Savng" }, { text: "40%+", class: "_40Savng" }, { text: "20%+", class: "_20Savng" }]);
@@ -83,7 +142,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 if (typeof(app.selectedIndustryTxt()) == 'undefined') {
                     app.updateCntrlrObjsFrmSession();
                 }
-                self.gridPageHeader(app.selectedIndustryTxt() + ' > ' + app.selectedDomainTxt());
+                //self.gridPageHeader(app.selectedIndustryTxt() + ' > ' + app.selectedDomainTxt());
+                //dakshayani: changes - begins
+                self.gridPageHeader(app.selectedIndustryTxt() + ' >');
+
+                self.loadProcessListData(app.selectedIndustryCode());
+                self.processVal(app.selectedDomainCode());
+                //dakshayani: changes - ends
             };
 
             self.currentModuleParams = function() {
@@ -157,7 +222,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             /**Competency Details - End*/
 
             // Core - Classic button changes begins
-            self.currentBtn = ko.observable("classic");
+            //self.currentBtn = ko.observable("classic");
+            self.currentBtn = ko.observable("indSpec");//dakshayani: changes
             self.btnOptions = ko.observableArray([
                 { id: "classic", value: "classic", btn: "Standard", cls: "sidebar_switch_button2" },
                 { id: "core", value: "core", btn: "Asset", cls: "sidebar_switch_button1" },
@@ -170,6 +236,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 //Refresh datagrid on core/classic button selection
                 document.getElementById("datagrid").refresh();                
                 //self.gridSidePanelModuleCreate();
+                if(self.selectedCoreClassic == 'indSpec')
+                    refreshPolarChrt(!refreshPolarChrt());
                 setGridSidePanel(true);
             };
             // Core - Classic button changes ends
@@ -387,7 +455,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                         self.descArr[cdata[j].val] = cdata[j].desc;
                         self.scoreavgArr[cdata[j].val] = getColorsVal(cdata[j].scoreavg);
                         self.indSpecfcData[cdata[j].val] = {};
-                        self.indSpecfcData[cdata[j].val].isIndSpecfc = cdata[j].flag;
+                        self.indSpecfcData[cdata[j].val].isIndSpecfc = "N";//cdata[j].flag;
                         self.indSpecfcData[cdata[j].val].isPainPntSelctd = isIndPainPointMatchCell(cdata[j].id);                        
                         self.cmptIdArr[cdata[j].val] = cdata[j].id;
 
@@ -428,7 +496,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             }
 
             function isIndPainPointMatchCell(componentId){                  
-                if(self.selPainPointCompId().includes(componentId))
+                //if(self.selPainPointCompId().includes(componentId))                
+                if(self.selPainPointCompIdMultiple().includes(componentId)) //dakshayani: changes
                 {
                     console.log(true);
                     return true;
@@ -506,7 +575,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
             self.loadDataGrid = function() {
                 console.log("[dataGrid]::loadDataGrid begins");
-
+                console.log(app.selectedDomainCode());
                 //console.log(restModule.API_URL.viewDataGrid);
                 self.dataGridPrgrsVisible(true);
                 var cbmGridService = { url: restModule.API_URL.viewDataGrid, method: "GET", data: {} };
@@ -518,6 +587,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     console.log("[dataGrid]:: loadDataGrid - CBM Grid Data Service Invoked");
                     if (response.items && response.items != null) {                        
                         self.gridData(response.items);
+                        //self.showPPCompSelected(false);//dakshayani: changes
                         constructGridCellData(response.items);
                     } else {
                         console.log("[dataGrid]:: loadDataGrid - No CBM response defined for Business Process");
@@ -698,6 +768,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
                 var indPainPntHighlight = "ind-pnpt-hglgt ";
 
+                var coreDataGridLowClass1 = "core-datagrid-low1 ";
+                var coreDataGridMedClass1 = "core-datagrid-med1 ";
+                var coreDataGridHighClass1 = "core-datagrid-high1 ";
+
                 if (classSelected == "core") {
                     if (self.scoreavgArr[data] == 1) {
                         return coreDataGridLowClass + coreDataGridClass + commmonClassList;
@@ -718,7 +792,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                         cls = indSpecDataClass + cls;                                                                       
                     }
                     cls = (self.indSpecfcData[data].isPainPntSelctd ? indPainPntHighlight : "") + cls;
-                    return cls;
+                    //return cls;
+
+                    if (self.scoreavgArr[data] == 1) {
+                        return coreDataGridLowClass1 + cls;
+                    } else if (self.scoreavgArr[data] == 2) {
+                        return coreDataGridMedClass1 + cls;
+                    } else if (self.scoreavgArr[data] == 3) {
+                        return coreDataGridHighClass1 + cls;
+                    } else {
+                        return cls;
+                    }
                 }                
             };
 
@@ -735,7 +819,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 var container = document.createElement('div');
                 container.className = 'cell-div-container';
                 var data = cellContext['data'];
-                console.log(data);
+                //console.log(data);
                 var sourceCellId = cellContext['parentElement'].id;
                 container.addEventListener("click", function() {
                     handleComponentCellClick(data, sourceCellId);
@@ -832,6 +916,99 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 //self.prepareLeadingPracticesData();
                 document.getElementById('SolutionDialog').open();
             }
+            //dakshayani: changes - begins
+            self.handleSelectionChanged = function(event,ctxt)
+            {
+                self.selectedIds(event.detail.value); // show selected list item elements' ids                
+                let indCode = app.selectedIndustryCode();
+                let domCode = app.selectedDomainCode();
+                let selected_pps = app.selectedPainPoints();
+                console.log(indCode, domCode,selected_pps);
+                if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+                {
+                    var jsonData = selected_pps[indCode];
+                    if(jsonData[domCode]!=undefined)
+                    {
+                        var ppArr = jsonData[domCode];
+                        if(ppArr["selected_pp"]!=undefined)
+                        {
+                            ppArr["selected_pp"] = self.selectedIds();
+                        }
+                        else
+                        {
+                            ppArr = {
+                                "selected_pp": self.selectedIds()
+                            }
+                        }                            
+                    }
+                    else
+                    {
+                        jsonData[domCode] = {
+                            "selected_pp": self.selectedIds()
+                        };
+                    }
+                    app.selectedPainPoints(selected_pps);
+                    app.setCntrlrObjsInSession();
+                }
+                else
+                {
+                    var jsonData = {};
+                    var jsonData1 = {};
+                    jsonData1[domCode] = {
+                        "selected_pp": self.selectedIds()
+                    }
+                    jsonData[indCode] = jsonData1;
+                    app.selectedPainPoints(jsonData);  
+                    app.setCntrlrObjsInSession();                      
+                }
+                //app.updateCntrlrObjsFrmSession();
+
+                self.showPPCompSelected(true);
+            }
+            self.showPPCompSelected = function(fromClick) {
+                //console.log(self.indPainPointsData());
+                console.log("[painPoints]:: Industry Pain Points Component selection");
+                self.selPainPointCompIdMultiple([]);
+                let selectedPPItems = [];
+                
+                if(fromClick) {
+                    selectedPPItems = self.selectedIds();       
+                }
+                else {                    
+                    let indCode = app.selectedIndustryCode();
+                    let domCode = app.selectedDomainCode();
+                    let selected_pps = app.selectedPainPoints();
+                    console.log(indCode, domCode, selected_pps)
+                    if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+                    {
+                        if(selected_pps[indCode][domCode]!=undefined)
+                        {
+                            let ppArr = selected_pps[indCode][domCode];
+                            if(ppArr["selected_pp"]!=undefined)
+                            {
+                                selectedPPItems = ppArr["selected_pp"];
+                            }
+                        }
+                    }                    
+                }
+                console.log(selectedPPItems);
+                ko.utils.arrayForEach(self.indPainPointsData(), function (item) {
+                    if (selectedPPItems.includes(item.record_id)) {
+                        //console.log(item.mpng);
+                        let mpngs = item.mpng.split(',');    
+                        self.selPainPointCompIdMultiple.push.apply(self.selPainPointCompIdMultiple,mpngs);
+                    }
+                });      
+                console.log(self.selPainPointCompIdMultiple());
+                if(fromClick && self.gridData()!=undefined) {
+                    constructGridCellData(self.gridData()); 
+                }
+                else if(self.gridData()!=undefined && self.selPainPointCompIdMultiple().length>0)
+                {
+                    constructGridCellData(self.gridData()); 
+                }
+            }
+            //dakshayani: changes - ends
             self.selectPainPoint = function (evt, lineItem) {
                 let alreadyOpen = false;
                 let evtTarget = evt.target.nodeName;
@@ -842,12 +1019,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                             alreadyOpen = true;
                         }
                         item.showDetl(false);
-                    });
+                    }); 
                     if (!alreadyOpen){
                         lineItem.data.showDetl(true);
                         if(lineItem.data.mpng != 'N/A')
                         {                             
-                            let mpngs = lineItem.data.mpng.split(',');                                     
+                            let mpngs = lineItem.data.mpng.split(',');    
+
                             self.selPainPointCompId(mpngs);
                             constructGridCellData(self.gridData());                            
                         }
@@ -880,6 +1058,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 this.showDetl = ko.observable(false);
                 this.solutions = painPoint.soln;
                 this.mpng = painPoint.mpng;
+                this.record_id = painPoint.record_id;
             }
 
             self.indPainPntsCollSync = function (method, model, options) {                
@@ -892,6 +1071,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     console.log("[gridSidePanel]:: Industry Pain Points Success Response");
                     if (response.items && response.items != null) {                        
                         constructIndPnPntData(response.items);
+                        self.showPPCompSelected(false);//dakshayani: changes
                         options["success"](self.indPainPointsData(), null, options);
                     } else {
                         options["success"](null, null, options);
@@ -903,13 +1083,30 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 });
             };
             function setGridSidePanel(clearPainPtMapng) {
-                console.log("Grid Side Panle set up Begins--" + self.currentBtn());  
+                console.log("Grid Side panel set up Begins--" + self.currentBtn());  
                 self.localizationUrl = ko.observable(app.localizationLnk());                            
                 self.showLocalzn(self.localizationUrl() != "#" ? true : false);
                 self.bwl = ko.observable(app.selectedBWL());
                 if (self.currentBtn() && self.currentBtn() === "indSpec") {
                     self.showIndpainPnts(true);
                     self.indpaintPntsSource.refresh();
+                    //dakshayani: changes
+                    let indCode = app.selectedIndustryCode();
+                    let domCode = app.selectedDomainCode();
+                    let selected_pps = app.selectedPainPoints();
+                    console.log(indCode, domCode, selected_pps);
+                    if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+                    {
+                        var jsonData = selected_pps[indCode];
+                        if(jsonData[domCode]!=undefined)
+                        {
+                            let ppArr = jsonData[domCode];
+                            if(ppArr["selected_pp"]!=undefined)
+                            {
+                                self.selectedItems(ppArr["selected_pp"]);
+                            }
+                        }
+                    }
                 }else{
                     self.showIndpainPnts(false);
                 }
@@ -923,12 +1120,12 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             }
 
             var indPainPointsModel = oj.Model.extend({
-                idAttribute: 'title'
+                idAttribute: 'record_id'
             });
 
             self.indPainPointsCollctn = oj.Collection.extend({
                 model: indPainPointsModel
-                , comparator: "title"
+                , comparator: "record_id"
                 , sync: self.indPainPntsCollSync
             });
 
@@ -1027,8 +1224,40 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     }
                 );
             };
+            
             /**Business Component Assets Module - End*/
-
+            /**Chart View Model - START */
+            self.dummyPolrChrtTrgrer = ko.observable(false);
+            self.chartViewModule = ko.computed(function () {
+                self.dummyPolrChrtTrgrer();
+                return moduleUtils.createConfig({
+                    viewPath: "views/survyChart.html", viewModelPath: "viewModels/survyChart", initialize: 'always',params: {smallChart:true,legendHorzntl:false,refreshChart:refreshPolarChrt() }
+                });
+            });
+            self.polarChartBigViewModule = ko.computed(function () {
+                self.dummyPolrChrtTrgrer();
+                return moduleUtils.createConfig({
+                    viewPath: "views/survyChart.html", viewModelPath: "viewModels/survyChart", initialize: 'always',params: {smallChart:false,legendHorzntl:true,multiEnable:true,refreshChart:refreshPolarChrt() }
+                });
+            });
+            self.openChartInAPopup = (evt) => {
+                console.log("Open Polar Chart Popup");
+                var popup = document.getElementById('survyChartPopup');
+                popup.open('#datagrid', {
+                    my: {
+                        horizontal: "center",
+                        vertical: "center"
+                    },
+                    at: {
+                        horizontal: "center",
+                        vertical: "center"
+                    }
+                });
+            };
+            self.openPolarChrtDialog = function(event) {
+                //self.prepareLeadingPracticesData();
+                document.getElementById('survyChartDialog').open();
+            }
             self.backToSearch = function() {
                 //app.loadSearchPortalModule();
                 oj.Router.rootInstance.go('searchPortal');
@@ -1038,6 +1267,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     //self.prepareLeadingPracticesData();
                     document.getElementById('rapidMoveDialog').open();
                 }
+                 self.goToSurvey = () =>{
+                oj.Router.rootInstance.go('survey');
+            };
                 /**
                  * Optional ViewModel method invoked after the View is inserted into the
                  * document DOM.  The application can put logic that requires the DOM being
@@ -1051,6 +1283,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 console.log("[dataGrid]: connected begins");
 
                 /**Initialize page parameters */
+                if(app.frmScreen() == "survy"){
+                    console.log("Core View");
+                    self.currentBtn("indSpec");
+                }                
                 self.currentModuleParams();
 
                 /**Set Data Grid Header based on Context */
@@ -1078,10 +1314,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 if(screenWidth < 1024) {
                     self.gridScale("oj-flex-item oj-sm-8 oj-md-8 oj-lg-8");
                     self.gridSidePanelScale("oj-flex-item oj-sm-4 oj-md-4");
-                }              
+                }                 
+                console.log("Chart Load dispatch");
+                self.dummyPolrChrtTrgrer.notifySubscribers();
+                // self.dummyPolrChrtTrgrer(false);
+                // self.dummyPolrChrtTrgrer(true);
+                console.log("Selected Polar Competency:"+app.slctdPolarItm().cmptncy);             
                 console.log("[dataGrid]: connected ends");
             };
-
+            
             /**
              * Optional ViewModel method invoked after the View is disconnected from the DOM.
              */

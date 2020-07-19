@@ -1,0 +1,108 @@
+
+<div id="survyQues" class="survyCntnr demo-page" >    
+        <h4 style="font-weight:bold">Maturity Level Self Assesment</h4>
+        <oj-progress id="srvyQuesPrgrs" type="circle" value="-1" style="margin:auto;display:none;"></oj-progress>
+        <oj-conveyor-belt>
+        <oj-tab-bar selection="{{selectedCmptncy}}" data="[[tabData]]" edge="top" class="survyTab">
+            <template slot="itemTemplate" data-oj-as="item">
+                <li :class="[[{'oj-disabled' : item.data.disabled === 'true'}]]">
+                    <a href="#">
+                        <oj-bind-text value="[[item.data.comp_name]]"> </oj-bind-text>
+                    </a>
+                </li>
+            </template>
+        </oj-tab-bar>
+        </oj-conveyor-belt>
+        <oj-switcher value="[[selectedCmptncy]]">
+            <oj-bind-for-each data="[[tabData]]" as="cmptncy">
+                <template>
+                    <div :slot="[[cmptncy.data.comp_name]]" id="settings-tab-panel" role="tabpanel"
+                        aria-labelledby="settings-tab" class="survyQuesCntnr">
+                        <div class="demo-tab-content" style="max-height: inherit;">
+                            <!-- <oj-bind-text value="[[cmptncy.data.cmptncy]]" ></oj-bind-text> -->
+                            <!--<oj-bind-text value="[[selectedQuestions($current.data)]]"></oj-bind-text>-->
+                            <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center" style="height:100%">                                
+                                    <div class="oj-flex-item">
+                                        <table class="survyTable">                                            
+                                            <tr>
+                                                <th>How mature..</th>
+                                                <th>Aware</th>
+                                                <th>Developing</th>
+                                                <th>Practicing</th>
+                                                <th>Optimizing</th>
+                                                <th>Leading</th>                                                
+                                            </tr>
+                                            <oj-bind-for-each data="[[selectedQuestions(cmptncy.data)]]" as="questn">
+                                                <template>
+                                                    <tr :class="[[questn.data.hglghtPnPnt ? 'highlightPnPnts' : '']]">
+                                                        <td style="background-color: #d2d2d2;">
+                                                            <oj-bind-text value="[[questn.data.quest_txt]]"></oj-bind-text>
+                                                        </td>
+                                                        <td :class="[[questn.data.scr() == 1 ? 'selectedAns' : '']]" data-bind="click : selectAns(event,questn.data,1)">
+                                                            <oj-bind-text value="[[questn.data.stmt_awre]]"></oj-bind-text>
+                                                        </td>
+                                                        <td :class="[[questn.data.scr() == 2 ? 'selectedAns' : '']]" data-bind="click : selectAns(event,questn.data,2)">
+                                                            <oj-bind-text value="[[questn.data.stmt_dvlpng]]"></oj-bind-text>
+                                                        </td>
+                                                        <td :class="[[questn.data.scr() == 3 ? 'selectedAns' : '']]" data-bind="click : selectAns(event,questn.data,3)">
+                                                            <oj-bind-text value="[[questn.data.stmt_pract]]"></oj-bind-text>
+                                                        </td>
+                                                        <td :class="[[questn.data.scr() == 4 ? 'selectedAns' : '']]" data-bind="click : selectAns(event,questn.data,4)">
+                                                            <oj-bind-text value="[[questn.data.stmt_opt]]"></oj-bind-text>
+                                                        </td>
+                                                        <td :class="[[questn.data.scr() == 5 ? 'selectedAns' : '']]" data-bind="click : selectAns(event,questn.data,5)">                                                       
+                                                            <oj-bind-text value="[[questn.data.stmt_ldng]]"></oj-bind-text>
+                                                        </td>                                                    
+                                                    </tr>
+                                                </template>
+                                            </oj-bind-for-each>
+                                        </table>   
+                                    </div>
+                                    <div class="oj-flex-item" >
+                                        <span style="font-weight:bold;font-size:1rem">Competency Maturity Score:</span>
+                                        <span data-bind="text: cmptncy.data.avg" style="font-weight:bold;font-size:1rem"></span>
+                                    </div>                                                                 
+                            </div>
+
+                        </div>
+                    </div>
+                </template>
+            </oj-bind-for-each>
+        </oj-switcher>    
+    <div class="oj-flex-bar">
+        <div class="oj-flex-bar-middle oj-sm-justify-content-center">            
+            <oj-button on-oj-action="[[submitSurvy]]" chroming="callToAction">Submit
+            </oj-button>
+            <oj-progress id="srvySbmtPrgrs" type="circle" value="-1" style="display:none;margin-left:5px;" class="sbmtSurvyPrgrs"></oj-progress>
+        </div>
+    </div>
+</div>
+<div id="polarChrt" class="demo-page demo-page2-hide"> 
+    <div class="oj-flex-bar">
+        <div class="oj-flex-bar-start"><oj-button on-oj-action="[[backToSurvy]]" chroming="callToAction">Back</oj-button></div>
+        <div class="oj-flex-bar-middle oj-sm-justify-content-center"><h4 style="font-weight:bold;">Leading Practices: </h4>
+            <p style="margin-top: auto;margin-bottom: auto;padding-left: 5px;font-size: 18px;font-weight: bold;color: #29549a;"><span><oj-bind-text value="[[indDomainCrumb]]"></oj-bind-text></span></p>
+        </div>
+        <div class="oj-flex-bar-end"><div></div></div>
+      </div>
+       
+    <!-- <div class="oj-flex-bar" style="margin-right:10px;">
+       
+        <div class="oj-flex-bar-start">            
+            <span style="min-width:20%;visibility: hidden;">Dummy text</span>
+        </div>
+        <div class="oj-flex-bar-middle oj-sm-justify-content-center" style="font-weight:bold">            
+            <h4 style="font-weight:bold;">Leading Practices: </h4>
+            <p style="margin:auto;padding-left:5px;font-size:18px;font-weight: bold;color: #29549a;"><span><oj-bind-text value="[[indDomainCrumb]]"></oj-bind-text></span></p>
+        </div>
+        <div class="oj-flex-bar-end">
+            <span style="min-width:20%;visibility: hidden;">Dummy text</span>
+        </div>
+    </div>         -->
+
+    <div class="oj-flex oj-sm-align-items-center oj-sm-flex-direction-column">        
+        <div class="oj-flex-item oj-sm-12">
+            <oj-module config="[[chartViewModule]]"></oj-module>
+        </div>
+    </div>
+</div>

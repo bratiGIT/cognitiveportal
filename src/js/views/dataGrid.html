@@ -20,7 +20,20 @@
             <div class="oj-flex">
                 <div class="oj-flex-item oj-sm-10">
                     <!--<h1 style="margin-left: 20px; font-size:22px;">Business Process > <span>Procurement Management</span></h1>-->
-                    <p style="margin-left: 22px; font-size:22px;"><span><oj-bind-text value="[[gridPageHeader]]"></oj-bind-text></span></p>
+                    <!-- <p style="margin-left: 22px; font-size:22px;"><span><oj-bind-text value="[[gridPageHeader]]"></oj-bind-text></span></p> -->
+
+                    <p style="margin-left: 22px; font-size:22px;">
+                        <span><oj-bind-text value="[[gridPageHeader]]"></oj-bind-text></span>
+                        <oj-select-one id="process"  
+                            value="{{processVal}}" 
+                            options="{{processOptionsDP}}" options-keys="[[processOptKeys]]"
+                            on-value-changed="[[processChangeHandler]]" 
+                            style="max-width:20em; margin-left:-3px;"
+                            raw-value="{{selectedDomainTxt}}"
+                            maximum-result-count="25"
+                            class="business-process">
+                        </oj-select-one>
+                    </p>
                 </div>
                 <div class="oj-flex-item oj-sm-2" style="padding-right: 19px;padding-left:2px;">
                     <!--Rapid Move Button-->
@@ -92,19 +105,7 @@
                                 <div class="legend-container">
                                     <div class="legend-box legend-high" style="font-weight: bold;">H</div>
                                     <div class="legend-box legend-med" style="font-weight: bold;">M</div>
-                                    <div class="legend-box legend-low" style="font-weight: bold;">L</div>
-                                    <!-- <div>
-                                            <oj-legend id="coreViewLegend" orientation="horizontal" data="[[heatMapLegend]]" 
-                                            style="width: 225px;height: 50px;"
-                                                symbol-width="45" symbol-height="30">
-                                                <template slot="itemTemplate">
-                                                    <oj-legend-item text="[[$current.data.node]]" marker-shape="square"
-                                                        color="[[$current.index === 1 ? '#33B1FF' : $current.index === 2 ? '#78a9ff' : '#BAE6FF']]"
-                                                        border-color="[[$current.index === 1 ? '#002d9c' : $current.index === 2 ? '#78a9ff' : '#33B1FF']]">
-                                                    </oj-legend-item>
-                                                </template>
-                                            </oj-legend>
-                                        </div> -->
+                                    <div class="legend-box legend-low" style="font-weight: bold;">L</div>                                     
                                 </div>
                             
                             </div>
@@ -129,23 +130,39 @@
                                     <p><a href="#" on-click="[[openLeadPractDialog]]">Leading Practices</a></p>
                                     <p><a href="#"  on-click="[[openOrgChartDialog]]">Organization Chart</a></p>
                                     <p id="cbmCurrency">Currency - <oj-bind-text value="[[setSelectedCurrency]]"></oj-bind-text></p> 
+                                    
                                     </div>       
-                                    <br/>        
+                                    <!-- <br/> -->        
                                     <div data-bind="visible:showIndpainPnts">
-                                    <h4 class="indPnPtsTitle">Industry Pain Points</h4>
-                                    <oj-list-view id="listview" aria-label="simple list" data="[[indPainPntsDataProvider]]" class="indPainPnts" selection-mode="single">
-                                    <template slot="itemTemplate" data-oj-as="item">            
-                                        <div class="container" on-click="[[selectPainPoint]]"  :id="[[item.index + 'solutiondiv']]">
-                                            <div>
-                                                <span class="name"><oj-bind-text value="[[item.data.title]]"></oj-bind-text></span>
-                                            </div>
-                                            <div id="painPtData" class="oj-sm-padding-1x-top desc" data-bind="visible: item.data.showDetl">
-                                                <div><span class="name"><oj-bind-text value="[[item.data.desc]]"></oj-bind-text></span></div>
-                                                <div style="margin-top:5px;"><a  data-bind="disable:item.data.solutions.length > 0 ? true : false" on-click="[[selectIndPainPtSltn]]" target="_blank">Solution</a></div>
-                                            </div>                                
+                                        <h5 class="indPnPtsTitle">Business Drivers</h5>
+                                        <oj-list-view id="listview" aria-label="simple list" data="[[indPainPntsDataProvider]]" class="indPainPnts" selection-mode="multiple" 
+                                        selection="{{selectedItems}}"
+                                        on-selection-changed="[[handleSelectionChanged]]"
+                                        style="height: 210px; overflow-y: scroll;">
+                                            <template slot="itemTemplate" data-oj-as="item">            
+                                                <div class="container" on-click="[[showPPCompSelected]]"  :id="[[item.index + 'solutiondiv']]">
+                                                    <div>
+                                                        <span class="name"><oj-bind-text value="[[item.data.title]]"></oj-bind-text></span>
+                                                    </div>
+                                                    <!-- <div id="painPtData" class="oj-sm-padding-1x-top desc" data-bind="visible: item.data.showDetl">
+                                                        <div><span class="name"><oj-bind-text value="[[item.data.desc]]"></oj-bind-text></span></div>
+                                                        <div style="margin-top:5px;"><a  data-bind="disable:item.data.solutions.length > 0 ? true : false" on-click="[[selectIndPainPtSltn]]" target="_blank">Solution</a></div>
+                                                    </div> -->                                
+                                                </div>
+                                            </template>
+                                        </oj-list-view>                                        
+                                        <div class="oj-flex" data-bind="click: openPolarChrtDialog" id="smallPolarChrt">                                        
+                                            <oj-module config="[[chartViewModule]]" id="asmntChart"></oj-module>
                                         </div>
-                                    </template>
-                                </oj-list-view>
+                                        <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center">
+                                            <div class="oj-flex-item">
+                                                <oj-button id='AssesmntBtn' :class="assessment_button" on-oj-action='[[goToSurvey]]' style="margin:10px;     border-radius: 5px" class="oj-sm-12">
+                                                    <span>
+                                                    <oj-bind-text value="Self Assessment"></oj-bind-text>
+                                                    </span>
+                                                </oj-button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             
@@ -182,7 +199,7 @@
 
                 <div id="compHdrRegion">
                     <p><h5><oj-bind-text value="[[selectedBizCompName]]"></oj-bind-text></h5></p>
-                    <p class="smallFont"><oj-bind-text value="[[selectedBizCompDesc]]"></p>
+                    <p class="smallFont" style="white-space: pre-line;"><oj-bind-text value="[[selectedBizCompDesc]]"></p>
                     <input type="hidden" id="selBizCompId" name="selBizCompId" :value=[[selectedBizCompId]]></input>
                 </div>
 
@@ -241,6 +258,30 @@
             </div>
             <!--<div slot="footer">
                 </div>-->
+        </oj-dialog>
+        <!--Survey Polar Chart-->
+        <!-- <oj-popup id="survyChartPopup" class="" tail="none" style="display:none;min-width:75vw;background-color:rgb(255, 255, 255);max-width:80vw;" tail="simple" modality="modal"
+        position.of="window" position.offset.y="-40">
+
+                <h3 class="solpopup-header">Leading Practices</h3> 
+            <div >                
+                <oj-module config="[[polarChartBigViewModule]]" id="asmntPolarChart"></oj-module>              
+            </div>
+        
+        </oj-popup> -->
+        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="survyChartDialog" modality="modal" position.at.vertical="top">
+            <div slot="header">
+                <div class="oj-flex oj-sm-flex-items-12">
+                    <div id="survyChrtHdrCntnr">
+                        <h2 id="survyChrtTitleId" class="oj-dialog-title">
+                            <oj-bind-text value="Leading Practices"></oj-bind-text>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div slot="body" style="padding:10px;">
+                <oj-module config="[[polarChartBigViewModule]]" id="asmntPolarChart"></oj-module>              
+            </div>
         </oj-dialog>
         <!--Solution Dialog of Industry Pain Point -->
         <oj-popup id="SolutionPopup" class="" style="display:none;min-width:700px;background-color:rgb(255, 255, 255);" tail="simple" modality="modeless">

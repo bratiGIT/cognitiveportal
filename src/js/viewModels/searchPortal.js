@@ -6,8 +6,8 @@
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprovider', 'restModule', 'ojs/ojmodel', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojbutton', 'ojs/ojvalidationgroup','ojs/ojprogress'],
-  function (oj, ko, $, app, ArrayDataProvider, restModule) {
+define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprovider', 'ojs/ojcollectiondataprovider', 'restModule', 'ojs/ojmodel', 'ojs/ojknockout', 'ojs/ojselectcombobox', 'ojs/ojbutton', 'ojs/ojvalidationgroup','ojs/ojprogress', 'ojs/ojcheckboxset', 'ojs/ojlabel', 'ojs/ojformlayout'],
+  function (oj, ko, $, app, ArrayDataProvider, CollectionDataProvider, restModule) {
 
     function SearchPortalViewModel() {
       var self = this;
@@ -68,12 +68,25 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
           return true;
         }
       };
-
+      self.goToSurvey = () =>{
+        if(proceed()){          
+          oj.Router.rootInstance.go('survey');
+          return true;
+        }           
+      };
       //-----------button handler code begins------
       this.applyButton = "Proceed";
       this.applyButtonClick = function (event) {
 
         //validation...
+          if(proceed()){
+            app.frmScreen("searchPortal");
+            oj.Router.rootInstance.go('dataGrid');
+            return true;
+          }     
+            
+      }.bind(this);
+      var proceed = () =>{
         document.getElementById("industry").validate();
         document.getElementById("process").validate();
         
@@ -82,6 +95,45 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
         {
           app.selectedDomainCode(self.processVal());
           app.selectedIndustryCode(self.industryVal());
+          //dakshayani: changes
+          let indCode = self.industryVal();
+          let domCode = self.processVal();
+          let selected_pps = app.selectedPainPoints();
+          console.log(selected_pps);
+          var jsonData = {};
+          var jsonData1 = {};
+          if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+          {
+            var jsonData = selected_pps[indCode];
+            if(jsonData[domCode]!=undefined)
+            {
+                var ppArr = selected_pps[indCode][domCode];
+                if(ppArr["selected_pp"]!=undefined)
+                {
+                  ppArr["selected_pp"] = self.painPointsVal();
+                }
+                else
+                {
+                  ppArr = {
+                    "selected_pp": self.painPointsVal()
+                  }
+                }
+            }
+            else
+            {
+              jsonData[domCode] = {
+                "selected_pp": self.painPointsVal()
+              }
+            }
+          }
+          else
+          {
+            jsonData1[domCode] = {
+              "selected_pp": self.painPointsVal()
+            }
+            jsonData[indCode] = jsonData1;
+            app.selectedPainPoints(jsonData);
+          }
 
           app.selectedDomain(document.getElementById('process').value);
           app.selectedIndustryTxt(self.selectedIndustryTxt());
@@ -105,12 +157,11 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
           console.log("[searchPortal]: selectedDomainCode="+app.selectedDomainCode());
           console.log("[searchPortal]: selectedIndustryCode="+app.selectedIndustryCode());
           console.log(self.selectedIndustryTxt());
-          oj.Router.rootInstance.go('dataGrid');
           return true;
+        }else{
+          return false;
         }
-            
-      }.bind(this);
-
+      };
       //Disabling button
       this.disabledValue = ko.observableArray();
       this.disableControls = ko.computed(function () {
@@ -130,6 +181,15 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
       self.processOptionsDP = ko.observableArray([]);
       self.processOptKeys = { value: "dom_code", label: "dom_value" };
       //-----------Process Dropdown code ends-----------
+
+      //-----------PainPoints checkbox-set code begins---------
+      self.painPointsOptionsDP = ko.observableArray([]);
+      self.painPointsOptKeys = { value: "record_id", label: "title" };
+      self.ppPrgrs = ko.observable(-1);
+      self.ppPrgrsVisible = ko.observable(false);
+      self.ppNoItemsVisible = ko.observable(true);
+      self.painPointsVal = ko.observableArray([]);
+      //-----------PainPoints checkbox-set code ends-----------
  
     //------code addition for process list view begins---------------
     function showProcsProgress(){
@@ -140,42 +200,27 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
     }
     self.loadProcessListData = function (ind_code) {     
       console.log("[searchPortal]::loadProcessListData begins");
-      //console.log("[searchPortal]:: REST URI = "+restModule.API_URL.getDomains);
-
       var processService = {url: restModule.API_URL.getDomains, method: "GET", data: {}, parameters:{}, headers:{}};
       if(ind_code != null && ind_code != undefined)
         processService.headers = {INDUSTRY_VAR:ind_code};
-      console.log(processService);
-      //showProcsProgress();
       restModule.callRestAPI(processService, function (response) {
-          //console.log("[searchPortal]:: Get Process List Success Response");
           if (response.items && response.items != null) {
-            //console.log(response.items);
             self.processOptionsDP([]);
             self.processOptionsDP(new ArrayDataProvider(response.items, {keyAttributes: 'dom_code'}));
             self.processLstDisable(false);       
           } else {
 
           }
-          //hideProcsProgress();
           }, function (failResponse) {
               var processServiceFailPrompt = "Get Process List Service failure";
               console.log(processServiceFailPrompt);
               console.log(failResponse);
-             // hideProcsProgress();
               app.showMessages(null, 'error', processServiceFailPrompt);              
           });
       };
-      //------code addition for process list view ends---------------
- 
-      //------code addition for industry list view begins---------------
       self.loadIndustryListData = function () {
-
         console.log("[searchPortal]::loadIndustryListData begins");
-        //console.log("[searchPortal]:: REST URI = "+restModule.API_URL.getIndustries);
-
-        var industryService = {url: restModule.API_URL.getIndustries, method: "GET", data: {}, parameters:{}, headers:{}};
-        
+        var industryService = {url: restModule.API_URL.getIndustries, method: "GET", data: {}, parameters:{}, headers:{}};        
         restModule.callRestAPI(industryService, function (response) {
             //console.log("[searchPortal]:: Get Industry List Success Response");
             if (response.items && response.items != null) {
@@ -194,11 +239,71 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
                 app.showMessages(null, 'error', industryServiceFailPrompt);
             });
         };
-        //------code addition for industry list view ends---------------
+        function showPpProgress(){
+          self.ppPrgrsVisible(true);
+          $("#pain-point-container").hide();
+        }
+        function hidePpProgress(){
+          self.ppPrgrsVisible(false);
+          $("#pain-point-container").show();
+        }        
+        function sortArr(prop) {    
+          return function(a, b) {    
+            if (a[prop] > b[prop]) {    
+                return 1;    
+            } else if (a[prop] < b[prop]) {    
+                return -1;    
+            }    
+            return 0;    
+          }    
+        }    
+        self.loadPainPointsList = function(ind_code, dom_code) {
+
+            var indPainPntsService = { url: restModule.API_URL.indPainPnts, method: "GET", data: {} };
+            /*URL Parameters*/
+            indPainPntsService.parameters = {};
+            /*Header Parameters*/
+            indPainPntsService.headers = { INDUSTRY_VAR: ind_code, DOM_CODE_VAR: dom_code };
+            showPpProgress();
+            restModule.callRestAPI(indPainPntsService, function (response) {
+                console.log("[searchPortal]:: Industry Pain Points Success Response");
+                if (response.items && response.items != null) {
+                  //console.log(response.items)                  
+                  var arrItems = response.items;
+                  arrItems.sort(sortArr("title"));//Sorting array by title
+                  self.painPointsOptionsDP([]);
+                  self.painPointsOptionsDP(new ArrayDataProvider(arrItems, {keyAttributes: 'record_id'}));
+                  let selected_pps = app.selectedPainPoints();
+                  console.log(ind_code, dom_code, selected_pps);
+                  if(selected_pps!=undefined && selected_pps[ind_code]!=undefined)
+                  {
+                    var jsonData = selected_pps[ind_code];
+                    if(jsonData[dom_code]!=undefined)
+                    {
+                      let ppArr = jsonData[dom_code];
+                      if(ppArr["selected_pp"]!=undefined)
+                      {
+                        self.painPointsVal(ppArr["selected_pp"]);
+                      }
+                    }
+                  }
+                  hidePpProgress();
+                  if(response.items.length>0)
+                    self.ppNoItemsVisible(false);
+                  else
+                    self.ppNoItemsVisible(true);
+                }
+              }, function (failResponse) {
+                hidePpProgress();
+                var indPainPntsSrvcFailPrompt = "Industry Pain Points Service failure";
+                app.showMessages(null, 'error', indPainPntsSrvcFailPrompt);
+            });            
+        };
+        //------dakshayani: new changes ends -----------
 
         self.industryChangeHandler = function (event)
         {
-          console.log('Industry change handler'+self.industryVal());
+          console.log('Industry change handler: '+self.industryVal());
           app.selectedIndustryCode(self.industryVal());
           self.loadProcessListData(self.industryVal());
         }.bind(this);
@@ -207,6 +312,8 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
         {
           console.log(self.processVal());
           app.selectedDomainCode(self.processVal());
+          //dakshayani: changes - loading pain points list
+          self.loadPainPointsList(self.industryVal(), self.processVal());
         }.bind(this);
 
       /**
@@ -219,7 +326,25 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
        */
       self.connected = function () {
         console.log("[searchPortal]: Inside Connected");
-        //self.loadProcessListData();
+        console.log(oj.Router.rootInstance['_navigationType']);
+          let indCode = app.selectedIndustryCode();
+          let domCode = app.selectedDomainCode();
+          let selected_pps = app.selectedPainPoints();
+          console.log(indCode, domCode, selected_pps);
+          self.selectedIndustryTxt(app.selectedIndustryTxt());
+          self.selectedDomainTxt(app.selectedDomainTxt());
+          if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+          {
+            var jsonData = selected_pps[indCode];
+            if(jsonData[domCode]!=undefined)
+            {
+              let ppArr = jsonData[domCode];
+              if(ppArr["selected_pp"]!=undefined)
+              {
+                self.painPointsVal(ppArr["selected_pp"]);
+              }
+            }
+          }
         self.loadIndustryListData();
       };
 

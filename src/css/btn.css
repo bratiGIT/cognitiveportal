@@ -228,3 +228,50 @@ html[dir="rtl"] .oj-buttonset-multi.oj-button-outlined-chrome .oj-button:not(.oj
 .oj-button.oj-focus-only.oj-button-half-chrome .oj-button-icon{
    color:white;
 }
+
+.assessment_button.oj-button.oj-default.oj-button-full-chrome .oj-button-button,
+.assessment_button.oj-button.oj-focus-only.oj-button-full-chrome .oj-button-button {
+  background-color: #00539A;
+  background-image: none;
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: none;
+  text-shadow: none; 
+  border-radius: 5px;
+}
+
+.assessment_button.oj-buttonset .oj-button.oj-default.oj-button-full-chrome .oj-button-icon,
+.assessment_button.oj-buttonset .oj-button.oj-focus-only.oj-button-full-chrome .oj-button-icon,
+.assessment_button.oj-button.oj-default.oj-button-full-chrome .oj-button-icon,
+.assessment_button.oj-button.oj-focus-only.oj-button-full-chrome .oj-button-icon {
+  color: #ffffff; 
+}
+
+.assessment_button.oj-button.oj-hover.oj-button-full-chrome:not(.oj-active) .oj-button-button {
+  background-color: #005fb3;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15));
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: none;
+  text-shadow: none; 
+  border-radius: 5px;
+}
+.assessment_button.oj-buttonset .oj-button.oj-hover.oj-button-full-chrome:not(.oj-active) .oj-button-icon,
+.assessment_button.oj-button.oj-hover.oj-button-full-chrome:not(.oj-active) .oj-button-icon {
+  color: #ffffff; 
+}
+
+.assessment_button.oj-button.oj-active.oj-button-full-chrome .oj-button-button {
+  background-color: #005fb3;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: none;
+  text-shadow: none; 
+  border-radius: 5px;
+}
+
+.assessment_button.oj-buttonset .oj-button.oj-active.oj-button-full-chrome .oj-button-icon,
+.assessment_button.oj-button.oj-active.oj-button-full-chrome .oj-button-icon {
+  color: #ffffff; 
+}
