@@ -1,13 +1,15 @@
 {
-  "name": "CognitiveEnterprise",
+  "name": "cbm",
   "version": "1.0.0",
   "description": "An Oracle JavaScript Extension Toolkit(JET) web app",
   "dependencies": {
     "@oracle/grunt-oraclejet": "^6.2.0",
-    "@oracle/oraclejet": "~8.3.0"
+    "@oracle/oraclejet": "~8.1.0",
+    "d3plus": "^1.9.8",
+    "orgchart": "^2.1.9"
   },
   "devDependencies": {
-    "@oracle/oraclejet-tooling": "^8.3.0",
+    "@oracle/oraclejet-tooling": "~8.1.0",
     "grunt": "^1.1.0",
     "grunt-war": "^0.5.1",
     "load-grunt-config": "^3.0.1"
