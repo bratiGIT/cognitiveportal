@@ -54,15 +54,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             }
             ];
 
-            self.constructLclznData = function(){
-                console.log("[Localization]:constructLclznData");
+            self.constructLclznData = function(){                
                 var localizationService = { url: restModule.API_URL.localization, method: "GET", data: {} };
                 localizationService.parameters = {};
                 localizationService.headers = { DOMAIN_CODE_VAR: app.selectedDomainCode() };  
                 self.lclznPrgrsVisible(true);                                             
                 restModule.callRestAPI(localizationService, function (response) {
-                    if (response.items && response.items != null) {  
-                        console.log(response.items);
+                    if (response.items && response.items != null) {                          
                         let lclzns = [];                        
                         response.items.forEach(function(item,index){
                             let lclznRow = new lclzn(item);
@@ -77,8 +75,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     
                 }, function (failResponse) {     
                     self.lclznPrgrsVisible(false);               
-                    var lclztnFailPrompt = "Lead Practice Service failure";
-                    console.log(failResponse);
+                    var lclztnFailPrompt = "Lead Practice Service failure";                    
                     app.showMessages(null, 'error', lclztnFailPrompt);
                 });
             }

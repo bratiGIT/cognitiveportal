@@ -26,8 +26,7 @@ define(['accUtils','knockout', 'appController','restModule','ojs/ojarraydataprov
       var chartLoadSignal = params.chartLoadSignal;
       /**Load signal from parent */
       if(chartLoadSignal != undefined){
-      chartLoadSignal.add(function(survy_data,takeFrmSession) {
-        console.log("Chart load Signal -- "+survy_data); 
+      chartLoadSignal.add(function(survy_data,takeFrmSession) {         
         /**Invoke Service */
         loadChartDataFrmSrvc();
       });
@@ -38,13 +37,12 @@ define(['accUtils','knockout', 'appController','restModule','ojs/ojarraydataprov
        assmntAvgSerive.parameters = {};
        assmntAvgSerive.headers = { INDUSTRY_VAR: app.selectedIndustryCode(), CLIENT_NAME: app.loggedInClient() };
        RestModule.callRestAPI(assmntAvgSerive, function (response) {
-         if (response.items && response.items != null) {
-           console.log(response);
+         if (response.items && response.items != null) {           
            constructMultiPolarData(response.items);
          } else {
          }
        }, function (failResponse) {
-         console.log(failResponse);
+         /**Error in service call */
        }); 
       }
       /**Load chart data for one industry and domain */
@@ -54,11 +52,12 @@ define(['accUtils','knockout', 'appController','restModule','ojs/ojarraydataprov
         assmntAvgSerive.headers = { INDUSTRY_VAR: app.selectedIndustryCode(), DOMAIN_VAR: app.selectedDomainCode(), CLIENT_NAME: app.loggedInClient() };
         RestModule.callRestAPI(assmntAvgSerive, function (response) {
           if (response.items && response.items != null) {
-            constructPolarData(response.items);           
+            constructPolarData(response.items);  
+            //wrapText();         
           } else {
           }
         }, function (failResponse) {
-          console.log(failResponse);
+          /**Error in service call */
         }); 
       }
       /**Construct chart data */
@@ -90,8 +89,7 @@ define(['accUtils','knockout', 'appController','restModule','ojs/ojarraydataprov
         });
         $.each(multiPolarData,function(idx,val){
           self._multi_polar_data.push({domName:val.domName,chartData:new ArrayDataProvider(val.chartData, {keyAttributes: 'id'})});
-        });
-        console.log(self._multi_polar_data());
+        });        
         constructLgnd(); 
       }   
       function ClientSeries(id,series,data){        
@@ -100,8 +98,7 @@ define(['accUtils','knockout', 'appController','restModule','ojs/ojarraydataprov
         this.groupId = [data.comp_name];
         var calculateVal = (ansrs) =>{
           let total = 0;
-          $.each(ansrs,function(idx,val){
-            console.log(val.scr);
+          $.each(ansrs,function(idx,val){            
             if(val.scr() == "")
               total += 0;   
             else
@@ -128,28 +125,42 @@ define(['accUtils','knockout', 'appController','restModule','ojs/ojarraydataprov
         app.frmScreen("survy");
         app.router.go("dataGrid");
       });
-
-      self.connected = function() {
-           console.log("chart connected");
-           app.updateCntrlrObjsFrmSession();/*to update the common parameters from session*/
-           console.log(app.selectedDomainTxt());
+      // /**SVG Text wrap */
+      /* function wrapText(){
+        var svg = document.getElementsByTagName('svg');
+        if(svg.length > 0){
+          console.log(svg);
+        for(let i=0;i<svg.length;i++){
+          let svgItm = svg[i];
+          var textElem = svgItm.querySelectorAll("text");
+          console.log(textElem);
+          if(textElem.length > 0){
+            for(let j=0;j<textElem.length;j++){
+              let txtElem = textElem[j];
+              console.log(txtElem.textContent);
+              if(txtElem.textContent.indexOf("..") == txtElem.textContent.length -2){
+                console.log(..);
+              }
+            }
+          }
+        }
+        }
+        
+      }*/
+      self.connected = function() {           
+           app.updateCntrlrObjsFrmSession();/*to update the common parameters from session*/       
+           clientLgnd[0].label = app.selChrtClientVal();
            self.inddomain({domain:app.selectedDomainTxt(),ind:app.selectedIndustryTxt()});
             loadChartDataFrmSrvc();
             if(params.smallChart){              
               self.chartStyle("chart smallSurvyChrt");
               self.selectionMode("none");
             }
-            if(params.legendHorzntl){     
-              console.log("horizontal survey legend");         
+            if(params.legendHorzntl){                         
               self.lgndOrientn("horizontal");
-              // $('#survyLgnd').addClass('smallSurvyChartLegnd');              
-              // $('#survyLgndDiv').addClass('smallSurvyChartLegndDiv');
             }
             else{
-              console.log("vertical survey legend");
               self.lgndOrientn("vertical");
-              // $('#survyLgnd').addClass('bigSurvyChartLegnd');
-              // $('#survyLgndDiv').addClass('bigSurvyChartLegndDiv');
             } 
             if(params.multiEnable){
               //call multi chart service

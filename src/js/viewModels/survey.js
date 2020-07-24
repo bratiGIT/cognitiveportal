@@ -23,7 +23,6 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
         return context.questions;
       };
       self.submitSurvy = () => {
-        /**TODO call post service */
         let maturityScores = populatePostSurvyData();
         showSbmtPrgrs();
         var postScoreSrvc = { url: RestModule.API_URL.storeQuestns, method: "POST", data: JSON.stringify(maturityScores )};        
@@ -35,8 +34,7 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
             document.getElementById('survyQues').classList.toggle('demo-page1-hide');
             document.getElementById('polarChrt').classList.toggle('demo-page2-hide');  
                    
-        }, function (failResponse) {
-          console.log(failResponse);
+        }, function (failResponse) {          
           hideSbmtPrgrs();
           /**Post failed */
         });
@@ -60,7 +58,6 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
         cptncyAvgs.dom = app.selectedDomainCode();
         cptncyAvgs.updated_by = app.userLogin();
         maturityScores.summary = cptncyAvgs;
-        console.log(maturityScores);
         return maturityScores;
       }
 
@@ -88,16 +85,15 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
           } else {
             hidePrgrs();
           }
-        }, function (failResponse) {
-          console.log(failResponse);
+        }, function (failResponse) {          
           hidePrgrs();
         });
       };
       /**Construct the questions data with answer obervables */
       var constructSurvyData = (survy_data) => {
-        let pnpnts = self.selectedPnPnts() ? (self.selectedPnPnts()[app.selectedIndustryCode()][app.selectedDomainCode()] != undefined ? self.selectedPnPnts()[app.selectedIndustryCode()][app.selectedDomainCode()] : []) : [];
-        pnpnts = pnpnts ? pnpnts.selected_pp : [];
-        console.log(pnpnts);
+        /* let pnpnts = self.selectedPnPnts() ? (self.selectedPnPnts()[app.selectedIndustryCode()][app.selectedDomainCode()] != undefined ? self.selectedPnPnts()[app.selectedIndustryCode()][app.selectedDomainCode()] : []) : [];
+        pnpnts = pnpnts ? pnpnts.selected_pp : []; */
+        let pnpnts = self.selectedPnPnts() ? self.selectedPnPnts() : [];        
         $.each(survy_data, function (idx, cmptncy) {
           $.each(cmptncy.questions, function (qsIdx, questn) {
             questn.flag = (questn.scr == undefined) ? "CREATE" : "UPDATE";
@@ -128,7 +124,6 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
           });
         });
         self.survydata(survy_data);
-        console.log(survy_data);
         if (survy_data.length > 0)
           self.selectedCmptncy(survy_data[0].comp_name);
       }
@@ -139,6 +134,11 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
         if (evt && evt.type == "click") {
           context.scr(context.scr() == cell ? 0 : cell);
         }
+      }
+      /**Go to data grid Intelligent Workflows tab */
+      self.gotoIntlgntWrkflw = () =>{
+        app.frmScreen("survy-intlgnt");
+        app.router.go("dataGrid");
       }
       /**Chart View Model - START */
       self.chartViewModule = ko.computed(function () {
@@ -173,18 +173,10 @@ define(['accUtils', 'knockout', 'appController', 'restModule', 'ojs/ojmodule-ele
       self.connected = function () {
         document.title = "CBM-Self-Survey";
         accUtils.announce('Execution page loaded.', 'assertive');
-        // let survy_data = sessionStorage.getItem("survy_data");
         app.updateCntrlrObjsFrmSession();/*to update the common parameters from session*/
-        console.log(app.selectedPainPoints());
-        self.selectedPnPnts(app.selectedPainPoints());
+        self.selectedPnPnts(getPainPointsSltdIds(app.selectedIndustryCode(), app.selectedDomainCode()));
         self.indDomainCrumb(app.selectedIndustryTxt() + ' > ' + app.selectedDomainTxt());
-        // let idfrmsessn = app.userLogin() + "_" + app.selectedDomainCode();
-        // /**Load question/answers from session if it is available */
-        // if (survy_data != null && JSON.parse(survy_data)[idfrmsessn] != undefined) {
-        //   constructSurvyData(JSON.parse(survy_data)[idfrmsessn]);
-        // } else {
-          loadSurvyQstns();
-        // }
+        loadSurvyQstns();
 
       };
 

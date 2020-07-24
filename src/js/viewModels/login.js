@@ -18,10 +18,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
             var serviceUserAccount = "portalusersvc";
             var serviceUserPassword = "Welcome1";//
             var serviceAccountCredentialToken = "Basic "+btoa(serviceUserAccount+":"+serviceUserPassword);
-            console.log("[Login]: credentialToken = "+serviceAccountCredentialToken);
             setLoggedInBtoa(serviceAccountCredentialToken);    
             restModule.updateToken(serviceAccountCredentialToken);        
-            //setLoggedInBtoa(serviceAccountCredentialToken);
         };
 
         //---------validation handler
@@ -54,9 +52,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
 
         self.validateUserLogin = function () {
 
-            console.log("[Login]::validateUserLogin begins");
-            console.log("[Login]:: REST URI = "+restModule.API_URL.validateUserLogin);
-
             var loginService = {url: restModule.API_URL.validateUserLogin, method: "GET", data: {}};
 
             /*URL Parameters*/
@@ -66,18 +61,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
             loginService.headers = { username_var: self.username(), password_var: btoa(self.password()), Authorization: getLoggedInBtoa() };
             
             restModule.callRestAPI(loginService, function (response) {
-            console.log("[Login]:: Validate Login Response Received");
             if (response.items && response.items != null) {
-                console.log(response.items[0].auth_status);
                 if (response.items[0].auth_status === "Authentication Success")
-                {
+                {                    
+                    setInSession('userLogin',self.username());                    
                     app.setLoggedInClient(self.username());
+                    app.setupChrtClientPrefList();
                     console.log("[Login]:: Login Successful. Redirecting to Search screen");
                     oj.Router.rootInstance.go('searchPortal');
                 }else{
                     console.log("[Login]:: Login Incorrect. Prompt to re-enter credentials");
                     var invalidCredentialPrompt = "Please enter valid credentials to login to the portal.";
-                    console.log(invalidCredentialPrompt);
                     app.showMessages(null, 'error', invalidCredentialPrompt);    
                 }
 
@@ -86,9 +80,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
             }
             }, function (failResponse) {
                 var loginServiceFailPrompt = "Validate Login Service failure";
-                console.log(loginServiceFailPrompt);
-                console.log(failResponse);
-                
                 app.showMessages(null, 'error', loginServiceFailPrompt);
             });
         };
@@ -109,8 +100,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','ojs/oj
             self.rmbrUsrNamePrompt("Remember Me");
         }
 
-        // Header Config
-        //self.headerConfig = {'viewName': 'header', 'viewModelFactory': app.getHeaderModel()};
 
     }
 

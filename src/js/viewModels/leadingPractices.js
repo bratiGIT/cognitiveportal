@@ -42,8 +42,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
           self.ldngPrctcPrgrsVisible(false);
         }, function (failResponse) {
           self.ldngPrctcPrgrsVisible(false);
-          var cmptncyFailPrompt = "Competency List Service failure";
-          console.log(failResponse);
+          var cmptncyFailPrompt = "Competency List Service failure";          
           app.showMessages(null, 'error', cmptncyFailPrompt);
         });
       }
@@ -70,8 +69,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
           self.ldngPrctcPrgrsVisible(false);
         }, function (failResponse) {
           self.ldngPrctcPrgrsVisible(false);
-          var lpServiceFailPrompt = "Lead Practice Service failure";
-          console.log(failResponse);
+          var lpServiceFailPrompt = "Lead Practice Service failure";          
           app.showMessages(null, 'error', lpServiceFailPrompt);
         });
       }

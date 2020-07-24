@@ -11,7 +11,7 @@ module.exports = function(grunt) {
   require('load-grunt-config')(grunt, {
     configPath: path.join(process.cwd(), 'scripts/grunt/config'),
     data: {
-      appname: 'CognitiveEnterprise_FD',  //path.basename(process.cwd()), // same as project directory name, accessible with '<%= appname %>'
+      appname: 'CognitiveEnterprise_Dev',  //path.basename(process.cwd()), // same as project directory name, accessible with '<%= appname %>'
       appdir: 'web',  // accessible with '<%= appdir %>'
       distdir: 'release'  // accessible with '<%= distdir %>'
     }

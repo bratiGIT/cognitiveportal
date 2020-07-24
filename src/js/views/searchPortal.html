@@ -51,6 +51,7 @@
                         <div id="IndustryContainer">
                           <oj-label for="industry" class="srch-prtl-label">Industry</oj-label>
                           <oj-combobox-one id="industry" required="true" placeholder="Please Search/Select" validators="[[[industryCheck]]]" 
+                            value-option="{{selectIndValOpt}}"
                             value="{{industryVal}}" options="{{industryOptionsDP}}" options-keys="[[industryOptKeys]]" 
                             on-value-changed="[[industryChangeHandler]]"
                             style="max-width:20em"
@@ -75,6 +76,7 @@
                             <div class="oj-flex-item oj-sm-12">
                               <oj-combobox-one id="process" required="true" placeholder="Please Search/Select" validators="[[[processCheck]]]"
                                 value="{{processVal}}" options="{{processOptionsDP}}" options-keys="[[processOptKeys]]"
+                                value-option="{{selectDomValOpt}}"
                                 on-value-changed="[[processChangeHandler]]" style="max-width:20em" 
                                 maximum-result-count="25" disabled="[[processLstDisable]]">
                               </oj-combobox-one>
@@ -109,8 +111,11 @@
                                 <div data-bind="visible: ppNoItemsVisible() && !ppPrgrsVisible()" style="padding-top: 30px;">
                                   <span class="name">No items to display.</span>
                                 </div>
-                                <div id="pain-point-container" style="text-align: left; height:225px; border:0px solid;">
-                                  <oj-checkboxset id="checkboxset1" class='oj-choice-direction-row' options="{{painPointsOptionsDP}}"  options-keys="[[painPointsOptKeys]]" value="{{painPointsVal}}">
+                                <div data-bind="hidden: ppNoItemsVisible" id="pain-point-container" style="text-align: left; height:225px; border:0px solid;">
+                                  <oj-checkboxset id="checkboxset1" class='oj-choice-direction-row' options="{{painPointsOptionsDP}}"  
+                                  options-keys="[[painPointsOptKeys]]" 
+                                  value="{{painPointsVal}}"
+                                  on-value-changed="[[painPointChangeHandler]]">
                                   </oj-checkboxset> 
                                 </div>                                
                               </oj-form-layout>

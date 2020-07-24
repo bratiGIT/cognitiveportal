@@ -49,9 +49,7 @@
     <script src="js/utils.js"></script>
     <script src="js/libs/progress.js"></script>
     <!--Org Chart Inclusion-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="js/js/d3.js"></script>
-    <script type="text/javascript" src="js/js/d3plus.js"></script>    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>       
     <link rel="stylesheet" href="css/jquery.orgchart.css" type="text/css"/>
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 
@@ -101,14 +99,26 @@
                   <div id="CurrencyContainer">
                     <oj-label for="currencyList" class="oj-sm-padding-1x-top" style="font-size:13pt;">Select Currency
                     </oj-label>
-                    <oj-combobox-one id="currencyList" value="{{selCurrencyVal}}" options="{{currencyOptionsDP}}" options-keys="[[currencyOptKeys]]" on-value-changed="[[currencyChangeHandler]]" class="combo-box-width">
+                    <oj-combobox-one id="currencyList" value="{{selCurrencyVal}}" options="{{currencyOptionsDP}}" options-keys="[[currencyOptKeys]]" 
+                        on-value-changed="[[currencyChangeHandler]]" class="combo-box-width">
+                    </oj-combobox-one>
+                    <oj-label for="chrtClientList" class="oj-sm-padding-1x-top" style="font-size:13pt;">Chart User Legend
+                    </oj-label>
+                    <!-- <oj-combobox-one id="chrtClientList" value="{{selChrtClientVal}}" options="{{chrtClientOptionsDP}}" options-keys="[[chrtClientOptKeys]]" 
+                        class="combo-box-width" label-hint="Chart User Legend">
+                    </oj-combobox-one> -->
+                    <oj-input-text value="{{selChrtClientVal}}"></oj-input-text>
+                    <oj-label for="deleteChrtSmryOptn" class="oj-sm-padding-1x-top" style="font-size:13pt;">Clear Maturity Scores
+                    </oj-label>
+                    <oj-combobox-one id="deleteChrtSmryOptn" value="{{shuldDeleteChrtSmry}}" options="{{chrtSmryDeleteDP}}"  
+                        class="combo-box-width" label-hint="Delete Assesment Summary">
                     </oj-combobox-one>
                   </div>
                 </div>
               </div>
               <div slot="footer" style="padding: 0;">
                 <div class="oj-flex oj-flex-item oj-sm-12 oj-md-12">
-                  <oj-button id="okButton" on-oj-action="[[close]]" :class="button-blue pref-btn-ok">Apply</oj-button>
+                  <oj-button id="okButton" on-oj-action="[[applyPreferences]]" :class="button-blue pref-btn-ok">Apply</oj-button>
                 </div>
               </div>
             </oj-dialog>

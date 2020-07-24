@@ -157,7 +157,7 @@ html[dir="rtl"] .oj-buttonset-multi.oj-button-outlined-chrome .oj-button:not(.oj
   height: 100%;
   margin-bottom: 0px;
   font-size: 0.85rem;
-  
+  width: 50%;
 }
 
 .core_button .oj-button-jqui.oj-selected.oj-button-full-chrome, .oj-button.oj-selected.oj-button-full-chrome .oj-button-button {

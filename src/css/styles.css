@@ -717,17 +717,17 @@ Low : #a6c8ff */
 
 .core-datagrid-high1.oj-datagrid-cell {
   /*border: 1px solid #29549a !important;  /*#71a6fd 29549a */
-  outline: 2px ridge #29549a; 
+  outline: 2px ridge #00539A; 
   outline-offset: -3px;
 }  
 .core-datagrid-med1.oj-datagrid-cell {
   /* border: 1px solid #29549a !important;     */
-  outline: 2px ridge #29549a; 
+  outline: 2px ridge #00539A; 
   outline-offset: -3px;
 }  
 .core-datagrid-low1.oj-datagrid-cell {
   /*border: 1px solid #29549a !important;  */
-  outline: 2px ridge #29549a; 
+  outline: 2px ridge #00539A; 
   outline-offset: -3px;
 }
 
@@ -738,7 +738,7 @@ Low : #a6c8ff */
   border:1px solid rgb(115, 115, 116); 
   /* border: 1px solid #dd3333 !important; */
   color: rgba(0, 0, 0, 0.6);
-  background: #99b3df;
+  background: #99d8ff;
   /* border-top: 3px solid #5197ff !important;
   border-left: 3px solid #5197ff !important;
   border-right: 3px solid #5197ff !important;
@@ -762,11 +762,29 @@ Low : #a6c8ff */
 }
 
 .legend-box1 {
-  border: 1px;
-  width: 30px;
+  border: 1px;  
   height: 15px;
+  line-height: 15px;
   padding: 5px;
+  width:100%;
   text-align: center;
+  font-weight: bold;
+}
+.legend-box1 span{  
+  display: inline-block;
+  font-size:0.85rem;
+}
+.legend-cog-asset {
+  /* outline: 0.99px solid rgb(115, 115, 116);  */
+  color: rgba(0, 0, 0, 0.6);
+  background: #99d8ff;
+  border: 1px solid #86cffd;
+  /* outline-offset: -1px; */
+}
+
+.legend-asset-maturity {
+  outline: 2px ridge #00539A; 
+  outline-offset: -3px;
 }
 
 .legend-high {
@@ -1373,6 +1391,7 @@ left: 5 px;*/
 }
 .indPainPnts .oj-listview-item {
   font-weight: 500;
+  font-size: .95em;
 }
 
 .indPainPnts .oj-listview-item .desc {
@@ -1588,4 +1607,16 @@ html:not([dir="rtl"]) .oj-choice-direction-row .oj-choice-item:not(:last-child) 
 }
 .business-process .oj-select {
   font-size: 1.1rem;
+}
+
+.btn_placing {
+  height: 45px;
+}
+.btn_placing .oj-button .oj-button-text, .oj-button-nocomp {
+  white-space: pre-wrap;
+  text-align: center;
+}
+.btn_placing .oj-button-jqui, .oj-button-nocomp, .oj-button-button {
+  white-space: pre-wrap;
+  text-align: center;
 }

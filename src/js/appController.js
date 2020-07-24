@@ -6,7 +6,9 @@
 /*
  * Your application specific code will go here
  */
-define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'restModule', 'ojs/ojmodel','ojs/ojmodule-element', 'ojs/ojknockout', 'ojs/ojdialog', 'ojs/ojselectcombobox','ojs/ojmessages', 'ojs/ojmessage','ojs/ojprogress','restModule' ],
+define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 
+        'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'restModule', 'ojs/ojmodel','ojs/ojmodule-element', 
+        'ojs/ojknockout', 'ojs/ojdialog', 'ojs/ojselectcombobox','ojs/ojmessages', 'ojs/ojmessage','ojs/ojprogress','restModule' ,'ojs/ojinputtext'],
   function(ko, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, Router, ArrayDataProvider, KnockoutTemplateUtils, restModule) {
      function ControllerViewModel() {
        var self = this;
@@ -32,7 +34,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.frmScreen = ko.observable("searchPortal");
 
       //dakshayani: changes
-      self.selectedPainPoints = ko.observable();
+      //self.selectedPainPoints = ko.observable();
 
        //--------dhrajago addition for global variables ends--------
 
@@ -111,7 +113,6 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       }
       
       self.setCntrlrObjsInSession = function(){
-        console.log("selected domain - "+self.selectedDomainTxt());
         setInSession('selectedDomain',self.selectedDomain());
         setInSession('selectedIndustryTxt',self.selectedIndustryTxt());
         setInSession('selectedDomainTxt',self.selectedDomainTxt());
@@ -120,8 +121,9 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         setInSession('selectedBWL',self.selectedBWL());
         setInSession('localizationLnk',self.localizationLnk());
         setInSession('loggedInClient',self.loggedInClient());
-        setInSession('userLogin',self.userLogin());
-        setInSession('selectedPainPoints',self.selectedPainPoints());//dakshayani: changes
+        setInSession('userLogin',self.userLogin());        
+        setInSession('selChrtClientVal',self.selChrtClientVal());
+        self.setupChrtClientPrefList();
       }
 
       self.updateCntrlrObjsFrmSession = function(){
@@ -133,8 +135,16 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         self.selectedBWL(getFromSession('selectedBWL'));
         self.localizationLnk(getFromSession('localizationLnk'));
         self.loggedInClient(getFromSession('loggedInClient'));
-        self.userLogin(getFromSession('userLogin'));
-        self.selectedPainPoints(getFromSession('selectedPainPoints'));//dakshayani: changes
+        self.userLogin(getFromSession('userLogin'));        
+        self.selChrtClientVal(getFromSession('selChrtClientVal'));     
+        self.setupChrtClientPrefList();
+      }
+
+      function clearSessionVars(){
+        sessionStorage.removeItem("loggedInClient");
+        sessionStorage.removeItem("selectedDomainCode");
+        sessionStorage.removeItem("selectedIndustryCode");
+        sessionStorage.removeItem("selChrtClientVal");
       }
       // Navigation setup
       /* var navData = [
@@ -155,20 +165,20 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.appNameSubtitle = ko.observable(" | Powered By IBM RapidMove for Oracle Cloud");
       // User Info used in Global Navigation area
       self.userLogin = ko.observable("client.com");
+      var userLogin = getFromSession('userLogin');
+      if(userLogin) {
+        self.userLogin(getFromSession('userLogin'));
+      }
       
       //---- dhrajago addition for Global Messages & Global Progress Indicator begins----
       /*Global progress indicator*/
       self.globalProgress = ko.observable(-1);
       self.globalProgressVisible = ko.observable(false);
       self.showGlobalProgress = function(){
-          console.log("show progress");
           self.globalProgressVisible(true);
-          console.log($("#globalProgressC"));
           $("#globalProgressC").css("visibility","visible"); 
-          console.log(self.globalProgressVisible());
       };
       self.hideGlobalProgress = function(){
-          console.log("hide progress");
           $("#globalProgressC").css("visibility","hidden"); 
           self.globalProgressVisible(false);
       };
@@ -202,36 +212,34 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.selCurrencyVal = ko.observable("USD");
       self.currencyOptionsDP = ko.observableArray([]);
       self.currencyOptKeys = { value: "curr_code", label: "curr_value" };
-
+      self.selChrtClientVal = ko.observable("");
+      var _YOUItem = {name:"YOU",code:"YOU"};
+      self.chrtClientOptionsDP = ko.observableArray([]);
+      self.chrtClientOptKeys = { value: "code", label: "name" };
+      self.shuldDeleteChrtSmry = ko.observable("NO");
+      self.chrtSmryDeleteDP = ko.observableArray([{label:'Yes',value:'YES'},{label:'No',value:'NO'}]);
       //Set Session Currency
       var currencyFrmSession = getCurrentUserCurrency();
-      console.log("Currency From Session: "+currencyFrmSession);
       self.selCurrencyVal(currencyFrmSession);
 
-
+      self.setupChrtClientPrefList = function(){
+        self.chrtClientOptionsDP([]);
+        self.chrtClientOptionsDP.push(_YOUItem);
+        self.chrtClientOptionsDP.push({name:self.loggedInClient(),code:self.loggedInClient()});
+        self.selChrtClientVal(self.selChrtClientVal() != "" ? self.selChrtClientVal() : self.loggedInClient());
+      }
       //------code addition for currency list view begins---------------
       self.loadCurrencyListData = function () {
-
-        console.log("[appController]::loadCurrencyListData begins");
-        console.log("[appController]:: REST URI = "+restModule.API_URL.getCurrencies);
-
-        var currencyService = {url: restModule.API_URL.getCurrencies, method: "GET", data: {}, parameters:{}, headers:{}};
-        
+        var currencyService = {url: restModule.API_URL.getCurrencies, method: "GET", data: {}, parameters:{}, headers:{}};        
         restModule.callRestAPI(currencyService, function (response) {
-            //console.log("[appController]:: Get Currency List Success Response");
             if (response.items && response.items != null) {
-              //console.log(response.items);
               self.currencyOptionsDP([]);
-              self.currencyOptionsDP(new ArrayDataProvider(response.items, {keyAttributes: 'curr_code'}));
-                      
+              self.currencyOptionsDP(new ArrayDataProvider(response.items, {keyAttributes: 'curr_code'}));                      
             } else {
 
             }
             }, function (failResponse) {
                 var currencyServiceFailPrompt = "Get Currency List Service Failed";
-                console.log(currencyServiceFailPrompt);
-                console.log(failResponse);
-                
                 app.showMessages(null, 'error', currencyServiceFailPrompt);
             });
       };
@@ -242,21 +250,13 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
      
       //----------Fetch Currency Conversion Rate Begins-------------
       //self.currencyParam = ko.observable("USD_"+self.selCurrencyVal());      
-      self.currencyRate = ko.observable("1");
-      console.log("[appController]:Currency Rate Service Callout::");
-      
+      self.currencyRate = ko.observable("1");      
       this.currencyChangeHandler = function (event)
       {
-        console.log(self.selCurrencyVal());
-        console.log(event);
-
         self.getCurrConversionRate();  
       }.bind(this);
 
       self.getCurrConversionRate = function () {
-
-        console.log("[appController]::getCurrConversionRate begins");
-        //console.log("[appController]:: REST URI = "+restModule.API_URL.getCurrencyRate);
 
         var currencyRateService = {url: restModule.API_URL.getCurrencyRate, method: "GET", data: {}};
 
@@ -267,24 +267,18 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         currencyRateService.headers = {};
 
         restModule.callRestAPI(currencyRateService, function (response) {
-            //console.log("[appController]:: getCurrConversionRate : Fetch Currency Rate Service Success Response");
             if (response && response != null) {
               for( var key in response){
                 self.currencyRate(response[key]);
                 setCurrentUserCurrencyRate(self.currencyRate());
                 setCurrentUserCurrency(self.selCurrencyVal());
-                console.log("[appController]::getCurrConversionRate:: Currency Rate is => ");
-                console.log(response[key]);
               }
             } else {
               console.log("[appController]::getCurrConversionRate:: No currency rate defined");
             }
             }, function (failResponse) {
-                var currencyRateServiceFailPrompt = "Fetch Currency Rate Service Failed";
-                console.log(currencyRateServiceFailPrompt);
-                console.log(failResponse);
-                
-                app.showMessages(null, 'error', currencyRateServiceFailPrompt);
+                var currencyRateServiceFailPrompt = "Fetch Currency Rate Service Failed";                
+                //this.showMessages(null, 'error', currencyRateServiceFailPrompt);
             });
         };
       //----------Fetch Currency Conversion Rate ends-------------
@@ -294,27 +288,42 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         if(username && username != null){
           _client_name = username.substr(username.indexOf("@")+1,(username.lastIndexOf('.com')-(username.indexOf("@")+1))); 
         }        
-        console.log(_client_name);
         self.loggedInClient(_client_name.toUpperCase());
       }
 
       self.logOut = function(event) {
         self.setPadding = ko.observable(0);
+        clearSessionVars();
         oj.Router.rootInstance.go('login');
       }
 
 
-      self.close = function (event) {
+      self.applyPreferences = function (event) {
         var selCurrVal = document.getElementById('currencyList').value;
-        console.log(selCurrVal);
         if(selCurrVal!="")
          {
           setCurrentUserCurrency(selCurrVal);
           if (selCurrVal === "USD")
             setCurrentUserCurrencyRate("1.0");
-         }
-        document.getElementById('currencyDialog').close();
+         }        
+        setInSession('selChrtClientVal',self.selChrtClientVal());
+        document.getElementById('currencyDialog').close();        
         $("#cbmCurrency").text(selCurrVal); 
+        /**Delete Assesment summary data */
+        console.log(self.shuldDeleteChrtSmry());
+        if(self.shuldDeleteChrtSmry() == 'YES'){
+          var dltAssesmentSmrySrvc = { url: restModule.API_URL.deleteAssesmentSmry, method: "DELETE", data: {} };
+          dltAssesmentSmrySrvc.headers = {CLIENT_NAME:self.loggedInClient()}
+          restModule.callRestAPI(dltAssesmentSmrySrvc, function (response) {
+            location.reload(false);
+            self.shuldDeleteChrtSmry("NO");
+          }, function (failResponse) {
+              self.showMessages(null, 'error', "Could not delete assesment summary data");
+              self.shuldDeleteChrtSmry("NO");
+          });   
+        }
+        else
+          location.reload(false);
       }
 
       self.openPrefDialog = function (event) {

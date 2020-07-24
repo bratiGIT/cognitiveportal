@@ -16,8 +16,6 @@ function setInSession(variable,value){
 };
 /*get from session*/
 function getFromSession(variable){
-    console.log(variable);
-    console.log(sessionStorage.getItem(variable));
     if(sessionStorage.getItem(variable) && sessionStorage.getItem(variable) != "undefined"){
         return JSON.parse(sessionStorage.getItem(variable));
     }
@@ -119,7 +117,6 @@ function getCurrencyConverter(){
         currencyOptions = {"style": "currency", "currency": "", 
                                "currencyDisplay": "code", "pattern": "¤ ##,##0.00"};//// Sample
     }
-    console.log(currencyOptions);
     return currencyConverter = convFactory.createConverter(currencyOptions);
 }
 
@@ -130,6 +127,76 @@ function getLoggedInBtoa(){
  
 function setLoggedInBtoa(token){
    setInSession("loggedInBtoa",token);
+}
+
+/*Get Pain Points selected ids from session*/
+function getPainPointsSltdIds(indCode,domCode){
+    var selected_pps =  getFromSession("selectedPainPoints");
+    //console.log(indCode, domCode, selected_pps)
+    if(selected_pps===null) selected_pps=undefined;
+    var selectedPPItems = [];
+    if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+    {
+        if(selected_pps[indCode][domCode]!=undefined)
+        {
+            let ppArr = selected_pps[indCode][domCode];
+            if(ppArr["selected_pp"]!=undefined)
+            {
+                selectedPPItems = ppArr["selected_pp"];
+            }
+        }
+    }
+    return selectedPPItems;
+}
+/*Set Pain Points selected ids into session*/
+function setPainPointsSltdIds(indCode,domCode,value){
+
+    /* let prevData = getFromSession("selectedPainPoints");
+    Object.keys(value).forEach(function(val, key){
+         prevData[val] = value[val];
+    })
+    sessionStorage.setItem('selectedIds', JSON.stringify(prevData)); */
+
+    //console.log(indCode, domCode, value)
+    var selected_pps = getFromSession("selectedPainPoints");
+    //console.log(selected_pps);
+    if(selected_pps===null) selected_pps=undefined;
+    var jsonData = {};
+    var jsonData1 = {};
+    if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
+    {
+        //Updating session value if exists
+        var jsonData = selected_pps[indCode];
+        if(jsonData[domCode]!=undefined)
+        {
+            var ppArr = selected_pps[indCode][domCode];
+            //console.log(ppArr);
+            if(ppArr["selected_pp"]!=undefined)
+            {
+                ppArr["selected_pp"] = value;
+            }
+            else {
+                ppArr = {
+                    "selected_pp": value
+                }
+            }
+        }
+        else {
+            jsonData[domCode] = {
+                "selected_pp": value
+            }
+        }
+        setInSession("selectedPainPoints",selected_pps);
+    }
+    else {
+        //Adding into session first time
+        jsonData1[domCode] = {
+            "selected_pp": value
+        }
+        jsonData[indCode] = jsonData1;
+        //console.log(jsonData);
+        setInSession("selectedPainPoints",jsonData);
+    }
 }
 
 var cbmContext = {

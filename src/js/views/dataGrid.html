@@ -2,7 +2,7 @@
  Copyright (c) 2014, 2019, Oracle and/or its affiliates.
  The Universal Permissive License (UPL), Version 1.0
  -->
- <div class="oj-hybrid-padding" style="padding: 0;">
+<div class="oj-hybrid-padding" style="padding: 0;">
     <!-- <div style="background-color: #054ADA; height:45px;">
         <div style="width:60%; float: left;"><h1 style="margin: 0; padding-left: 20px;color:#408BFC; font-size:30px;">Business Process > <span style="color:#ffffff;">Procurement Management</span></h1></div>
         <div style="width:10%; float: right; margin:12px;"><span style="color:#ffffff;font-weight: bold;" on-click=[[goBack]]>< Back</span></div>
@@ -23,163 +23,198 @@
                     <!-- <p style="margin-left: 22px; font-size:22px;"><span><oj-bind-text value="[[gridPageHeader]]"></oj-bind-text></span></p> -->
 
                     <p style="margin-left: 22px; font-size:22px;">
-                        <span><oj-bind-text value="[[gridPageHeader]]"></oj-bind-text></span>
-                        <oj-select-one id="process"  
-                            value="{{processVal}}" 
-                            options="{{processOptionsDP}}" options-keys="[[processOptKeys]]"
-                            on-value-changed="[[processChangeHandler]]" 
-                            style="max-width:20em; margin-left:-3px;"
-                            raw-value="{{selectedDomainTxt}}"
-                            maximum-result-count="25"
-                            class="business-process">
+                        <span>
+                            <oj-bind-text value="[[gridPageHeader]]"></oj-bind-text>
+                        </span>
+                        <oj-select-one id="process" value="{{processVal}}" options="{{processOptionsDP}}"
+                            options-keys="[[processOptKeys]]" on-value-changed="[[processChangeHandler]]"
+                            style="max-width:20em; margin-left:-3px;" raw-value="{{selectedDomainTxt}}"
+                            maximum-result-count="25" class="business-process">
                         </oj-select-one>
                     </p>
                 </div>
                 <div class="oj-flex-item oj-sm-2" style="padding-right: 19px;padding-left:2px;">
                     <!--Rapid Move Button-->
-                            <oj-button id="rapidMvBtn" chroming='solid' class="red-button oj-sm-12" on-oj-action="[[openRapidMoveDialog]]">                                
-                                Rapid Move
-                            </oj-button>
-                   
+                    <oj-button id="rapidMvBtn" chroming='solid' class="red-button oj-sm-12"
+                        on-oj-action="[[openRapidMoveDialog]]">
+                        Rapid Move
+                    </oj-button>
+
                 </div>
                 <!--moved button bar to same level as grid-->
                 <!-- <div class="oj-flex-item oj-sm-12 oj-md-2">       
                 </div> -->
             </div>
-        
+
             <!-- main content -->
             <div id="mainContent" class="demo-main-content">
                 <div class="demo-flex-display oj-flex-items-pad">
                     <div class="oj-flex">
                         <!--div for data grid-->
                         <div :class="[[gridScale()]]">
-                            <div class="srch-logo-container" style="height:75px; align-content: center; margin-top: 100px;" data-bind="visible: dataGridPrgrsVisible">
-                                    <div class="srch-ind-logo-align">
-                                        <oj-progress id="dataGridProgress" type="circle" value="{{waitProgress}}"
-                                            style="opacity:0.8;position:relative;left:45%;top:50%;" data-bind="visible: dataGridPrgrsVisible"></oj-progress>
-                                    </div>
+                            <div class="srch-logo-container"
+                                style="height:75px; align-content: center; margin-top: 100px;"
+                                data-bind="visible: dataGridPrgrsVisible">
+                                <div class="srch-ind-logo-align">
+                                    <oj-progress id="dataGridProgress" type="circle" value="{{waitProgress}}"
+                                        style="opacity:0.8;position:relative;left:45%;top:50%;"
+                                        data-bind="visible: dataGridPrgrsVisible"></oj-progress>
+                                </div>
                             </div>
-                            
-                            <oj-data-grid id="datagrid" data-bind="visible: dataGridProgress, style: { height: gridHeight() }"
+
+                            <oj-data-grid id="datagrid"
+                                data-bind="visible: dataGridProgress, style: { height: gridHeight() }"
                                 style="max-width:100%;width:99.1%;border:0;background-color: #fafafa;"
-                                aria-label="CBM Data Grid"
-                                data="[[cbmDataSource]]"
-                                selection-mode.cell="single" 
-                                header.column.style="[[columnHeaderStyle]]" 
-                                header.column.resizable.width="enable"
-                                header.column.sortable="disable"
-                                header.column.renderer="[[columnHeaderRenderer]]"
-                                header.row.style="[[rowHeaderStyle]]"
-                                cell.renderer="[[cellRenderer]]"
-                                cell.class-name="[[cellClassName]]" 
-                                cell.style="[[cellColorHighlight]]"
-                            ></oj-data-grid>
+                                aria-label="CBM Data Grid" data="[[cbmDataSource]]" selection-mode.cell="single"
+                                header.column.style="[[columnHeaderStyle]]" header.column.resizable.width="enable"
+                                header.column.sortable="disable" header.column.renderer="[[columnHeaderRenderer]]"
+                                header.row.style="[[rowHeaderStyle]]" cell.renderer="[[cellRenderer]]"
+                                cell.class-name="[[cellClassName]]" cell.style="[[cellColorHighlight]]"></oj-data-grid>
 
                             <script type="text/html" id="cellTemplate">
                                 <span data-bind="text: $context.data, click: function(){ $parent.openBizCompDialog(event,$context); }"></span>
                             </script>
-                            
+
                         </div>
                         <!--div for data grid ends-->
-                        
-                        <div :class="[[gridSidePanelScale()]]">                            
+
+                        <div :class="[[gridSidePanelScale()]]">
                             <!--button bar for Core / Classic begins-->
-                            <div class="btn_placing">                        
-                                <oj-buttonset-one class="core_button" id="btnSwitch" labelled-by="mainlabelid" value="{{currentBtn}}" 
-                                on-value-changed=[[valueChangeHandler]]>
+                            <div class="btn_placing">
+                                <oj-buttonset-one class="core_button" id="btnSwitch" labelled-by="mainlabelid"
+                                    value="{{currentBtn}}" on-value-changed=[[valueChangeHandler]]>
                                     <oj-bind-for-each data="[[btnOptions]]">
                                         <template>
-                                        <oj-option  class="[[$current.data.cls]]" :id="[[$current.data.id]]" value="[[$current.data.value]]">
-                                            <oj-bind-text value="[[$current.data.btn]]"></oj-bind-text>
-                                        </oj-option>
+                                            <oj-option class="[[$current.data.cls]]" :id="[[$current.data.id]]"
+                                                value="[[$current.data.value]]">
+                                                <oj-bind-text value="[[$current.data.btn]]"></oj-bind-text>
+                                            </oj-option>
                                         </template>
                                     </oj-bind-for-each>
                                 </oj-buttonset-one>
                             </div>
-                                                        
+
                             <!--button bar for Core / Classic ends-->
-        
+
                             <!--heat map view legend begins-->
-                            <div data-bind="style: { display: currentBtn()=='core' ? '' : 'none' }" style="padding: 8px 0;">
-                                <div class="oj-sm-padding-1x-top oj-sm-padding-1x-bottom" style="font-weight: bold;">Asset Maturity:</div>
+                            <div data-bind="style: { display: currentBtn()=='core' ? '' : 'none' }"
+                                style="padding: 8px 0;">
+                                <div class="oj-sm-padding-1x-top oj-sm-padding-1x-bottom" style="font-weight: bold;">
+                                    Asset Maturity:</div>
                                 <div class="legend-container">
                                     <div class="legend-box legend-high" style="font-weight: bold;">H</div>
                                     <div class="legend-box legend-med" style="font-weight: bold;">M</div>
-                                    <div class="legend-box legend-low" style="font-weight: bold;">L</div>                                     
+                                    <div class="legend-box legend-low" style="font-weight: bold;">L</div>
                                 </div>
-                            
+
                             </div>
                             <!--heat map view legend ends-->
 
 
                             <!--gridSidePanel begins-->
                             <!-- <oj-module id="gridSidePanel" config="[[gridSidePanelConfig]]" /> -->
-                            <div class="demo-container oj-flex demo-edge-top" id="grid-side-panel">    
-                                <div class="gridPanelcntnt">        
+                            <div class="demo-container oj-flex demo-edge-top" id="grid-side-panel">
+                                <div class="gridPanelcntnt">
                                     <!--<p><strong><a href="#" on-click="[[openRapidMoveDialog]]">Rapid Move</a></strong></p>-->
                                     <!-- onmouseover="oldColor=this.style.backgroundColor;this.style.backgroundColor='#82CFFF';" onMouseOut="this.style.backgroundColor=oldColor;" -->
-                            
+
                                     <!-- <p class="bold">Short Description</p> 
                                     <p data-bind="text:shortDescription"></p> -->
-                                    <div data-bind="hidden:showIndpainPnts">
-                                    <p class="bold oj-flex-item oj-sm-padding-2x-top" style="margin-top:8px;margin-bottom:15px">Details:</p>
-                                    <p><a data-bind="attr:{href:bwl}" target="_blank">Business Processes (Blueworks Live)</a></p>
-                                    <!-- <p data-bind="visible: showLocalzn"><a data-bind="attr:{href:localizationUrl}" target="_blank">Localization</a></p> -->
-                                    <!--The below is for static Localization Module mapping. Commented as it is WIP-->
-                                    <p data-bind="visible: showLocalzn"><a data-bind="click:lclznLnkClick" href="#">Localization</a></p>
-                                    <p><a href="#" on-click="[[openLeadPractDialog]]">Leading Practices</a></p>
-                                    <p><a href="#"  on-click="[[openOrgChartDialog]]">Organization Chart</a></p>
-                                    <p id="cbmCurrency">Currency - <oj-bind-text value="[[setSelectedCurrency]]"></oj-bind-text></p> 
-                                    
-                                    </div>       
-                                    <!-- <br/> -->        
-                                    <div data-bind="visible:showIndpainPnts">
-                                        <h5 class="indPnPtsTitle">Business Drivers</h5>
-                                        <oj-list-view id="listview" aria-label="simple list" data="[[indPainPntsDataProvider]]" class="indPainPnts" selection-mode="multiple" 
-                                        selection="{{selectedItems}}"
-                                        on-selection-changed="[[handleSelectionChanged]]"
-                                        style="height: 210px; overflow-y: scroll;">
-                                            <template slot="itemTemplate" data-oj-as="item">            
-                                                <div class="container" on-click="[[showPPCompSelected]]"  :id="[[item.index + 'solutiondiv']]">
+                                    <!-- <div data-bind="if:currentBtn()=='intWorkflow'">
+                                        <div class="oj-sm-padding-2x-top oj-sm-padding-1x-bottom"
+                                            style="display: flex;">
+                                            <div class="legend-box1 legend-asset-maturity" style="margin: 0 10px;">
+                                            </div>
+                                            <span style="font-size:0.89em;">Cognitive Asset<span>
+                                        </div> -->
+                                        <!-- <p class="bold oj-flex-item oj-sm-padding-2x-top" style="margin-top:8px;margin-bottom:15px">Details:</p>
+                                        <p><a data-bind="attr:{href:bwl}" target="_blank">Business Processes (Blueworks Live)</a></p> -->
+                                        <!-- <p data-bind="visible: showLocalzn"><a data-bind="attr:{href:localizationUrl}" target="_blank">Localization</a></p> -->
+                                        <!--The below is for static Localization Module mapping. Commented as it is WIP-->
+                                        <!-- <p data-bind="visible: showLocalzn"><a data-bind="click:lclznLnkClick" href="#">Localization</a></p>
+                                        <p><a href="#" on-click="[[openLeadPractDialog]]">Leading Practices</a></p>
+                                        <p><a href="#"  on-click="[[openOrgChartDialog]]">Organization Chart</a></p>
+                                        <p id="cbmCurrency">Currency - <oj-bind-text value="[[setSelectedCurrency]]"></oj-bind-text></p>  -->
+                                    <!-- </div> -->
+                                    <!-- <br/> -->
+                                    <div>
+                                        <div class="oj-sm-padding-2x-top"
+                                            style="display: flex;">
+                                            <div class="legend-box1 legend-cog-asset" style="margin: 0 10px;">
+                                                <span>Value Lever<span></span>
+                                            </div>                                            
+                                        </div>
+                                        <div data-bind="if:currentBtn()=='intWorkflow'" class="oj-sm-padding-2x-top"
+                                            style="display: flex;">
+                                            <div class="legend-box1 legend-asset-maturity" style="margin: 0 10px;">
+                                                <span>IBM Solution<span></span>
+                                            </div>                                            
+                                        </div>
+                                        <div data-bind="if:currentBtn()=='indSpec'" class="oj-sm-padding-1x-bottom">
+                                            <label class="bold" for="show-details"
+                                                style="font-size: 13px; margin-right: 5px;">Additional Details</label>
+                                            <oj-switch value="{{showDetails}}"></oj-switch>
+                                            <div id="show-details" data-bind="visible: showDetails">
+                                                <p><a data-bind="attr:{href:bwl}" target="_blank">Business Processes (Blueworks Live)</a></p>
+                                                <p data-bind="visible: showLocalzn"><a data-bind="click:lclznLnkClick" href="#">Localization</a></p>
+                                                <p><a href="#" on-click="[[openOrgChartDialog]]">Organization Chart</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <h7 class="indPnPtsTitle">Business Drivers</h7>
+                                        <oj-list-view id="listview" aria-label="simple list"
+                                            data="[[indPainPntsDataProvider]]" class="indPainPnts"
+                                            selection-mode="multiple" selection="{{selectedItems}}"
+                                            on-selection-changed="[[painPointSltnHandler]]"
+                                            style="height: 210px; overflow-y: scroll;">
+                                            <template slot="itemTemplate" data-oj-as="item">
+                                                <div class="container" on-click="[[showPPCompSelected]]"
+                                                    :id="[[item.index + 'solutiondiv']]">
                                                     <div>
-                                                        <span class="name"><oj-bind-text value="[[item.data.title]]"></oj-bind-text></span>
+                                                        <span class="name">
+                                                            <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                                                        </span>
                                                     </div>
                                                     <!-- <div id="painPtData" class="oj-sm-padding-1x-top desc" data-bind="visible: item.data.showDetl">
                                                         <div><span class="name"><oj-bind-text value="[[item.data.desc]]"></oj-bind-text></span></div>
                                                         <div style="margin-top:5px;"><a  data-bind="disable:item.data.solutions.length > 0 ? true : false" on-click="[[selectIndPainPtSltn]]" target="_blank">Solution</a></div>
-                                                    </div> -->                                
+                                                    </div> -->
                                                 </div>
                                             </template>
-                                        </oj-list-view>                                        
-                                        <div class="oj-flex" data-bind="click: openPolarChrtDialog" id="smallPolarChrt">                                        
+                                        </oj-list-view>
+                                        <div class="oj-flex" data-bind="click: openPolarChrtDialog" id="smallPolarChrt">
                                             <oj-module config="[[chartViewModule]]" id="asmntChart"></oj-module>
                                         </div>
-                                        <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center">
+                                        <div data-bind="if:currentBtn()=='indSpec'"
+                                            class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center">
                                             <div class="oj-flex-item">
-                                                <oj-button id='AssesmntBtn' :class="assessment_button" on-oj-action='[[goToSurvey]]' style="margin:10px;     border-radius: 5px" class="oj-sm-12">
+                                                <oj-button id='AssesmntBtn' :class="assessment_button"
+                                                    on-oj-action='[[goToSurvey]]'
+                                                    style="margin:10px;     border-radius: 5px" class="oj-sm-12">
                                                     <span>
-                                                    <oj-bind-text value="Self Assessment"></oj-bind-text>
+                                                        <oj-bind-text value="Self Assessment"></oj-bind-text>
                                                     </span>
                                                 </oj-button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            
-                                
+
+
                             </div>
-                            <!--gridSidePanel ends--> 
+                            <!--gridSidePanel ends-->
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
             <!--mainContent ends-->
         </div>
 
-        <oj-dialog style="display:none; width:25.5em; min-height:55.75em" id="bizCompDialog" position.my.horizontal="right"
-            position.my.vertical="top" position.at.horizontal="right" position.at.vertical="top" position.of="window"
-            position.offset.x="0" position.offset.y="0" modality="modeless" on-oj-close="[[bizCompDialogCloseHandler]]">
+        <oj-dialog style="display:none; width:25.5em; min-height:55.75em" id="bizCompDialog"
+            position.my.horizontal="right" position.my.vertical="top" position.at.horizontal="right"
+            position.at.vertical="top" position.of="window" position.offset.x="0" position.offset.y="0"
+            modality="modeless" on-oj-close="[[bizCompDialogCloseHandler]]">
             <div slot="header">
                 <div class="oj-flex oj-sm-flex-items-1">
                     <!-- <div id="backNavContainer" class="oj-sm-padding-2x-end demo-region-hide">
@@ -198,8 +233,14 @@
             <div slot="body">
 
                 <div id="compHdrRegion">
-                    <p><h5><oj-bind-text value="[[selectedBizCompName]]"></oj-bind-text></h5></p>
-                    <p class="smallFont" style="white-space: pre-line;"><oj-bind-text value="[[selectedBizCompDesc]]"></p>
+                    <p>
+                    <h5>
+                        <oj-bind-text value="[[selectedBizCompName]]"></oj-bind-text>
+                    </h5>
+                    </p>
+                    <p class="smallFont" style="white-space: pre-line;">
+                        <oj-bind-text value="[[selectedBizCompDesc]]">
+                    </p>
                     <input type="hidden" id="selBizCompId" name="selBizCompId" :value=[[selectedBizCompId]]></input>
                 </div>
 
@@ -269,7 +310,8 @@
             </div>
         
         </oj-popup> -->
-        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="survyChartDialog" modality="modal" position.at.vertical="top">
+        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="survyChartDialog" modality="modal"
+            position.at.vertical="top">
             <div slot="header">
                 <div class="oj-flex oj-sm-flex-items-12">
                     <div id="survyChrtHdrCntnr">
@@ -280,16 +322,17 @@
                 </div>
             </div>
             <div slot="body" style="padding:10px;">
-                <oj-module config="[[polarChartBigViewModule]]" id="asmntPolarChart"></oj-module>              
+                <oj-module config="[[polarChartBigViewModule]]" id="asmntPolarChart"></oj-module>
             </div>
         </oj-dialog>
         <!--Solution Dialog of Industry Pain Point -->
-        <oj-popup id="SolutionPopup" class="" style="display:none;min-width:700px;background-color:rgb(255, 255, 255);" tail="simple" modality="modeless">
+        <oj-popup id="SolutionPopup" class="" style="display:none;min-width:700px;background-color:rgb(255, 255, 255);"
+            tail="simple" modality="modeless">
             <div class="">
-                <h3 class="solpopup-header">Solutions</h3>                
-                <oj-module config="[[indPainPointSltnModule]]" id="lclzn" />                
+                <h3 class="solpopup-header">Solutions</h3>
+                <oj-module config="[[indPainPointSltnModule]]" id="lclzn" />
             </div>
-        
+
         </oj-popup>
         <!-- <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="SolutionDialog" modality="modal" position.at.vertical="top">
             <div slot="header">
@@ -306,7 +349,8 @@
             </div>
         </oj-dialog> -->
         <!--localization Dialog Static Localization -->
-        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="LclznDialog" modality="modal" position.at.vertical="top">
+        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="LclznDialog" modality="modal"
+            position.at.vertical="top">
             <div slot="header">
                 <div class="oj-flex oj-sm-flex-items-12">
                     <div id="lclznHdrCntnr">
@@ -338,34 +382,34 @@
         <!-- Leading Practices Modal Dialog ends-->
 
 
- <!-- Org Heirarchy Modal Dialog begins-->
- <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="orgChartDialog" modality="modal">
-        <div slot="header">
-            <div class="oj-flex oj-sm-flex-items-12">
-                <div id="orgChartHdrCntnr">
-                    <h2 id="ldPrctcDialogTitleId" class="oj-dialog-title">
-                        <oj-bind-text value="[[orgChartDialogTitle]]"></oj-bind-text>
-                    </h2>
+        <!-- Org Heirarchy Modal Dialog begins-->
+        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="orgChartDialog" modality="modal">
+            <div slot="header">
+                <div class="oj-flex oj-sm-flex-items-12">
+                    <div id="orgChartHdrCntnr">
+                        <h2 id="ldPrctcDialogTitleId" class="oj-dialog-title">
+                            <oj-bind-text value="[[orgChartDialogTitle]]"></oj-bind-text>
+                        </h2>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div slot="body" style="padding:10px;">
-            <oj-module config="[[orgHeirarchyConfig]]" id="orgHeirarchy" />
-        </div>
-    </oj-dialog>
-    <!-- Org Heirarchy Modal Dialog ends-->
+            <div slot="body" style="padding:10px;">
+                <oj-module config="[[orgHeirarchyConfig]]" id="orgHeirarchy" />
+            </div>
+        </oj-dialog>
+        <!-- Org Heirarchy Modal Dialog ends-->
 
-        
-     <!-- Rapid Move Modal Dialog begins-->
- <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="rapidMoveDialog" modality="modal" class="rapidMv"
-        position.at.vertical="top">
-        <div slot="header">
-            <div class="oj-flex oj-sm-flex-items-12">
-                
+
+        <!-- Rapid Move Modal Dialog begins-->
+        <oj-dialog style="display:none;min-width:95%; min-height:95%;" id="rapidMoveDialog" modality="modal"
+            class="rapidMv" position.at.vertical="top">
+            <div slot="header">
+                <div class="oj-flex oj-sm-flex-items-12">
+
                     <h4 id="rpdMovDialogTitleId" class="oj-dialog-title">
                         <oj-bind-text value="Rapid Move"></oj-bind-text>
                     </h4>
-                            <!-- <table class="rpdMvLegend">
+                    <!-- <table class="rpdMvLegend">
                                 <tr>
                                     <td style="padding-right:10px;">Saving : </td>
                                     <oj-bind-for-each data="[[rapdMvLegnd]]" as="lItem">
@@ -378,19 +422,20 @@
                                     </template>
                                 </tr>
                             </table> -->
+                </div>
             </div>
-        </div>
-        <div slot="body" style="padding:5px; background-color: black;">
-            <oj-module config="[[rapidMoveConfig]]" id="rapidMoveMod" />
-        </div>
-    </oj-dialog>
-    <!-- Org Heirarchy Modal Dialog ends-->
+            <div slot="body" style="padding:5px; background-color: black;">
+                <oj-module config="[[rapidMoveConfig]]" id="rapidMoveMod" />
+            </div>
+        </oj-dialog>
+        <!-- Org Heirarchy Modal Dialog ends-->
 
 
-    <!-- Competency Drilldown Modal Dialog begins-->
-        <oj-dialog style="display:none; width:25.5em; height:55.75em;" id="competencyDrilldownDialog" modality="modeless" position.my.horizontal="right"
-        position.my.vertical="top" position.at.horizontal="right" position.at.vertical="top" position.of="window"
-        position.offset.x="0" position.offset.y="0" on-oj-close="[[competencyDialogCloseHandler]]">
+        <!-- Competency Drilldown Modal Dialog begins-->
+        <oj-dialog style="display:none; width:25.5em; height:55.75em;" id="competencyDrilldownDialog"
+            modality="modeless" position.my.horizontal="right" position.my.vertical="top" position.at.horizontal="right"
+            position.at.vertical="top" position.of="window" position.offset.x="0" position.offset.y="0"
+            on-oj-close="[[competencyDialogCloseHandler]]">
             <div slot="header">
                 <div class="oj-flex oj-sm-flex-items-12">
                     <div id="CompetencyDlgHdrCntnr">
@@ -401,11 +446,13 @@
                 </div>
             </div>
             <div slot="body">
-                <h5 class="bold"><oj-bind-text value="[[competencyName]]"></oj-bind-text></h5>
-                <oj-module config="[[competencyDetailsConfig]]" id="competencyDetails" /> 
+                <h5 class="bold">
+                    <oj-bind-text value="[[competencyName]]"></oj-bind-text>
+                </h5>
+                <oj-module config="[[competencyDetailsConfig]]" id="competencyDetails" />
             </div>
         </oj-dialog>
-        <!-- Competency Drilldown Modal Dialog ends-->               
+        <!-- Competency Drilldown Modal Dialog ends-->
 
     </div>
 
@@ -413,10 +460,10 @@
 <div>
     <svg height="0" width="0">
         <defs>
-            <pattern id="pattern" width="4" height="4" patternUnits="userSpaceOnUse" >
+            <pattern id="pattern" width="4" height="4" patternUnits="userSpaceOnUse">
                 <rect width="4" height="4" fill="#3e9133"></rect>
             </pattern>
         </defs>
     </svg>
-</div>    
+</div>
 </div>

@@ -6,17 +6,12 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','ojs/ojmodel', 'ojs/
      return function ComponentAssetsViewModel(params) {         
       var self = this;
 
-      console.log("[componentAssets]:Begins");
-      console.log(params);
-
       self.assetPrgrsVisible = ko.observable(false);
       self.waitProgress = ko.observable(-1);
       self.selectedBizCompId = ko.observable("");
 
       var currentURL = ((document.URL.indexOf('#')==-1)?document.URL:document.URL.substring(0,document.URL.indexOf('#')));
       self.customSvgStyle = {fill: 'url(' + currentURL + '#pattern)'};
-      console.log(self.customSvgStyle);
-
       //Assign Module Parameters
       if (params.selectedBizCompId){
         self.selectedBizCompId(params.selectedBizCompId);
@@ -44,26 +39,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','ojs/ojmodel', 'ojs/
       };
 
       self.cmpntAssetCollSync = function (method, model, options) {
-        console.log("[componentAssets]::cmpntAssetCollSync begins");
-        console.log("[componentAssets]:: REST URI = "+restModule.API_URL.viewComponentAssets);
-
         var cmpntAssetService = {url: restModule.API_URL.viewComponentAssets, method: "GET", data: {}};
         /*URL Parameters*/
         cmpntAssetService.parameters = {};
         /*Header Parameters*/
         cmpntAssetService.headers = {RECORD_ID_VAR: self.selectedBizCompId(), DOMAIN_CODE_VAR: app.selectedDomainCode(),INDUSTRY_VAR :  app.selectedIndustryCode()};
         restModule.callRestAPI(cmpntAssetService, function (response) {
-            //console.log("[componentAssets]:: Component Asset Success Response");
             if (response.items && response.items != null) {
-              //console.log(response.items);
               options["success"](response.items, null, options);
             } else {
               options["success"](null, null, options);
             }
             }, function (failResponse) {
                 var assetServiceFailPrompt = "Component Asset Service failure";
-                console.log(assetServiceFailPrompt);
-                console.log(failResponse);
                  options["error"](failResponse, null, options);
                 app.showMessages(null, 'error', assetServiceFailPrompt);
             });

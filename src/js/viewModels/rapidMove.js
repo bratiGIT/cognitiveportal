@@ -3,7 +3,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
         /** This module will not return a new instance of it. Wherever this module is required, 
          * createViewModule can be used to instantiate it. This is loaded in dataGrid page*/
         return function RapidMoveViewModel() {
-            console.log("Rapid Move View Model");
             var self = this;
 
             /**Legend Data */
@@ -85,10 +84,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     }
                 }, function (failResponse) {
                     var rapidMoveFailPrompt = "Lead Practice Service failure";
-                    console.log(failResponse);
                     app.showMessages(null, 'error', rapidMoveFailPrompt);
-                });
-                console.log("Load Rapid Move");                
+                });              
             }
             /**Construct Rapid move data */
             function constructRapidMoveData(data) {
@@ -111,7 +108,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                         rapidMoveDataTmp.push(row);
                     }                
                 });
-               // console.log(rapidMoveDataTmp);
                 self.rapidMove(rapidMoveDataTmp);
             }
             
@@ -134,7 +130,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     }
                 }, function (failResponse) {
                     var rapidMoveFailPrompt = "Rapid Move Hdr Service failure";
-                    console.log(failResponse);
                     app.showMessages(null, 'error', rapidMoveFailPrompt);
                 });
             }

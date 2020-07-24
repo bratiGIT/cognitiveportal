@@ -7,7 +7,7 @@
  * Your customer ViewModel code goes here
  */
 define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs/ojmodule-element-utils', 'signals','ojs/ojvalidation-base', 'ojs/ojknockouttemplateutils', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojarraydataprovider', 'ojs/ojarraytreedataprovider', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydatagriddatasource', 'restModule','ojs/ojresponsiveknockoututils', 'ojs/ojresponsiveutils','ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojvalidation-number', 'ojs/ojbutton', 'ojs/ojdialog', 'ojs/ojpopup', 'ojs/ojlistview', 'ojs/ojnavigationlist', 'ojs/ojswitcher',
-        'ojs/ojcollapsible', 'ojs/ojoffcanvas', 'ojs/ojtable', 'ojs/ojlabel', 'ojs/ojgauge', 'ojs/ojradioset', 'ojs/ojlegend','ojs/ojpopup','ojs/ojchart'
+        'ojs/ojcollapsible', 'ojs/ojoffcanvas', 'ojs/ojtable', 'ojs/ojlabel', 'ojs/ojgauge', 'ojs/ojradioset', 'ojs/ojlegend','ojs/ojpopup','ojs/ojchart', 'ojs/ojswitch'
     ],
     function(oj, ko, $, app, Model, moduleUtils,signals, ValidationBase, KnockoutTemplateUtils, collectionModule, ArrayDataProvider, ArrayTreeDataProvider, CollectionDataProvider, arrayModule, restModule,responsiveKnockoutUtils,responsiveUtils) {
 
@@ -91,11 +91,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
             self.processChangeHandler = function (event)
             {
-                console.log(self.processVal());
                 app.selectedDomainCode(self.processVal());                
                 processOptionsADP.fetchByKeys({keys:[self.processVal()]}).then(function(fetchResult){
                     let domain = fetchResult.results.get(self.processVal()).data;
-                    console.log(domain.dom_value);
                     app.selectedDomainTxt(domain.dom_value); 
                     refreshPolarChrt(!refreshPolarChrt());
                     app.setCntrlrObjsInSession();                
@@ -109,24 +107,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             }.bind(this);
 
             self.loadProcessListData = function (ind_code) {     
-                console.log("[dataGrid]::loadProcessListData begins");
-            
                 var processService = { url: restModule.API_URL.getDomains, method: "GET", data: {}, parameters: {}, headers: {} };
                 if (ind_code != null && ind_code != undefined)
                     processService.headers = { INDUSTRY_VAR: ind_code };
-                console.log(processService);
                 restModule.callRestAPI(processService, function (response) {
                     if (response.items && response.items != null) {
-                        console.log(response.items);
                         self.processOptionsDP([]);
                         //self.processOptionsDP(new ArrayDataProvider(response.items, { keyAttributes: 'dom_code' }));
                         self.processOptionsDP(response.items);
-                        console.log(self.processOptionsDP())
                     }
                 }, function (failResponse) {
                     var processServiceFailPrompt = "Get Process List Service failure";
-                    console.log(processServiceFailPrompt);
-                    console.log(failResponse);
                     app.showMessages(null, 'error', processServiceFailPrompt);
                 });
             };            
@@ -225,11 +216,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             //self.currentBtn = ko.observable("classic");
             self.currentBtn = ko.observable("indSpec");//dakshayani: changes
             self.btnOptions = ko.observableArray([
-                { id: "classic", value: "classic", btn: "Standard", cls: "sidebar_switch_button2" },
-                { id: "core", value: "core", btn: "Asset", cls: "sidebar_switch_button1" },
-                { id: "indSpec", value: "indSpec", btn: "Industry", cls: "sidebar_switch_button1" }
+                //{ id: "classic", value: "classic", btn: "Standard", cls: "sidebar_switch_button2" },
+                { id: "indSpec", value: "indSpec", btn: "Standard", cls: "sidebar_switch_button1" },
+                { id: "intWorkflow", value: "intWorkflow", btn: "Intelligent Workflows", cls: "sidebar_switch_button1" }
             ]);
-            self.selectedCoreClassic = ko.observable("classic");
+            self.selectedCoreClassic = ko.observable("indSpec");
 
             self.valueChangeHandler = function(event) {
                 self.selectedCoreClassic = event['detail'].value;
@@ -243,7 +234,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             // Core - Classic button changes ends
 
             this.bizCompDialogCloseHandler = function(event, ui) {
-                //console.log(event,ui);
                 $("#" + self.selectedBizCompCellId()).toggleClass("oj-selected oj-focus oj-datagrid-selected-top oj-datagrid-selected-bottom");
                 if (self.selectedCompetencyCellId() != "") {
                     $("#" + self.selectedCompetencyCellId()).toggleClass("oj-focus");
@@ -252,7 +242,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             }.bind(this);
 
             this.competencyDialogCloseHandler = function(event, ui) {
-                //console.log(event,ui);
                 $("#" + self.selectedCompetencyCellId()).toggleClass("oj-focus");
                 if (self.selectedBizCompCellId() != "") {
                     $("#" + self.selectedBizCompCellId()).toggleClass("oj-selected oj-focus oj-datagrid-selected-top oj-datagrid-selected-bottom");
@@ -291,7 +280,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     var extent = 1;
                 } */
                 else if (axis == 'row' && pos > -1) {
-                    //console.log(self.extentValArr[pos]);
                     var extent = self.extentValArr[pos];
                 } else {
                     var extent = 1;
@@ -320,19 +308,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
             arrayModule.ArrayCellSet.prototype._getStartIndex = function(indexes, axis) {
                 var index = indexes[axis];
-                //console.log(index, axis)
-                /* if ((index === 0 || index === 1) && axis == 'column')
-                {
-                    return 0;
-                }
-                if ((index === 2 || index === 3) && axis == 'row')
-                {
-                    return 1;
-                }
-                if ((indexes['column'] === 3 || indexes['column'] === 4) && (indexes['row'] === 5 || indexes['row'] === 6))
-                {
-                    return axis === 'column' ? 3 : 5;
-                } */
                 return index;
             };
 
@@ -359,23 +334,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 self.indSpecfcData = [];
             };
 
-            function prepareDataSourceArray(responseItems) {
-                console.log("[dataGrid]: prepareDataSourceArray begins");
+            function prepareDataSourceArray(responseItems) {                
                 clearGridArrayCache();
-
-                //console.log(self.colsArr, self.descArr, self.scoreavgArr, self.competencyIdArr, self.cmptIdArr,self.extentArr, self.extentValArr);
-
                 var newDataArr = [];
                 var maxLength = 0;
                 for (var i in responseItems) {
                     var cellsArr = responseItems[i].cmptnt;
-                    //console.log(cellsArr);
                     maxLength = Math.max(maxLength, cellsArr.length);
                 }
-                //console.log(maxLength);
-
                 /* Setting grid height dynamically */
-                console.log(self.noOfCols);
                 var h = 70;
                 var gh = 0;
                 if (screen.height >= 720 && screen.height <= 864) {
@@ -390,8 +357,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     if (self.noOfCols >= 3 && self.noOfCols <= 8) h = 60;
                     if (self.noOfCols == 9) h = 65;
                     gh = (maxLength * h) + 90;
-                }
-                //console.log("Grid ht:"+gh);            
+                }                    
                 self.gridHeight(gh + "px");
 
 
@@ -402,40 +368,22 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     self.competencyIdArr.push(dt.cmptid);
                     var col_arr = [];
                     var arrLen = cdata.length;
-                    //console.log(arrLen)
                     //var n = 1;
                     var n = 0;
                     var m = 0;
                     var cLen = maxLength - arrLen;
-                    //console.log(maxLength+"-"+arrLen+"=>cLen="+cLen);
                     //if(cLen==arrLen) n = 0;
                     var v = parseInt(maxLength / arrLen).toFixed(0);
                     var s = maxLength - (v * arrLen);
                     for (var j = 0; j < arrLen; j++) {
                         if (arrLen < maxLength) {
                             col_arr.push(cdata[j].val);
-                            //if((j!=0 && j!=(arrLen-1) && cLen>0) || (cLen==arrLen)) 
-                            //console.log(j,cLen);
-                            //if(j!=(arrLen-1) && cLen>0 && cLen<arrLen)   //Commented for fixing Procurement CBM extents
                             if (cLen > 0 && cLen <= arrLen) {
-                                /* if(j==1) n = j;
-                                var cLen = (maxLength/arrLen).toFixed(0);
-                                //var eobj = {};
-                                for(var k=0; k<cLen-1; k++)
-                                {
-                                  if(j!=(arrLen-2))
-                                  { */
                                 col_arr.push("");
                                 cLen--;
                                 self.extentArr.push(i + "," + n);
                                 self.extentValArr.push(2);
                                 n = n + 2;
-                                /* console.log("col="+i+",row="+n+",extent="+cLen);   
-                    eobj[i+","+n] = cLen;
-                    exArr.push(eobj);  
-                    n = n + 2;
-                  }
-                } */
                             } else if (cLen > arrLen) {
                                 for (var k = 0; k < v - 1; k++) {
                                     col_arr.push("");
@@ -468,10 +416,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     }
 
                     newDataArr[i] = col_arr;
-                    //console.log(col_arr);
                 }
-                //console.log(newDataArr, self.colsArr, self.descArr, self.scoreavgArr, self.cmptIdArr);
-                //console.log(self.extentArr, self.extentValArr);
 
                 var obj = [];
                 for (var k = 0; k < maxLength; k++) {
@@ -483,11 +428,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                             ndata.push(newDataArr[i][k]);
                     }
                     obj[k] = ndata;
-                    //obj[self.colsArr[k]] = Object.assign({}, ndata);
-                }
-                //console.log(obj);
-                console.log("[dataGrid]: prepareDataSourceArray ends");
-                //return ko.observableArray(obj);
+                }                
                 return obj;
             }
 
@@ -495,88 +436,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 return new arrayModule.ArrayDataGridDataSource(rawcells);
             }
 
-            function isIndPainPointMatchCell(componentId){                  
-                //if(self.selPainPointCompId().includes(componentId))                
-                if(self.selPainPointCompIdMultiple().includes(componentId)) //dakshayani: changes
-                {
-                    console.log(true);
+            function isIndPainPointMatchCell(componentId){                           
+                if(self.selPainPointCompIdMultiple().includes(componentId)) 
+                {                    
                     return true;
                 }
-                // if(componentId == self.selPainPointCompId()){
-                //   return true;
-                // }
                 return false;
             }
-
-            //--------dhrajago addition for datagrid REST service integration begins---------
-            /*
-            this.gridRgnDataProvider = ko.observableArray([]);
-            self.cbmGridCollection = null;
-            self.cbmGridServiceURL = ko.observable("http://129.150.172.40:8080/ords/portal_workspace/xxibm_portal_grid/fetchGridDataByDomain/");
-
-            console.log("[dataGrid]:: Data Grid Service URI: " + self.cbmGridServiceURL());
-
-            self.setGridCustomHdr = function (operation, collection, options) {
-              var retObj = {};
-              if (operation === 'read') {
-
-                console.log("[dataGrid]:: Set Custom Header for Grid Service. Domain Code = "+app.selectedDomainCode())
-                retObj['headers'] = {
-                 'DOM_CODE_VAR': app.selectedDomainCode() //"DOM001"
-                 ,'Authorization' : getLoggedInBtoa()
-                };
-                retObj['mimeType'] = "text/plain";
-              }
-              return retObj;
-            };
-      
-            //Method to invoke the Grid REST Service
-             self.prepareGridData = function () {
-              self.dataGridPrgrsVisible(true);
-
-              var cbmGridModel = oj.Model.extend({
-                idAttribute: 'cmptid'
-              });
-
-              self.cbmGridCollection = oj.Collection.extend({
-                url: self.cbmGridServiceURL(),
-                customURL: self.setGridCustomHdr,
-                model: cbmGridModel,
-                comparator: "cmptid",
-                // sync: self.cbmDataGridCollSync
-              });
-              
-              self.cbmGridDataSource = new self.cbmGridCollection();
-
-              console.log("[dataGrid]:: Grid REST :: Next to call fetch collection");
-              self.gridDataArray([]);
-              self.cbmDataSource(new arrayModule.ArrayDataGridDataSource([]));
-
-              //Call FetchMethod to load the dropdown
-              self.cbmGridDataSource.fetch().then(
-                function (success) {
-                  //console.log("[dataGrid]::Successful Grid Data Fetch");
-                  //console.log(success.items);            
-                  self.gridDataArray([]);
-                  self.gridDataArray(prepareDataSourceArray(success.items));
-                  self.cbmDataSource(new arrayModule.ArrayDataGridDataSource([]));
-                  self.cbmDataSource(prepareDataSource(self.gridDataArray()));
-                  //console.log(self.dataSource());
-                  self.dataGridPrgrsVisible(false);
-                  self.dataGridProgress(true);
-                },
-                function (failure) {
-                  console.log("[dataGrid]:Failure while fetching Grid Data");
-                  console.log(failure);
-                }
-              );
-            }; */
+            
             self.gridData = ko.observable();
 
             self.loadDataGrid = function() {
-                console.log("[dataGrid]::loadDataGrid begins");
-                console.log(app.selectedDomainCode());
-                //console.log(restModule.API_URL.viewDataGrid);
                 self.dataGridPrgrsVisible(true);
                 var cbmGridService = { url: restModule.API_URL.viewDataGrid, method: "GET", data: {} };
                 /*URL Parameters*/
@@ -584,10 +454,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 /*Header Parameters*/
                 cbmGridService.headers = { DOM_CODE_VAR: app.selectedDomainCode(), INDUSTRY_VAR: app.selectedIndustryCode() };
                 restModule.callRestAPI(cbmGridService, function(response) {
-                    console.log("[dataGrid]:: loadDataGrid - CBM Grid Data Service Invoked");
                     if (response.items && response.items != null) {                        
                         self.gridData(response.items);
-                        //self.showPPCompSelected(false);//dakshayani: changes
                         constructGridCellData(response.items);
                     } else {
                         console.log("[dataGrid]:: loadDataGrid - No CBM response defined for Business Process");
@@ -598,24 +466,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     self.dataGridPrgrsVisible(false);
                     self.dataGridProgress(true);
                     var cmptncyRoleSrvcFailPrompt = "Data Grid Service Failure";
-                    console.log(cmptncyRoleSrvcFailPrompt);
-                    console.log(failResponse);
                     app.showMessages(null, 'error', cmptncyRoleSrvcFailPrompt);
                 });
             };
 
             function constructGridCellData(data) {
-                console.log("[dataGrid]: constructGridCellData begins ");
-                //console.log(data);
-
-                //Clear KO observable grid data
                 self.gridDataArray([]);
                 self.cbmDataSource(new arrayModule.ArrayDataGridDataSource([]));
 
                 //Set the new data for grid
                 self.gridDataArray(prepareDataSourceArray(data));
-                self.cbmDataSource(prepareDataSource(self.gridDataArray()));
-                console.log("[dataGrid]: constructGridCellData ends ");
+                self.cbmDataSource(prepareDataSource(self.gridDataArray()));                
             };
 
             //self.prepareGridData();
@@ -645,7 +506,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
                 var screenWidth = screen.width;
 
-                //console.log("[dataGrid]: Screen resolution is: " + screen.width + "x" + screen.height);
                 if (screenWidth == 1280) {
                     fiveColWidth = 199;
                     sixColWidth = 166; //x = 7.710
@@ -659,17 +519,12 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     eightColWidth = 140;
                     nineColWidth = 125; //x=11.52
                 } else if (screenWidth == 1600) {
-                    //console.log("[dataGrid]: Resolution Inside ELSEIF for 1600");
-
                     fiveColWidth = 252;
                     sixColWidth = 210; //x=7.62
                     sevenColWidth = 180; //x=8.89
                     eightColWidth = 155;
                     nineColWidth = 140; //x=11.43
                 } else {
-
-                    //console.log("[dataGrid]: Resolution Inside ELSE");
-
                     fiveColWidth = screenWidth / 6.38435;
                     sixColWidth = screenWidth / 7.615;
                     sevenColWidth = screenWidth / 8.911;
@@ -715,7 +570,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             };
 
             function openCompetencyDetail(columnName, headerCellId, headerId) {
-                //self.prepareLeadingPracticesData();
                 self.competencyName(columnName);
                 self.selectedCompetencyCellId(headerCellId);
                 self.selectedCompetencyId(headerId);
@@ -734,7 +588,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             };
 
             this.rowHeaderRenderer = function(headerContext) {
-                //console.log(headerContext);
                 var value = headerContext['data'];
                 if (headerContext['index'] == 1 || headerContext['index'] == 2 || headerContext['index'] == 3 || headerContext['index'] == 5 || headerContext['index'] == 6 || headerContext['index'] == 7 || headerContext['index'] == 8 || headerContext['index'] == 9 || headerContext['index'] == 11 || headerContext['index'] == 12 || headerContext['index'] == 13 || headerContext['index'] == 14 || headerContext['index'] == 15) {
                     value = "";
@@ -748,8 +601,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
             this.cellClassName = function(cellContext) {
                 var data = cellContext['data'];                
-                //console.log(self.scoreavgArr[data]);
-                //console.log(document.getElementById('btnSwitch').value);
                 var classSelected = document.getElementById('btnSwitch').value;
                 //Common Classes
                 var commmonClassList = "oj-sm-justify-content-center oj-sm-align-items-center oj-helper-justify-content-center";
@@ -792,8 +643,21 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                         cls = indSpecDataClass + cls;                                                                       
                     }
                     cls = (self.indSpecfcData[data].isPainPntSelctd ? indPainPntHighlight : "") + cls;
-                    //return cls;
+                    return cls;
 
+                    /* if (self.scoreavgArr[data] == 1) {
+                        return coreDataGridLowClass1 + cls;
+                    } else if (self.scoreavgArr[data] == 2) {
+                        return coreDataGridMedClass1 + cls;
+                    } else if (self.scoreavgArr[data] == 3) {
+                        return coreDataGridHighClass1 + cls;
+                    } else {
+                        return cls;
+                    } */
+                }                
+                if(classSelected == 'intWorkflow') {
+                    let cls = classicDataGridClass+commmonClassList;
+                    cls = (self.indSpecfcData[data].isPainPntSelctd ? indPainPntHighlight : "") + cls;
                     if (self.scoreavgArr[data] == 1) {
                         return coreDataGridLowClass1 + cls;
                     } else if (self.scoreavgArr[data] == 2) {
@@ -807,8 +671,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             };
 
             this.cellColorHighlight = function(cellContext) {
-                //console.log(cellContext);
-                //return 'width:150px;height:50px;font-size:10px;font-weight:bold;text-align:center;';
                 if (cellContext['indexes']['column'] == 0)
                     return 'font-size:10px;font-weight:bold;text-align:center;border-left-width:0.99px;';
                 else
@@ -819,7 +681,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 var container = document.createElement('div');
                 container.className = 'cell-div-container';
                 var data = cellContext['data'];
-                //console.log(data);
                 var sourceCellId = cellContext['parentElement'].id;
                 container.addEventListener("click", function() {
                     handleComponentCellClick(data, sourceCellId);
@@ -829,12 +690,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
             };
 
             function handleComponentCellClick(data, sourceCellId) {
-                //console.log(sourceCellId);
                 self.selectedBizCompCellId(sourceCellId);
                 self.selectedBizCompName(data);
                 self.selectedBizCompDesc(self.descArr[data]);
                 self.selectedBizCompId(self.cmptIdArr[data]);
-                //console.log("[dataGrid]:Selected BizCompId = "+self.selectedBizCompId());
 
                 //Instantiate Module Creation on Cell Click
                 self.bizCompKpiModuleCreate();
@@ -844,27 +703,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 document.getElementById('bizCompDialog').open();
             };
             //---------Datagrid header/cell renderer functions ends--------------
-            //dakshayani changes end
-
-            /**Grid Side Panel Data Module- Start*/
-            // self.gridSidePanelConfig = ko.observable({ 'view': '', 'viewModel': '' });
-            // self.gridSidePanelModuleCreate = function() {                
-            //     var gridSidePanelModLoad = Promise.all([
-            //         moduleUtils.createView({ 'viewPath': 'views/gridSidePanel.html' }),
-            //         moduleUtils.createViewModel({ 'viewModelPath': 'viewModels/gridSidePanel', 'initialize': 'always', 'params':{selectedTab:self.currentBtn()}})
-            //     ]);
-            //     gridSidePanelModLoad.then(
-            //         function(values) {
-            //             self.gridSidePanelConfig({ 'view': values[0], 'viewModel': values[1] });
-            //         }
-            //     );
-            //     gridSidePanelModLoad.catch(
-            //         function(error) {
-            //             console.log("[dataGrid]: gridSidePanelModuleCreate in catch block");
-            //             console.log(error);
-            //         }
-            //     );
-            // };            
+                      
             self.gridInfoBarSelectedItem = ko.observable("info");
             self.gridInfoBarCurrentEdge = ko.observable("top");
             self.ldngPrctcPrgrsVisible = ko.observable(false);
@@ -883,8 +722,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 document.getElementById('leadingPracticeDialog').close();
             }
 
-            self.openLeadPractDialog = function (event) {
-                //self.prepareLeadingPracticesData();
+            self.openLeadPractDialog = function (event) {                
                 document.getElementById('leadingPracticeDialog').open();
             }
 
@@ -917,57 +755,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 document.getElementById('SolutionDialog').open();
             }
             //dakshayani: changes - begins
-            self.handleSelectionChanged = function(event,ctxt)
+            self.showDetails = ko.observable(false);
+            self.painPointSltnHandler = function(event,ctxt)
             {
                 self.selectedIds(event.detail.value); // show selected list item elements' ids                
                 let indCode = app.selectedIndustryCode();
                 let domCode = app.selectedDomainCode();
-                let selected_pps = app.selectedPainPoints();
-                console.log(indCode, domCode,selected_pps);
-                if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
-                {
-                    var jsonData = selected_pps[indCode];
-                    if(jsonData[domCode]!=undefined)
-                    {
-                        var ppArr = jsonData[domCode];
-                        if(ppArr["selected_pp"]!=undefined)
-                        {
-                            ppArr["selected_pp"] = self.selectedIds();
-                        }
-                        else
-                        {
-                            ppArr = {
-                                "selected_pp": self.selectedIds()
-                            }
-                        }                            
-                    }
-                    else
-                    {
-                        jsonData[domCode] = {
-                            "selected_pp": self.selectedIds()
-                        };
-                    }
-                    app.selectedPainPoints(selected_pps);
-                    app.setCntrlrObjsInSession();
-                }
-                else
-                {
-                    var jsonData = {};
-                    var jsonData1 = {};
-                    jsonData1[domCode] = {
-                        "selected_pp": self.selectedIds()
-                    }
-                    jsonData[indCode] = jsonData1;
-                    app.selectedPainPoints(jsonData);  
-                    app.setCntrlrObjsInSession();                      
-                }
-                //app.updateCntrlrObjsFrmSession();
-
+                setPainPointsSltdIds(indCode,domCode,self.selectedIds());
                 self.showPPCompSelected(true);
             }
             self.showPPCompSelected = function(fromClick) {
-                //console.log(self.indPainPointsData());
-                console.log("[painPoints]:: Industry Pain Points Component selection");
                 self.selPainPointCompIdMultiple([]);
                 let selectedPPItems = [];
                 
@@ -977,29 +774,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 else {                    
                     let indCode = app.selectedIndustryCode();
                     let domCode = app.selectedDomainCode();
-                    let selected_pps = app.selectedPainPoints();
-                    console.log(indCode, domCode, selected_pps)
-                    if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
-                    {
-                        if(selected_pps[indCode][domCode]!=undefined)
-                        {
-                            let ppArr = selected_pps[indCode][domCode];
-                            if(ppArr["selected_pp"]!=undefined)
-                            {
-                                selectedPPItems = ppArr["selected_pp"];
-                            }
-                        }
-                    }                    
+                    selectedPPItems = getPainPointsSltdIds(indCode, domCode);          
                 }
-                console.log(selectedPPItems);
                 ko.utils.arrayForEach(self.indPainPointsData(), function (item) {
                     if (selectedPPItems.includes(item.record_id)) {
-                        //console.log(item.mpng);
                         let mpngs = item.mpng.split(',');    
                         self.selPainPointCompIdMultiple.push.apply(self.selPainPointCompIdMultiple,mpngs);
                     }
                 });      
-                console.log(self.selPainPointCompIdMultiple());
                 if(fromClick && self.gridData()!=undefined) {
                     constructGridCellData(self.gridData()); 
                 }
@@ -1068,7 +850,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 /*Header Parameters*/
                 indPainPntsService.headers = { INDUSTRY_VAR: app.selectedIndustryCode(), DOM_CODE_VAR: app.selectedDomainCode() };
                 restModule.callRestAPI(indPainPntsService, function (response) {
-                    console.log("[gridSidePanel]:: Industry Pain Points Success Response");
                     if (response.items && response.items != null) {                        
                         constructIndPnPntData(response.items);
                         self.showPPCompSelected(false);//dakshayani: changes
@@ -1082,41 +863,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     app.showMessages(null, 'error', indPainPntsSrvcFailPrompt);
                 });
             };
-            function setGridSidePanel(clearPainPtMapng) {
-                console.log("Grid Side panel set up Begins--" + self.currentBtn());  
+            function setGridSidePanel(clearPainPtMapng) { 
                 self.localizationUrl = ko.observable(app.localizationLnk());                            
                 self.showLocalzn(self.localizationUrl() != "#" ? true : false);
                 self.bwl = ko.observable(app.selectedBWL());
-                if (self.currentBtn() && self.currentBtn() === "indSpec") {
-                    self.showIndpainPnts(true);
+                //if (self.currentBtn() && self.currentBtn() === "intWorkflow") {
+                    //self.showIndpainPnts(true);
                     self.indpaintPntsSource.refresh();
                     //dakshayani: changes
                     let indCode = app.selectedIndustryCode();
                     let domCode = app.selectedDomainCode();
-                    let selected_pps = app.selectedPainPoints();
-                    console.log(indCode, domCode, selected_pps);
-                    if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
-                    {
-                        var jsonData = selected_pps[indCode];
-                        if(jsonData[domCode]!=undefined)
-                        {
-                            let ppArr = jsonData[domCode];
-                            if(ppArr["selected_pp"]!=undefined)
-                            {
-                                self.selectedItems(ppArr["selected_pp"]);
-                            }
-                        }
-                    }
-                }else{
-                    self.showIndpainPnts(false);
-                }
-                /** Clear the earlier cell id's of selected pain point*/
-                if(clearPainPtMapng){
-                    self.selPainPointCompId([]);    
-                    constructGridCellData(self.gridData());
-                }
-                
-                console.log("Grid Side Panle set up Ends--"); 
+                    self.selectedItems(getPainPointsSltdIds(indCode, domCode));
             }
 
             var indPainPointsModel = oj.Model.extend({
@@ -1125,7 +882,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
 
             self.indPainPointsCollctn = oj.Collection.extend({
                 model: indPainPointsModel
-                , comparator: "record_id"
+                , comparator: "title"
                 , sync: self.indPainPntsCollSync
             });
 
@@ -1154,9 +911,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                    };
             }.bind(this);
             self.selectIndPainPtSltn = function(evt){
-                console.log(evt);
                 indPainPtSltnModuleCreate();
-                //openindPainPtSltnDialog();
                 var popup = document.getElementById('SolutionPopup');
                 popup.open('#'+evt.target.id+'div',self.getPosition());
             }
@@ -1174,10 +929,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 );
             };
             self.lclznLnkClick = function(evt){
-                console.log("Open Localization Dialog");
                 createLclznViewModule();
                 openLclznDialog();
-                console.log("Open Localization Dialog");
             }
             /**Grid Side Panel Data Module - End*/
 
@@ -1241,7 +994,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                 });
             });
             self.openChartInAPopup = (evt) => {
-                console.log("Open Polar Chart Popup");
                 var popup = document.getElementById('survyChartPopup');
                 popup.open('#datagrid', {
                     my: {
@@ -1278,28 +1030,23 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                  * and inserted into the DOM and after the View is reconnected
                  * after being disconnected.
                  */
-            self.connected = function() {
-                // Implement if needed
-                console.log("[dataGrid]: connected begins");
-
+            self.connected = function() {                
                 /**Initialize page parameters */
+                if(app.frmScreen() == "survy-intlgnt"){
+                    self.currentBtn("intWorkflow");
+                } 
                 if(app.frmScreen() == "survy"){
-                    console.log("Core View");
                     self.currentBtn("indSpec");
-                }                
+                }                 
                 self.currentModuleParams();
-
                 /**Set Data Grid Header based on Context */
                 self.setGridHeader();
-
                 /**Populate Grid Data*/
                 //self.prepareGridData();
                 self.loadDataGrid();
-
                 app.updateCntrlrObjsFrmSession();
                 
                 /**Initialize child modules */
-                //self.gridSidePanelModuleCreate();
                 setGridSidePanel();
                 self.leadingPracticesModuleCreate();
                 self.orgHeirarchyModuleCreate();
@@ -1315,20 +1062,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojmodel', 'ojs
                     self.gridScale("oj-flex-item oj-sm-8 oj-md-8 oj-lg-8");
                     self.gridSidePanelScale("oj-flex-item oj-sm-4 oj-md-4");
                 }                 
-                console.log("Chart Load dispatch");
                 self.dummyPolrChrtTrgrer.notifySubscribers();
-                // self.dummyPolrChrtTrgrer(false);
-                // self.dummyPolrChrtTrgrer(true);
-                console.log("Selected Polar Competency:"+app.slctdPolarItm().cmptncy);             
-                console.log("[dataGrid]: connected ends");
             };
             
             /**
              * Optional ViewModel method invoked after the View is disconnected from the DOM.
              */
             self.disconnected = function() {
-                // Implement if needed
-                console.log("[dataGrid]: Inside Disconnected");
+                // Implement if needed                
             };
 
             /**

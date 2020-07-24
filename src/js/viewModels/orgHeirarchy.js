@@ -31,15 +31,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController','restModule','orgcha
             orgHeirarchyService.parameters = {};
             orgHeirarchyService.headers = { DOM_CODE_VAR: app.selectedDomainCode() };
             restModule.callRestAPI(orgHeirarchyService, function (response) {                
-                if (response.items && response.items != null) {
-                    console.log("[orgHeirarchy]: Org Heirarchy response fetched successfully");                    
+                if (response.items && response.items != null) {                                       
                     constructOrgHeirarchy(response.items);                                    
                 } else {                    
                     console.log("[orgHeirarchy]: No Org Heirarchy defined for the current domain");
                 }
             }, function (failResponse) {
                 var orgHeirarchySrvcFailPrompt = "Org Chart Service Call Failed";
-                console.log(failResponse);                
                 app.showMessages(null, 'error', orgHeirarchySrvcFailPrompt);
             });
         };

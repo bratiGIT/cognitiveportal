@@ -2,30 +2,18 @@
    @Created : 03-Dec-2019
  */
 define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
-
-    //var url ='http://129.213.70.213:9781/findEmployee?username=' + self.username();
-    //var url = 'http://129.213.70.213:9781/api/v1/employee/query?username='+ self.username();
-    //var url = 'https://cors-anywhere.herokuapp.com/129.213.70.213:9781/api/v1/employee/query?username='+ self.username(); 
-    //var url = 'http://b896aa50.ngrok.io/api/v1/employee/query?username=Alex.Martin'
-    //var _baseUrl = "http://129.213.70.213:9781/api/v1/";
-    //var _baseUrl = "https://cors-anywhere.herokuapp.com/129.213.70.213:9781/api/v1/";
     
     function RestModule() {
         
         var self = this;
         
-        var token = getLoggedInBtoa();        
-		
-        /** This is used in login to generate the basic auth token and later will be used on all further calls
-			var token = 'Basic ' + btoa(self.username().trim() + ':' + self.password());
-		**/
+        var token = getLoggedInBtoa(); 
         self.token = ko.observable(token);
         self.updateToken = function(token){
             self.token(token);
         }
 
         self.callRestAPI = function (service, sucessCallBack, failureCallBack) {
-            //service.url = _baseUrl + service.url;
             /*URL Parameter Parsing*/
             var urlParameters = "";
             if (service.parameters) {
@@ -36,22 +24,14 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
                         urlParameters += '?' + key + '=' + value;
                 });
             }
-            console.log(urlParameters);
-            
             /* Setting auth token can be enabled after basic auth is setup*/
             if(service.url.includes(self.ORDS_REST_BASE_URI))
             {   
-                //console.log("[restModule]: Inside URL check");
-                //console.log(self.token());
-                
                 if(self.token())
                 {
-                    //console.log("[restModule]: Token present");
                     if (service.headers){
                      service.headers['Authorization'] = self.token();
-                     //console.log("[restModule] : Appended Auth Header")
                     } else{
-                     //console.log("[restModule] : Inserted Auth Header")
                      service.headers = { Authorization: self.token() };
                     }
                 }     
@@ -79,16 +59,11 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
             });
         }
 
-        console.log("context path:");
-        console.log(window.location.href);
         let host = window.location.href;        
-        //self.ORDS_REST_BASE_URI = "http://129.150.172.40:8080/ords";
+        /*self.ORDS_REST_BASE_URI = "http://129.150.172.40:8080/ords";*/
         self.ORDS_REST_BASE_URI = "http://129.213.116.85:8080/ords/"+ ( (host.includes("Dev") || host.includes("localhost") || host.includes("FD")) ? "portal_workspace_dev" : "portal_workspace") ;
         
         self.API_URL = {
-
-            //"login": "",
-
             /*query services*/
              "viewDataGrid"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_grid/fetchGridDataByDomain/"
             ,"viewComponentKpis"    : self.ORDS_REST_BASE_URI+"/xxibm_portal_mstr_data_view/xxibm_portal_mstr_ibv_kpi_view_get/"
@@ -114,6 +89,7 @@ define(['ojs/ojcore', 'knockout', 'jquery'], function (oj, ko, $) {
             ,"storeQuestns"         : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_post"            
             ,"getAssmntAvgData"     : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_get"
             ,"getAssmntAvgOfDomains": self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_multidomain_maturity_score_get"
+            ,"deleteAssesmentSmry"  : self.ORDS_REST_BASE_URI+"/xxibm_portal_questions/xxibm_portal_maturity_score_summary_delete"
 
         };
 		

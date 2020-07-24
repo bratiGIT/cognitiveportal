@@ -51,7 +51,6 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
 
       self.industryCheck = {
         validate: function (value) {
-          //console.log(value);
           if (!value) {
             return false;
           }
@@ -61,7 +60,6 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
 
       self.processCheck = {
         validate: function (value) {
-          //console.log(value);
           if (!value) {
             return false;
           }
@@ -98,42 +96,8 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
           //dakshayani: changes
           let indCode = self.industryVal();
           let domCode = self.processVal();
-          let selected_pps = app.selectedPainPoints();
-          console.log(selected_pps);
-          var jsonData = {};
-          var jsonData1 = {};
-          if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
-          {
-            var jsonData = selected_pps[indCode];
-            if(jsonData[domCode]!=undefined)
-            {
-                var ppArr = selected_pps[indCode][domCode];
-                if(ppArr["selected_pp"]!=undefined)
-                {
-                  ppArr["selected_pp"] = self.painPointsVal();
-                }
-                else
-                {
-                  ppArr = {
-                    "selected_pp": self.painPointsVal()
-                  }
-                }
-            }
-            else
-            {
-              jsonData[domCode] = {
-                "selected_pp": self.painPointsVal()
-              }
-            }
-          }
-          else
-          {
-            jsonData1[domCode] = {
-              "selected_pp": self.painPointsVal()
-            }
-            jsonData[indCode] = jsonData1;
-            app.selectedPainPoints(jsonData);
-          }
+          
+          setPainPointsSltdIds(indCode,domCode,self.painPointsVal());
 
           app.selectedDomain(document.getElementById('process').value);
           app.selectedIndustryTxt(self.selectedIndustryTxt());
@@ -152,11 +116,6 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
                 app.localizationLnk("#");
               app.setCntrlrObjsInSession(); //Set all the selected attributes in session
             });
-                      
-          console.log("[searchPortal]: Selected Domain and Selected Industry codes have been set ----");
-          console.log("[searchPortal]: selectedDomainCode="+app.selectedDomainCode());
-          console.log("[searchPortal]: selectedIndustryCode="+app.selectedIndustryCode());
-          console.log(self.selectedIndustryTxt());
           return true;
         }else{
           return false;
@@ -174,12 +133,14 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
       self.industryVal = ko.observable("");
       self.industryOptionsDP = ko.observableArray([]);
       self.industryOptKeys = { value: "ind_code", label: "ind_value" };
+      self.selectIndValOpt = ko.observable();
       //-----------Industry Dropdown code ends---------
 
       //-----------Process Dropdown code begins---------
       self.processVal = ko.observable("");
       self.processOptionsDP = ko.observableArray([]);
       self.processOptKeys = { value: "dom_code", label: "dom_value" };
+      self.selectDomValOpt = ko.observable();
       //-----------Process Dropdown code ends-----------
 
       //-----------PainPoints checkbox-set code begins---------
@@ -199,7 +160,6 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
       self.bpPrgrsVisible(false);
     }
     self.loadProcessListData = function (ind_code) {     
-      console.log("[searchPortal]::loadProcessListData begins");
       var processService = {url: restModule.API_URL.getDomains, method: "GET", data: {}, parameters:{}, headers:{}};
       if(ind_code != null && ind_code != undefined)
         processService.headers = {INDUSTRY_VAR:ind_code};
@@ -207,37 +167,33 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
           if (response.items && response.items != null) {
             self.processOptionsDP([]);
             self.processOptionsDP(new ArrayDataProvider(response.items, {keyAttributes: 'dom_code'}));
-            self.processLstDisable(false);       
-          } else {
-
-          }
-          }, function (failResponse) {
-              var processServiceFailPrompt = "Get Process List Service failure";
-              console.log(processServiceFailPrompt);
-              console.log(failResponse);
-              app.showMessages(null, 'error', processServiceFailPrompt);              
-          });
+            self.processLstDisable(false);    
+            var domCode = getFromSession('selectedDomainCode');
+            if(domCode) {  
+              self.selectDomValOpt({'value': domCode, 'label': getFromSession('selectedDomainTxt')});
+              self.loadPainPointsList(ind_code, domCode); 
+            }
+          } 
+        }, function (failResponse) {
+            var processServiceFailPrompt = "Get Process List Service failure";
+            app.showMessages(null, 'error', processServiceFailPrompt);              
+        });
       };
       self.loadIndustryListData = function () {
-        console.log("[searchPortal]::loadIndustryListData begins");
         var industryService = {url: restModule.API_URL.getIndustries, method: "GET", data: {}, parameters:{}, headers:{}};        
         restModule.callRestAPI(industryService, function (response) {
-            //console.log("[searchPortal]:: Get Industry List Success Response");
             if (response.items && response.items != null) {
-              //console.log(response.items);
               self.industryOptionsDP([]);
               self.industryOptionsDP(new ArrayDataProvider(response.items, {keyAttributes: 'ind_code'}));
-                      
-            } else {
-
-            }
-            }, function (failResponse) {
-                var industryServiceFailPrompt = "Get Industry List Service failure";
-                console.log(industryServiceFailPrompt);
-                console.log(failResponse);
-                
-                app.showMessages(null, 'error', industryServiceFailPrompt);
-            });
+              var indCode = getFromSession('selectedIndustryCode');
+              if(indCode) {
+                self.selectIndValOpt({'value': indCode, 'label': getFromSession('selectedIndustryTxt')});
+              }
+            } 
+          }, function (failResponse) {
+              var industryServiceFailPrompt = "Get Industry List Service failure";
+              app.showMessages(null, 'error', industryServiceFailPrompt);
+          });
         };
         function showPpProgress(){
           self.ppPrgrsVisible(true);
@@ -266,27 +222,12 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
             indPainPntsService.headers = { INDUSTRY_VAR: ind_code, DOM_CODE_VAR: dom_code };
             showPpProgress();
             restModule.callRestAPI(indPainPntsService, function (response) {
-                console.log("[searchPortal]:: Industry Pain Points Success Response");
                 if (response.items && response.items != null) {
-                  //console.log(response.items)                  
                   var arrItems = response.items;
                   arrItems.sort(sortArr("title"));//Sorting array by title
                   self.painPointsOptionsDP([]);
                   self.painPointsOptionsDP(new ArrayDataProvider(arrItems, {keyAttributes: 'record_id'}));
-                  let selected_pps = app.selectedPainPoints();
-                  console.log(ind_code, dom_code, selected_pps);
-                  if(selected_pps!=undefined && selected_pps[ind_code]!=undefined)
-                  {
-                    var jsonData = selected_pps[ind_code];
-                    if(jsonData[dom_code]!=undefined)
-                    {
-                      let ppArr = jsonData[dom_code];
-                      if(ppArr["selected_pp"]!=undefined)
-                      {
-                        self.painPointsVal(ppArr["selected_pp"]);
-                      }
-                    }
-                  }
+                  self.painPointsVal(getPainPointsSltdIds(ind_code, dom_code));
                   hidePpProgress();
                   if(response.items.length>0)
                     self.ppNoItemsVisible(false);
@@ -303,17 +244,22 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
 
         self.industryChangeHandler = function (event)
         {
-          console.log('Industry change handler: '+self.industryVal());
           app.selectedIndustryCode(self.industryVal());
           self.loadProcessListData(self.industryVal());
         }.bind(this);
 
         self.processChangeHandler = function (event)
         {
-          console.log(self.processVal());
           app.selectedDomainCode(self.processVal());
-          //dakshayani: changes - loading pain points list
           self.loadPainPointsList(self.industryVal(), self.processVal());
+        }.bind(this);
+
+        self.painPointChangeHandler = function (event)
+        {
+          
+          /*let indCode = self.industryVal();
+          let domCode = self.processVal();          
+          setPainPointsSltdIds(indCode,domCode,self.painPointsVal()); */
         }.bind(this);
 
       /**
@@ -325,27 +271,10 @@ define(['ojs/ojcore', 'knockout', 'jquery','appController', 'ojs/ojarraydataprov
        * after being disconnected.
        */
       self.connected = function () {
-        console.log("[searchPortal]: Inside Connected");
-        console.log(oj.Router.rootInstance['_navigationType']);
-          let indCode = app.selectedIndustryCode();
-          let domCode = app.selectedDomainCode();
-          let selected_pps = app.selectedPainPoints();
-          console.log(indCode, domCode, selected_pps);
-          self.selectedIndustryTxt(app.selectedIndustryTxt());
-          self.selectedDomainTxt(app.selectedDomainTxt());
-          if(selected_pps!=undefined && selected_pps[indCode]!=undefined)
-          {
-            var jsonData = selected_pps[indCode];
-            if(jsonData[domCode]!=undefined)
-            {
-              let ppArr = jsonData[domCode];
-              if(ppArr["selected_pp"]!=undefined)
-              {
-                self.painPointsVal(ppArr["selected_pp"]);
-              }
-            }
-          }
-        self.loadIndustryListData();
+        let indCode = app.selectedIndustryCode();
+        let domCode = app.selectedDomainCode();
+        self.painPointsVal(getPainPointsSltdIds(indCode, domCode));
+        self.loadIndustryListData();        
       };
 
       /**
